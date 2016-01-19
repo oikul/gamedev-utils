@@ -3,6 +3,9 @@ package utils;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
@@ -56,6 +59,15 @@ public class ResourceLoader {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static String getLineOfTextFromFile(String path) throws IOException{
+		FileReader fr = new FileReader(path);
+		BufferedReader reader = new BufferedReader(fr);
+		String s = reader.readLine();
+		reader.close();
+		fr.close();
+		return s;
 	}
 
 }

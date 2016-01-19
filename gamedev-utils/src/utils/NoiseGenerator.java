@@ -7,8 +7,8 @@ public class NoiseGenerator {
 	private Random random;
 	private int width, height;
 	
-	public NoiseGenerator(){
-		random = new Random();
+	public NoiseGenerator(long seed){
+		random = new Random(seed);
 	}
 	
 	public double[][] getPerlinNoise(int width, int height, int octave1, int octave2){
