@@ -26,13 +26,18 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	}
 	
 	public Point getMousePositionOnScreen(){
-		return MouseInfo.getPointerInfo().getLocation();
+		try {
+			return MouseInfo.getPointerInfo().getLocation();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return c.getMousePosition();
+		}
 	}
 	
 	public Point getMousePositionRelativeToComponent(){
-		try{
+		try {
 			return c.getMousePosition();
-		}catch(Exception e){
+		} catch (Exception e){
 			e.printStackTrace();
 			return MouseInfo.getPointerInfo().getLocation();
 		}
@@ -60,7 +65,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		keyArray[keyCode] = false;
 	}
 	
-	public String getTyperAcum(){
+	public String getTypedAcum(){
 		return typedAcum;
 	}
 	

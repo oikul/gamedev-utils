@@ -30,6 +30,14 @@ public class MathHelper {
 		return 0.0;
 	}
 	
+	/**
+	 * converts an angle and distance from the given point into an x and y coordinate
+	 * @param angle the angle from the point
+	 * @param distance the distance from the point
+	 * @param xCentre the xCoord of the point
+	 * @param yCentre the yCoord of the point
+	 * @return the x and y position
+	 */
 	public static Point2D.Double convertPolarToCartesian(double angle, double distance, int xCentre, int yCentre){
 		double x = 0, y = 0;
 		while(angle >= 360){
