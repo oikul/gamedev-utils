@@ -113,4 +113,45 @@ public class MathHelper {
 		return (smooth3(x0, x1, x2) + smooth3(x3, x4, x5) + smooth3(x6, x7, x8)) / 3;
 	}
 
+	public static int ceiling(int a1, int b1){
+		
+		double a2 = a1;
+		double b2 = b1;
+		
+		double result = a2 / b2;
+		if( result % 1 == 0){
+			return (int)result;
+		}
+		
+		return (int)(result) + 1;
+		
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
