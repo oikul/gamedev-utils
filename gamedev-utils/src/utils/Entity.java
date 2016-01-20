@@ -5,10 +5,15 @@ import java.awt.Image;
 
 public class Entity {
 
-	private Image[][] sprites;
-	private String name;
-	private int currentISprite, currentJSprite, xPos, yPos, width, height, totalHealth, currentHealth;
-	private boolean isDead = false;
+	protected Image[][] sprites;
+	protected String name;
+	protected int currentISprite, currentJSprite, xPos, yPos, width, height, totalHealth, currentHealth;
+	protected boolean isDead = false;
+	protected Direction direction;
+	
+	protected enum Direction{
+		UP, LEFT, DOWN, RIGHT
+	}
 	
 	public Entity(String name, String spritePath, int xPos, int yPos, int width, int height){
 		setName(name);
@@ -78,6 +83,25 @@ public class Entity {
 	public void moveDR(double amount){
 		xPos -= amount;
 		yPos -= amount;
+	}
+	
+	public void setDirection(Direction direction){
+		this.direction = direction;
+	}
+	
+	public void getFrame(){
+		switch(direction){
+		case UP:
+			break;
+		case LEFT:
+			break;
+		case DOWN:
+			break;
+		case RIGHT:
+			break;
+		default:
+			break;
+		}
 	}
 
 	public String getName(){

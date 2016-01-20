@@ -1,8 +1,10 @@
 package utils;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -21,6 +23,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	private boolean overComp, mouseWheelUp = false, mouseWheelDown = false;
 	private String typedAcum = "";
 	private Component c;
+	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	/**
 	 * adds this class as a listener for a given Component
