@@ -25,6 +25,13 @@ public class NoiseGenerator {
 		return genPerlinNoise(genSmoothNoisePerlin(genWhiteNoise(width, height), octave1), octave2);
 	}
 
+	/**
+	 * generates some smooth noise by getting the average of nearby randomly generated numbers
+	 * @param width the first size of the array
+	 * @param height the second size of the array
+	 * @param octave the number of times the smoothin process is repeated
+	 * @return a 2D array of noise
+	 */
 	public double[][] getSmoothNoise(int width, int height, int octave){
 		this.width = width;
 		this.height = height;

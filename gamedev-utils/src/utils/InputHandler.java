@@ -10,6 +10,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+/**
+ * Handles input for a given Component
+ * @author mxw596
+ */
 public class InputHandler implements KeyListener, MouseListener, MouseWheelListener{
 	
 	private boolean[] keyArray = new boolean[256];
@@ -18,6 +22,10 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	private String typedAcum = "";
 	private Component c;
 	
+	/**
+	 * adds this class as a listener for a given Component
+	 * @param c the Component being listened to
+	 */
 	public InputHandler(Component c){
 		c.addKeyListener(this);
 		c.addMouseListener(this);
@@ -25,6 +33,10 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		this.c = c;
 	}
 	
+	/**
+	 * returns the position of the mouse on the screen
+	 * @return the position of the mouse on the screen as a Point
+	 */
 	public Point getMousePositionOnScreen(){
 		try {
 			return MouseInfo.getPointerInfo().getLocation();
@@ -34,6 +46,10 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		}
 	}
 	
+	/**
+	 * gets the position of the mouse on the component this class is listening to
+	 * @return the position of the mouse on the component
+	 */
 	public Point getMousePositionRelativeToComponent(){
 		try {
 			return c.getMousePosition();
@@ -43,6 +59,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		}
 	}
 	
+	/**
+	 * checks whether the key at a position in he array of keys is being pressed
+ 	 * @param keyCode the id of the key being checked
+	 * @return a true or false value indicating whether the key has been pressed
+	 */
 	public boolean isKeyDown(int keyCode){
 		return keyArray[keyCode];
 	}
