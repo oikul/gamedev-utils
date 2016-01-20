@@ -113,6 +113,12 @@ public class MathHelper {
 		return (smooth3(x0, x1, x2) + smooth3(x3, x4, x5) + smooth3(x6, x7, x8)) / 3;
 	}
 
+	/**
+	 * gets the smallest int that is higher than the result of a division
+	 * @param a1 the first number being divided
+	 * @param b1 the second number being divided
+	 * @return rounded integer from the division of a1 and b1
+	 */
 	public static int ceiling(int a1, int b1){
 		
 		double a2 = a1;
