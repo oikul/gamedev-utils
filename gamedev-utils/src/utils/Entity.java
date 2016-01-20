@@ -9,10 +9,10 @@ public class Entity {
 	protected String name;
 	protected int currentISprite, currentJSprite, xPos, yPos, width, height, totalHealth, currentHealth;
 	protected boolean isDead = false;
-	protected Direction direction;
+	protected EntityState state;
 	
-	protected enum Direction{
-		UP, LEFT, DOWN, RIGHT
+	protected enum EntityState{
+		MOVING_UP, MOVING_LEFT, MOVING_DOWN, MOVING_RIGHT, ATTACKING, IDLE
 	}
 	
 	public Entity(String name, String spritePath, int xPos, int yPos, int width, int height){
@@ -85,19 +85,23 @@ public class Entity {
 		yPos -= amount;
 	}
 	
-	public void setDirection(Direction direction){
-		this.direction = direction;
+	public void setDirection(EntityState state){
+		this.state = state;
 	}
 	
 	public void getFrame(){
-		switch(direction){
-		case UP:
+		switch(state){
+		case ATTACKING:
 			break;
-		case LEFT:
+		case IDLE:
 			break;
-		case DOWN:
+		case MOVING_UP:
 			break;
-		case RIGHT:
+		case MOVING_LEFT:
+			break;
+		case MOVING_DOWN:
+			break;
+		case MOVING_RIGHT:
 			break;
 		default:
 			break;
