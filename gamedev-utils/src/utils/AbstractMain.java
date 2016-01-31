@@ -1,7 +1,10 @@
 package utils;
 
-public abstract class AbstractMain implements MainInterface {
+import javax.swing.JFrame;
 
+public abstract class AbstractMain extends JFrame implements MainInterface {
+
+	private static final long serialVersionUID = 6540412966091247478L;
 	protected boolean running = false;
 
 	public void run() {

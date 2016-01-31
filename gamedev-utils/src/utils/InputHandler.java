@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.Point2D;
 
 /**
  * Handles input for a given Component
@@ -24,6 +25,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	private String typedAcum = "";
 	private Component c;
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	public static Point2D.Double midPoint = new Point2D.Double((double)screenSize.width/2, (double)screenSize.height/2);
 	
 	/**
 	 * adds this class as a listener for a given Component
