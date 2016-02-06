@@ -1,10 +1,19 @@
 package utils;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 public class MathHelper {
 	
 	public static final double root2 = Math.sqrt(2.0);
+	public static Random random = new Random();
+	
+	
+	public static double getDistance(Point2D.Double p1, Point2D.Double p2){
+		double xDif = p1.x - p2.x;
+		double yDif = p1.y - p2.y;
+		return Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2));
+	}
 
 	/**
 	 * get's the angle from east between two points
@@ -38,7 +47,7 @@ public class MathHelper {
 	 * @param yCentre the yCoord of the point
 	 * @return the x and y position
 	 */
-	public static Point2D.Double convertPolarToCartesian(double angle, double distance, int xCentre, int yCentre){
+	public static Point2D.Double convertPolarToCartesian(double angle, double distance, double xCentre, double yCentre){
 		double x = 0, y = 0;
 		while(angle >= 360){
 			angle -= 360;
