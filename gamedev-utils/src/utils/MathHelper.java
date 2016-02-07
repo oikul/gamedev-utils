@@ -141,6 +141,10 @@ public class MathHelper {
 		return (int)(result) + 1;
 		
 	}
+	
+	public void setRandomSeed(long seed){
+		random = new Random(seed);
+	}
 
 }
 
