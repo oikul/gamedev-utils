@@ -12,7 +12,6 @@ public abstract class AbstractMain extends JFrame implements MainInterface {
 		while (running) {
 			long beforeTime = System.currentTimeMillis();
 			update();
-			draw();
 			long afterTime = System.currentTimeMillis();
 			long sleepTime = 1000 / 60 - (afterTime - beforeTime);
 			if (sleepTime > 0) {
