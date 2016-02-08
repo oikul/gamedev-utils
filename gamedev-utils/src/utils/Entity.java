@@ -23,10 +23,8 @@ public class Entity {
 		
 	}
 
-	public void draw(Graphics2D g){
-		if(!isDead){
-			g.drawImage(sprites[currentISprite][currentJSprite], xPos, yPos, width, height, null);
-		}
+	public void draw(Graphics2D g2d){
+		
 	}
 	
 	public void inflictDamage(int amount){
@@ -134,5 +132,21 @@ public class Entity {
 	
 	public void setIsDead(boolean isDead){
 		this.isDead = isDead;
+	}
+
+	public int getCurrentISprite() {
+		return currentISprite;
+	}
+
+	public void setCurrentISprite(int currentISprite) {
+		this.currentISprite = currentISprite;
+	}
+
+	public int getCurrentJSprite() {
+		return currentJSprite;
+	}
+
+	public void setCurrentJSprite(int currentJSprite) {
+		this.currentJSprite = currentJSprite;
 	}
 }

@@ -8,7 +8,6 @@ public class MathHelper {
 	public static final double root2 = Math.sqrt(2.0);
 	public static Random random = new Random();
 	
-	
 	public static double getDistance(Point2D.Double p1, Point2D.Double p2){
 		double xDif = p1.x - p2.x;
 		double yDif = p1.y - p2.y;

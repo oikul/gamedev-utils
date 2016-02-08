@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 public class PlanetryBody {
 	
 	protected Point2D.Double position;
-	protected double angle, distance, size;
+	protected double angle, distance, size, xDif, yDif;
 	protected Color color;
 	protected boolean selected = false;
 
@@ -28,7 +28,7 @@ public class PlanetryBody {
 	}
 
 	protected void getXAndY(){
-		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x, InputHandler.midPoint.y);
+		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x + xDif, InputHandler.midPoint.y + yDif);
 	}
 	
 	public void incrementAngle(double amount){
@@ -85,6 +85,30 @@ public class PlanetryBody {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public double getxDif() {
+		return xDif;
+	}
+
+	public void setxDif(double xDif) {
+		this.xDif = xDif;
+	}
+	
+	public void increaseXDif(double amount){
+		xDif += amount;
+	}
+
+	public double getyDif() {
+		return yDif;
+	}
+
+	public void setyDif(double yDif) {
+		this.yDif = yDif;
+	}
+	
+	public void increaseYDif(double amount){
+		yDif += amount;
 	}
 
 }
