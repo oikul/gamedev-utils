@@ -142,7 +142,7 @@ public class MathHelper {
 		
 	}
 	
-	public void setRandomSeed(long seed){
+	public static void setRandomSeed(long seed){
 		random = new Random(seed);
 	}
 
