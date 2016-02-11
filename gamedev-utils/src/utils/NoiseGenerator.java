@@ -10,7 +10,7 @@ public class NoiseGenerator {
 			"be", "and", "phi", "eth", "ol", 
 			"ve", "ho", "a", "lia", "an", 
 			"ar", "ur", "mi", "in", "ti", 
-			"qu", "so", "ed", "ess", "ex",
+			"que", "so", "ed", "ess", "ex",
 			"io", "ce", "ze", "fa", "ay",
 			"wa", "da", "ack", "gre", "bio", 
 			"chrom", "chron", "cap", "dict", "dom",
@@ -20,7 +20,7 @@ public class NoiseGenerator {
 			"mis", "neo", "er", "or", "ant",
 			"ent", "ess", "ian", "ist", "ize",
 			"luk", "hut", "tat", "oo", "ine",
-			"a", "e", "i", "o", "u"};
+			"e", "i", "o", "u", "dor"};
 
 	public NoiseGenerator(long seed){
 		random = new Random(seed);
