@@ -6,6 +6,21 @@ public class NoiseGenerator {
 
 	private Random random;
 	private int width, height;
+	private static String[] namePart = { "en", "la", "can", 
+			"be", "and", "phi", "eth", "ol", 
+			"ve", "ho", "a", "lia", "an", 
+			"ar", "ur", "mi", "in", "ti", 
+			"qu", "so", "ed", "ess", "ex",
+			"io", "ce", "ze", "fa", "ay",
+			"wa", "da", "ack", "gre", "bio", 
+			"chrom", "chron", "cap", "dict", "dom",
+			"fer", "gen",  "geo", "ject", "luc",
+			"mal", "nal", "phil", "pos", "spec", 
+			"vac", "ven", "ver", "bi", "di", "dis",
+			"mis", "neo", "er", "or", "ant",
+			"ent", "ess", "ian", "ist", "ize",
+			"luk", "hut", "tat", "oo", "ine",
+			"a", "e", "i", "o", "u"};
 
 	public NoiseGenerator(long seed){
 		random = new Random(seed);
@@ -193,6 +208,14 @@ public class NoiseGenerator {
 				}
 			}
 		}
+	}
+	
+	public static String generateName(int permutations) {
+		StringBuilder s = new StringBuilder();
+		for(int i = 0; i < permutations; i++){
+			s.append(namePart[MathHelper.random.nextInt(namePart.length)]);
+		}
+		return s.toString();
 	}
 
 }

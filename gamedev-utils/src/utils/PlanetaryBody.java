@@ -4,37 +4,74 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
-public class PlanetryBody {
-	
+public class PlanetaryBody {
+
 	protected Point2D.Double position;
-	protected double angle, distance, size, xDif, yDif;
+	protected double angle, distance, size, xDif = 0.0, yDif = 0.0;
 	protected Color color;
 	protected boolean selected = false;
 
-	public PlanetryBody(double distance, double angle, double size, Color color) {
+	public PlanetaryBody(double distance, double angle, double size, Color color) {
 		setDistance(distance);
 		setAngle(angle);
 		setSize(size);
 		setColor(color);
 		getXAndY();
 	}
-	
-	public void update(){
-		
-	}
-	
-	public void draw(Graphics2D g2d){
-		
+
+	public void update() {
+
 	}
 
-	protected void getXAndY(){
-		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x + xDif, InputHandler.midPoint.y + yDif);
+	public void draw(Graphics2D g2d) {
+
+	}
+
+	public void panUp(double amount) {
+		yDif += amount;
+	}
+
+	public void panLeft(double amount) {
+		xDif += amount;
+	}
+
+	public void panDown(double amount) {
+		yDif -= amount;
 	}
 	
-	public void incrementAngle(double amount){
-		if(angle < 360){
+	public void panRight(double amount) {
+		xDif -= amount;
+	}
+	
+	public void panUL(double amount) {
+		yDif += amount;
+		xDif += amount;
+	}
+	
+	public void panUR(double amount) {
+		yDif += amount;
+		xDif -= amount;
+	}
+	
+	public void panDL(double amount) {
+		yDif -= amount;
+		xDif += amount;
+	}
+	
+	public void panDR(double amount) {
+		yDif -= amount;
+		xDif -= amount;
+	}
+	
+	public void getXAndY() {
+		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x,
+				InputHandler.midPoint.y);
+	}
+
+	public void incrementAngle(double amount) {
+		if (angle < 360) {
 			angle += amount;
-		}else{
+		} else {
 			angle = 0;
 		}
 	}
@@ -94,8 +131,8 @@ public class PlanetryBody {
 	public void setxDif(double xDif) {
 		this.xDif = xDif;
 	}
-	
-	public void increaseXDif(double amount){
+
+	public void increaseXDif(double amount) {
 		xDif += amount;
 	}
 
@@ -106,8 +143,8 @@ public class PlanetryBody {
 	public void setyDif(double yDif) {
 		this.yDif = yDif;
 	}
-	
-	public void increaseYDif(double amount){
+
+	public void increaseYDif(double amount) {
 		yDif += amount;
 	}
 
