@@ -155,6 +155,18 @@ public class PlanetaryBody {
 		yDif += amount;
 	}
 
+	public double getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(double zoom) {
+		this.zoom = zoom;
+	}
+	
+	public void incrementZoom(double amount){
+		zoom += amount;
+	}
+
 	public boolean isDiscovered() {
 		return discovered;
 	}
