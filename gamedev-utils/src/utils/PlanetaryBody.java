@@ -7,9 +7,10 @@ import java.awt.geom.Point2D;
 public class PlanetaryBody {
 
 	protected Point2D.Double position;
-	protected double angle, distance, size, xDif = 0.0, yDif = 0.0;
+	protected double angle, distance, size, xDif = 0.0, yDif = 0.0, zoom = 1.0;
 	protected Color color;
-	protected boolean selected = false;
+	protected boolean selected = false, discovered = false;
+	protected String name = "";
 
 	public PlanetaryBody(double distance, double angle, double size, Color color) {
 		setDistance(distance);
@@ -146,6 +147,34 @@ public class PlanetaryBody {
 
 	public void increaseYDif(double amount) {
 		yDif += amount;
+	}
+
+	public double getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(double zoom) {
+		this.zoom = zoom;
+	}
+	
+	public void incrementZoom(double amount){
+		zoom += amount;
+	}
+
+	public boolean isDiscovered() {
+		return discovered;
+	}
+
+	public void setDiscovered(boolean discovered) {
+		this.discovered = discovered;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
