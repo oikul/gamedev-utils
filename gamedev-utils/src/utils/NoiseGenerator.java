@@ -6,7 +6,7 @@ public class NoiseGenerator {
 
 	private Random random;
 	private int width, height;
-	private static String[] namePart = { "en", "la", "can", 
+	private String[] namePart = { "en", "la", "can", 
 			"be", "and", "phi", "eth", "ol", 
 			"ve", "ho", "a", "lia", "an", 
 			"ar", "ur", "mi", "in", "ti", 
@@ -210,7 +210,7 @@ public class NoiseGenerator {
 		}
 	}
 	
-	public static String generateName(int permutations) {
+	public String generateName(int permutations) {
 		StringBuilder s = new StringBuilder();
 		for(int i = 0; i < permutations; i++){
 			s.append(namePart[MathHelper.random.nextInt(namePart.length)]);

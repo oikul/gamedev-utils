@@ -15,8 +15,10 @@ public class PlanetaryBody {
 	protected Ellipse2D.Double bounds;
 	protected boolean selected = false, discovered = false;
 	protected String name = "";
+	private long seed;
 
 	public PlanetaryBody(double distance, double angle, double size, Color color, long seed) {
+		this.setSeed(seed);
 		noiseGen = new NoiseGenerator(seed);
 		bounds = new Ellipse2D.Double((InputHandler.midPoint.x - (size*5)), (InputHandler.midPoint.y - (size*5)), size*10, size*10);
 		setDistance(distance);
@@ -181,6 +183,14 @@ public class PlanetaryBody {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public long getSeed() {
+		return seed;
+	}
+
+	public void setSeed(long seed) {
+		this.seed = seed;
 	}
 
 }
