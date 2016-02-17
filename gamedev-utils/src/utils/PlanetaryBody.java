@@ -2,16 +2,23 @@ package utils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 public class PlanetaryBody {
 
 	protected Point2D.Double position;
-	protected double angle, distance, size, xDif = 0.0, yDif = 0.0;
+	protected NoiseGenerator noiseGen;
+	protected double angle, distance, size, xDif = 0.0, yDif = 0.0, zoom = 1.0;
 	protected Color color;
-	protected boolean selected = false;
+	protected double[][] noise;
+	protected Ellipse2D.Double bounds;
+	protected boolean selected = false, discovered = false;
+	protected String name = "";
 
-	public PlanetaryBody(double distance, double angle, double size, Color color) {
+	public PlanetaryBody(double distance, double angle, double size, Color color, long seed) {
+		noiseGen = new NoiseGenerator(seed);
+		bounds = new Ellipse2D.Double((InputHandler.midPoint.x - (size*5)), (InputHandler.midPoint.y - (size*5)), size*10, size*10);
 		setDistance(distance);
 		setAngle(angle);
 		setSize(size);
@@ -64,8 +71,8 @@ public class PlanetaryBody {
 	}
 	
 	public void getXAndY() {
-		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x,
-				InputHandler.midPoint.y);
+		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x + xDif,
+				InputHandler.midPoint.y + yDif);
 	}
 
 	public void incrementAngle(double amount) {
@@ -146,6 +153,22 @@ public class PlanetaryBody {
 
 	public void increaseYDif(double amount) {
 		yDif += amount;
+	}
+
+	public boolean isDiscovered() {
+		return discovered;
+	}
+
+	public void setDiscovered(boolean discovered) {
+		this.discovered = discovered;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
