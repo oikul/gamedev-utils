@@ -2,7 +2,6 @@ package utils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 public class PlanetaryBody {
@@ -12,7 +11,6 @@ public class PlanetaryBody {
 	protected double angle, distance, size, xDif = 0.0, yDif = 0.0, zoom = 1.0;
 	protected Color color;
 	protected double[][] noise;
-	protected Ellipse2D.Double bounds;
 	protected boolean selected = false, discovered = false;
 	protected String name = "";
 	private long seed;
@@ -20,7 +18,6 @@ public class PlanetaryBody {
 	public PlanetaryBody(double distance, double angle, double size, Color color, long seed) {
 		this.setSeed(seed);
 		noiseGen = new NoiseGenerator(seed);
-		bounds = new Ellipse2D.Double((InputHandler.midPoint.x - (size*5)), (InputHandler.midPoint.y - (size*5)), size*10, size*10);
 		setDistance(distance);
 		setAngle(angle);
 		setSize(size);
