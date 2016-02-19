@@ -8,7 +8,8 @@ public class PlanetaryBody {
 
 	protected Point2D.Double position;
 	protected NoiseGenerator noiseGen;
-	protected double angle, distance, size, xDif = 0.0, yDif = 0.0, zoom = 1.0;
+	protected double angle, distance, size, zoom = 1.0;
+	protected static double xDif = 0.0, yDif = 0.0;
 	protected Color color;
 	protected double[][] noise;
 	protected boolean selected = false, discovered = false;
@@ -70,8 +71,8 @@ public class PlanetaryBody {
 	}
 	
 	public void getXAndY() {
-		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x + xDif,
-				InputHandler.midPoint.y + yDif);
+		position = MathHelper.convertPolarToCartesian(angle, distance, InputHandler.midPoint.x,
+				InputHandler.midPoint.y);
 	}
 
 	public void incrementAngle(double amount) {
@@ -134,8 +135,8 @@ public class PlanetaryBody {
 		return xDif;
 	}
 
-	public void setxDif(double xDif) {
-		this.xDif = xDif;
+	public void setxDif(double newxDif) {
+		xDif = newxDif;
 	}
 
 	public void increaseXDif(double amount) {
@@ -146,8 +147,8 @@ public class PlanetaryBody {
 		return yDif;
 	}
 
-	public void setyDif(double yDif) {
-		this.yDif = yDif;
+	public void setyDif(double newyDif) {
+		yDif = newyDif;
 	}
 
 	public void increaseYDif(double amount) {
