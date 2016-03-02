@@ -2,6 +2,7 @@ package utils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 
 public class Entity {
 
@@ -9,6 +10,8 @@ public class Entity {
 	protected String name;
 	protected int currentISprite, currentJSprite, xPos, yPos, width, height, totalHealth, currentHealth;
 	protected boolean isDead = false;
+	protected Rectangle rectUp, rectLeft, rectDown, rectRight;
+	protected boolean collideUp, collideLeft, collideDown, collideRight;
 	
 	public Entity(String name, String spritePath, int xPos, int yPos, int width, int height){
 		setName(name);
@@ -16,6 +19,10 @@ public class Entity {
 		this.height = height;
 		this.xPos = xPos;
 		this.yPos = yPos;
+		rectUp = new Rectangle(xPos + width / 8, yPos, 6 * width / 8, height / 8);
+		rectLeft = new Rectangle(xPos, yPos + height / 8, width / 8, 6 * height / 8);
+		rectDown = new Rectangle(xPos + width / 8, yPos + 7 * height / 8, 6 * width / 8, height / 8);
+		rectRight = new Rectangle(xPos + 7 * width / 8, yPos + height / 8, width / 8, 6 * height / 8);
 		setSprites(spritePath, width, height);
 	}
 
@@ -25,6 +32,34 @@ public class Entity {
 
 	public void draw(Graphics2D g2d){
 		
+	}
+	
+	public boolean collideUp(Rectangle rect){
+		if(rect.intersects(rectUp)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean collideLeft(Rectangle rect){
+		if(rect.intersects(rectLeft)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean collideDown(Rectangle rect){
+		if(rect.intersects(rectDown)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean collideRight(Rectangle rect){
+		if(rect.intersects(rectRight)){
+			return true;
+		}
+		return false;
 	}
 	
 	public void inflictDamage(int amount){
