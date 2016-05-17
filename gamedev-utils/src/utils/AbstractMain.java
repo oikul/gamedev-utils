@@ -2,9 +2,9 @@ package utils;
 
 import javax.swing.JFrame;
 
-public abstract class AbstractMain extends JFrame implements MainInterface {
+public abstract class AbstractMain extends JFrame {
 
-	private static final long serialVersionUID = 6540412966091247478L;
+	private static final long serialVersionUID = 1L;
 	protected boolean running = false;
 
 	public void run() {
@@ -24,5 +24,11 @@ public abstract class AbstractMain extends JFrame implements MainInterface {
 			}
 		}
 	}
+
+	public abstract void initialise();
+
+	public abstract void update();
+
+	public abstract void draw();
 
 }
