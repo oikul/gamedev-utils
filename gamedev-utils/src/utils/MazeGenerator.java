@@ -1,109 +1,106 @@
 package utils;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class MazeGenerator {
 
-	private Cell[][] cells;
-	private ArrayList<Cell> visited = new ArrayList<Cell>();
+	private int width, height;
+	private boolean[][] north, east, south, west, visited, treasure;
+	private Random random;
 
-	public MazeGenerator(int width, int height) {
-		cells = new Cell[width][height];
+	public MazeGenerator(int width, int height, long seed) {
+		this.width = width;
+		this.height = height;
+		random = new Random(seed);
+		initialise();
 	}
 
-	public void generate(long seed) {
-		Random random = new Random(seed);
-		int startI = random.nextInt(cells.length);
-		int startJ = random.nextInt(cells[0].length);
-		visited.add(cells[startI][startJ]);
-		while (visited.size() < cells.length * cells[0].length) {
-			int count = 0;
-			if (random.nextBoolean()) { // go left or right
-				int nextI = startI + (random.nextInt(3) - 1);
-				count = 1;
-				while (visited.contains(cells[nextI][startJ]) && count < 3) {
-					nextI = startI + (random.nextInt(3) - 1);
-					count++;
-				}
-				if (count == 3) {
-					
+	private void initialise() {
+		visited = new boolean[width + 2][height + 2];
+		for (int i = 0; i < width + 2; i++) {
+			visited[i][0] = true;
+			visited[i][height + 1] = true;
+		}
+		for (int j = 0; j < height + 2; j++) {
+			visited[0][j] = true;
+			visited[width + 1][j] = true;
+		}
+		north = new boolean[width + 2][height + 2];
+		east = new boolean[width + 2][height + 2];
+		south = new boolean[width + 2][height + 2];
+		west = new boolean[width + 2][height + 2];
+		treasure = new boolean[width + 2][height + 2];
+		for (int i = 0; i < width + 2; i++) {
+			for (int j = 0; j < height + 2; j++) {
+				north[i][j] = true;
+				east[i][j] = true;
+				south[i][j] = true;
+				west[i][j] = true;
+				if (random.nextDouble() < 0.005) {
+					treasure[i][j] = true;
 				} else {
-					if (nextI > 0 && nextI < cells.length) {
-						if (nextI > startI) {
-							cells[startI][startJ].setRight(false);
-							cells[nextI][startJ].setLeft(false);
-						} else {
-							cells[startI][startJ].setLeft(false);
-							cells[nextI][startJ].setRight(false);
-						}
-						visited.add(cells[nextI][startJ]);
-					}
+					treasure[i][j] = false;
 				}
-			} else { // go up or down
-				int nextJ = startJ + (random.nextInt(3) - 1);
-				count = 1;
-				while (visited.contains(cells[startI][nextJ]) && count < 3) {
-					nextJ = startJ + (random.nextInt(3) - 1);
-					count++;
-				}
-				if (count == 3) {
-					
-				} else {
-					if (nextJ > 0 && nextJ < cells.length) {
-						if (nextJ > startJ) {
-							cells[startI][startJ].setDown(false);
-							cells[startI][nextJ].setUp(false);
-						} else {
-							cells[startI][startJ].setUp(false);
-							cells[startI][nextJ].setDown(false);
-						}
-						visited.add(cells[startI][nextJ]);
-					}
+			}
+		}
+		west[1][1] = false;
+		east[width][height] = false;
+	}
+
+	public void generate(int x, int y) {
+		visited[x][y] = true;
+		while (!visited[x][y + 1] || !visited[x + 1][y] || !visited[x][y - 1] || !visited[x - 1][y]) {
+			while (true) {
+				int r = random.nextInt(4);
+				if (r == 0 && !visited[x][y + 1]) {
+					north[x][y] = false;
+					south[x][y + 1] = false;
+					generate(x, y + 1);
+					break;
+				} else if (r == 1 && !visited[x + 1][y]) {
+					east[x][y] = false;
+					west[x + 1][y] = false;
+					generate(x + 1, y);
+					break;
+				} else if (r == 2 && !visited[x][y - 1]) {
+					south[x][y] = false;
+					north[x][y - 1] = false;
+					generate(x, y - 1);
+					break;
+				} else if (r == 3 && !visited[x - 1][y]) {
+					west[x][y] = false;
+					east[x - 1][y] = false;
+					generate(x - 1, y);
+					break;
 				}
 			}
 		}
 	}
 
 	public void draw(Graphics g) {
-
-	}
-
-	private class Cell {
-
-		private boolean up = true, left = true, down = true, right = true;
-
-		public boolean isUp() {
-			return up;
-		}
-
-		public void setUp(boolean up) {
-			this.up = up;
-		}
-
-		public boolean isLeft() {
-			return left;
-		}
-
-		public void setLeft(boolean left) {
-			this.left = left;
-		}
-
-		public boolean isDown() {
-			return down;
-		}
-
-		public void setDown(boolean down) {
-			this.down = down;
-		}
-
-		public boolean isRight() {
-			return right;
-		}
-
-		public void setRight(boolean right) {
-			this.right = right;
+		for (int i = 1; i <= width; i++) {
+			for (int j = 1; j <= height; j++) {
+				g.setColor(Color.black);
+				if (south[i][j]) {
+					g.drawLine(i * 16, j * 16, (i + 1) * 16, j * 16);
+				}
+				if (north[i][j]) {
+					g.drawLine(i * 16, (j + 1) * 16, (i + 1) * 16, (j + 1) * 16);
+				}
+				if (west[i][j]) {
+					g.drawLine(i * 16, j * 16, i * 16, (j + 1) * 16);
+				}
+				if (east[i][j]) {
+					g.drawLine((i + 1) * 16, j * 16, (i + 1) * 16, (j + 1) * 16);
+				}
+				if (treasure[i][j]) {
+					g.setColor(Color.yellow);
+					g.fillRect(i * 16 + 1, j * 16 + 1, 15, 15);
+				}
+			}
 		}
 	}
+
 }

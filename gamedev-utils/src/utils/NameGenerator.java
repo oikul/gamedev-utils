@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class NameGenerator {
 	
+	private static Random random = new Random();
+	
 	private static String namePart[] = {
 			"a", "aa", "ab", "aber", "ac", "acc", "ack", "afon", "an", "and", "ant", "ar", "ard", "ash", "ast", "at", "avon", "auch", "auchter", "axe", "ay",
 			"ba", "bal", "ball", "balla", "bally", "be", "beann", "beck", "ben", "bein", "berg", "berry", "bex", "bi", "bin", "bio", "boo", "bost", "bourne", "burn",
@@ -33,13 +35,16 @@ public class NameGenerator {
 			"za", "zahn", "ze", "zen" 
 	};
 	
-	public static String generateName(int permutations, long seed) {
-		Random random = new Random(seed);
+	public static String generateName(int permutations) {
 		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < permutations; i++) {
 			s.append(namePart[random.nextInt(namePart.length)]);
 		}
 		return s.toString();
+	}
+	
+	public static void setSeed(long seed){
+		random.setSeed(seed);
 	}
 
 }
