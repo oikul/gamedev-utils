@@ -26,7 +26,9 @@ public class UI {
 
 	public void addTileSet(BufferedImage tileSet, String path) {
 		
-		sets.put(path, value)
+		TileSet tiles = new TileSet(tileSet, path);
+		
+		sets.put(path, tiles);
 		
 	}
 	

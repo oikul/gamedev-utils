@@ -14,7 +14,6 @@ public class BuildMap {
 	private Point dragStart;
 	private UI ui;
 	private TileID[][] map;
-	private TileSetLoader gts;
 
 	public BuildMap(int mapWidth, int mapHeight) {
 
@@ -24,13 +23,12 @@ public class BuildMap {
 		dragStart = new Point(0, 0);
 		ui = new UI();
 		map = new TileID[mapWidth][mapHeight];
-		gts = new TileSetLoader();
 
 	}
 
 	public void update() {
 
-		if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
+		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && ui.getSelectedTile() != null) {
 			Point p = Main.input.getMousePositionRelativeToComponent();
 			TileID id = ui.getSelectedTile().getId();
 			if (mouseDrag) {
@@ -49,9 +47,9 @@ public class BuildMap {
 		}
 		
 		if(Main.input.isKeyDown(KeyEvent.VK_T)){
-			String path = JOptionPane.showInputDialog(Main.getComponent(), "Please enter the path of the wanted tile sheet", 
-					"Choose tile sheet", JOptionPane.PLAIN_MESSAGE);
-			ui.addTileSet(gts.getTileSet(path),path);
+			String path = (String)JOptionPane.showInputDialog(Main.getComponent(), "Please enter the path of the wanted tile sheet", 
+					"Choose tile sheet", JOptionPane.QUESTION_MESSAGE, null, null, null);
+			ui.addTileSet(TileSetLoader.getTileSet(path),path);
 		}
 
 	}

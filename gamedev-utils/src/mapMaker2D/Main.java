@@ -16,10 +16,10 @@ import utils.InputHandler;
 public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private static Component component;
 	public static int width, height, tileSize;
 	public static Dimension screenSize;
 	public static InputHandler input;
-	public static Component component;
 	
 	private boolean running = false;
 	private Image BufferImage;
@@ -33,6 +33,7 @@ public class Main extends JFrame {
 		while (running) {
 			update();
 			draw();
+			System.out.println("loop");
 		}
 
 	}
@@ -80,7 +81,7 @@ public class Main extends JFrame {
 
 		String choice = (String) JOptionPane.showInputDialog(component,
 				"Choose which display you want the screen displayed on. \nBigger screens are normaly better.",
-				"Display", JOptionPane.QUESTION_MESSAGE, null, possibilities, "ham");
+				"Display", JOptionPane.QUESTION_MESSAGE, null, possibilities, null);
 		if (choice == null) {
 			choice = "-1";
 		}else{
@@ -100,7 +101,8 @@ public class Main extends JFrame {
 		// draw here
 		bufferGraphics.setColor(Color.white);
 		bufferGraphics.fillRect(0, 0, width, height);
-		
+		bufferGraphics.setColor(Color.blue);
+		bufferGraphics.fillRect(0, 0, 100, 100);
 		builder.draw(bufferGraphics);
 		
 		// to here
