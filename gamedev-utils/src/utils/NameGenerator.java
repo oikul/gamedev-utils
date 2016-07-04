@@ -1,0 +1,50 @@
+package utils;
+
+import java.util.Random;
+
+public class NameGenerator {
+	
+	private static Random random = new Random();
+	
+	private static String namePart[] = {
+			"a", "aa", "ab", "aber", "ac", "acc", "ack", "afon", "an", "and", "ant", "ar", "ard", "ash", "ast", "at", "avon", "auch", "auchter", "axe", "ay",
+			"ba", "bal", "ball", "balla", "bally", "be", "beann", "beck", "ben", "bein", "berg", "berry", "bex", "bi", "bin", "bio", "boo", "bost", "bourne", "burn",
+			"can", "cap", "ce", "chrom", "chron", "cor",
+			"da", "di", "dict", "dis", "dom", "dor",
+			"e", "ed", "en", "ent", "er", "ess", "eth", "ex", 
+			"fa", "fid", "flect", "flor", "fleur", "for", "fract", "faa", "faas", "fab", "fahg", "fal", "fer", 
+			"gastro", "gen", "geo", "giga", "glu", "gre", "gyn",
+			"hect", "helic", "helio", "hemi", "hex", "ho", "hut", "hydr", "hyp", 
+			"i", "ian", "in", "ine", "io", "ist", "ize", 
+			"ja", "jak", "ject", "jel", "jil", "jud", "juven", 
+			"ka", "kaa", "kel", "kes", "kilo", "kine", "ku",
+			"la", "lab", "leuk", "lex", "lia", "lib", "lif", "lite", "loc", "loqu", "luc", "luk", "lumin", "lun", 
+			"macro", "magn", "mal", "max", "mi", "mis", 
+			"na", "nab", "nal", "narr", "nat", "nav", "necro", "neg", "neo", "nephr", "neur",
+			"o", "oct", "ocu", "ol", "omni", "oo", "or", "oxi",
+			"pale", "pan", "para", "per", "phag", "phi", "phil", "plas", "poli", "pos", "pyr", 
+			"qa", "quad", "quart", "quin", "que", "qui", "quil",
+			"ra", "raa", "rab", "ran", "rix", "rol", "ry",
+			"san", "shil", "so", "spec", "sul",
+			"tat", "th", "ti", "tin", 
+			"u", "um", "umb", "up", "ur", "ut", 
+			"va", "vac", "ve", "ven", "ver", "vok", 
+			"wa", "war", "wes", "whel", "wick", "win", "wor", "worth", 
+			"xan", "xeb", "xen", "xer", "xi", "xor", "xy",
+			"ya", "yag", "yav", "yel", "yen", "yor",
+			"za", "zahn", "ze", "zen" 
+	};
+	
+	public static String generateName(int permutations) {
+		StringBuilder s = new StringBuilder();
+		for (int i = 0; i < permutations; i++) {
+			s.append(namePart[random.nextInt(namePart.length)]);
+		}
+		return s.toString();
+	}
+	
+	public static void setSeed(long seed){
+		random.setSeed(seed);
+	}
+
+}
