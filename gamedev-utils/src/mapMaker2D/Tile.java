@@ -1,6 +1,5 @@
 package mapMaker2D;
 
-import java.awt.Graphics;
 import java.awt.Image;
 
 public class Tile {
@@ -22,3 +21,51 @@ public class Tile {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

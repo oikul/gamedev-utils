@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.ImageIcon;
@@ -29,6 +30,17 @@ public class ResourceLoader {
 		}catch (Exception e){
 			return null;
 		}
+	}
+	
+	public static BufferedImage getBufferedImage(String path) {
+		try {
+			URL url = rl.getClass().getClassLoader().getResource("zResources/images/" + path + ".png");
+			return ImageIO.read(url);
+		} catch (IOException e) {
+			System.out.println("failed to load");
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
