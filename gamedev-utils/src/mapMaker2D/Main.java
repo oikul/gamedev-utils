@@ -25,6 +25,7 @@ public class Main extends JFrame {
 	private Image BufferImage;
 	private Graphics g;
 	private BuildMap builder;
+	private UI ui;
 
 
 	public void run() {
@@ -33,7 +34,6 @@ public class Main extends JFrame {
 		while (running) {
 			update();
 			draw();
-			System.out.println("loop");
 		}
 
 	}
@@ -66,7 +66,8 @@ public class Main extends JFrame {
 		tileSize = 16;
 		BufferImage = this.createImage(width, height);
 		g = this.getGraphics();
-		builder = new BuildMap(10, 10);
+		ui = new UI();
+		builder = new BuildMap(10, 10, ui);
 	}
 
 	private int chooseDevice(GraphicsDevice[] gds) {

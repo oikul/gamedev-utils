@@ -21,6 +21,9 @@ public class TileID {
 	public int getY() {
 		return y;
 	}
+	public Tile getTile(){
+		return tile;
+	}
 	
 	
 	

@@ -12,12 +12,13 @@ import utils.MathHelper;
 
 public class TileSetLoader {
 
-	private static TileSetLoader getts = new TileSetLoader();
-
-	public static BufferedImage getTileSet(String path) {
-
+	private LinkedHashMap<String,TileSet> sets;
+	
+	public BufferedImage getTileSet(String path) {
+		
 		try {
-			URL url = getts.getClass().getClassLoader().getResource("" + path + ".png");
+			URL url = this.getClass().getClassLoader().getResource("" + path + ".png");
+			System.out.println(url);
 			return ImageIO.read(url);
 		} catch (IOException e) {
 			System.out.println("failed to load");
@@ -26,7 +27,7 @@ public class TileSetLoader {
 		return null;
 	}
 
-	public static LinkedHashMap<TileID, Tile> getTiles(BufferedImage tileSetImage, int tileSize, String path) {
+	public LinkedHashMap<TileID, Tile> getTiles(BufferedImage tileSetImage, int tileSize, String path) {
 
 		LinkedHashMap<TileID, Tile> tiles = new LinkedHashMap<>();
 
@@ -49,4 +50,30 @@ public class TileSetLoader {
 
 	}
 
+	public LinkedHashMap<String,TileSet> getSets() {
+		return sets;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,33 +2,35 @@ package mapMaker2D;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.LinkedHashMap;
 
-public class UI {
+public class UI{
 	//overlay that will hide itself after seconds of inactivity
 	
 	private Tile selectedTile;
-	private LinkedHashMap<String,TileSet> sets;
+	private TileSetLoader tsl;
 	
 	public UI(){
-		sets = new LinkedHashMap<>();
+		tsl = new TileSetLoader();
+		selectedTile = null;
 	}
 	
 	public Tile getSelectedTile(){
 		return selectedTile;
 	}
-	
+	public TileSetLoader getTileSetLoader() {
+		return tsl;
+	}
 	public Tile getTile(TileID id){
 		
-		return sets.get(id.getTileSet()).getTile(id);
+		return tsl.getSets().get(id.getTileSet()).getTile(id);
 		
 	}
 
-	public void addTileSet(BufferedImage tileSet, String path) {
+	public void addTileSet(BufferedImage tileSet, String path, int tileSize) {
 		
-		TileSet tiles = new TileSet(tileSet, path);
+		TileSet tiles = new TileSet(tileSet, path, tileSize, tsl);
 		
-		sets.put(path, tiles);
+		tsl.getSets().put(path, tiles);
 		
 	}
 	
@@ -39,5 +41,26 @@ public class UI {
 	public void draw(Graphics g){
 		
 	}
+
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

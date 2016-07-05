@@ -10,7 +10,9 @@ import javax.imageio.ImageIO;
 public class SaveMap {
 	// will save the map in a format that all the rest of my games will use
 	
-	public static boolean saveImage(Image image, String filePath) {
+	public static boolean saveImage(Image image, String filePath, TileID[][] map) {
+		StringBuilder sb = new StringBuilder("");
+		sb.append("hello");
 		try {
 			BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null),
 					BufferedImage.TYPE_INT_ARGB);

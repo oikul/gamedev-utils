@@ -114,6 +114,10 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE && typedAcum.length() != 0){
+			typedAcum = typedAcum.substring(0, typedAcum.length()-1);
+			return;
+		}
 		typedAcum += e.getKeyChar();
 	}
 
