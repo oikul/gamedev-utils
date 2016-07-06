@@ -73,8 +73,14 @@ public class BuildMap {
 			Font textFont = new Font("Verdana", Font.BOLD, 40);
 			g.setFont(textFont);
 			FontMetrics met = g.getFontMetrics();
-			String type = "Please type the Tile Sheets path.";
-			g.drawString(type, (Main.width - met.stringWidth(type)) / 2, (Main.height / 4));
+			
+			String line1 = "Please type the Tile Sheets path Then press enter.";
+			g.drawString(line1, (Main.width - met.stringWidth(line1)) / 2, (Main.height / 4));
+			String line2 = "Assume the path starts with '/src/resources/tileSheets/'";
+			g.drawString(line2, (Main.width - met.stringWidth(line2)) / 2, (Main.height / 4)+ met.getHeight());
+			String line3 = "and ends with '.png'.";
+			g.drawString(line3, (Main.width - met.stringWidth(line3)) / 2, (Main.height / 4)+ 2*met.getHeight());
+			
 			String path = Main.input.getTypedAcum();
 			g.drawString(path, (Main.width - met.stringWidth(path)) / 2, (Main.height * 3 / 4));
 			
