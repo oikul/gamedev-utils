@@ -55,13 +55,13 @@ public class BuildMap {
 			Main.input.artificialKeyReleased(KeyEvent.VK_RIGHT);
 		} else if (Main.input.isKeyDown(KeyEvent.VK_LEFT)) {
 			// map.remove(map.size() - 1);
-			mapWidth--;
+			mapWidth = Math.max(0, --mapWidth);
 			Main.input.artificialKeyReleased(KeyEvent.VK_LEFT);
 		} else if (Main.input.isKeyDown(KeyEvent.VK_UP)) {
 			// for (int x = 0; x < mapWidth; x++) {
 			// map.get(x).remove(map.get(x).size() - 1);
 			// }
-			mapHeight--;
+			mapHeight = Math.max(0, --mapHeight);
 			Main.input.artificialKeyReleased(KeyEvent.VK_UP);
 		} else if (Main.input.isKeyDown(KeyEvent.VK_DOWN)) {
 			if (maxHeight <= mapHeight) {
@@ -77,22 +77,31 @@ public class BuildMap {
 	}
 
 	private void checkPlayerTilePlacement() {
-
+		// place selected tiles and drag logic
+		if (Main.input.isMouseDown(MouseEvent.BUTTON3)) {
+			mouseDrag = false;
+		}
+		TileID id = ui.getSelectedTile().getId();
 		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && ui.getSelectedTile() != null) {
-			Point p = Main.input.getMousePositionRelativeToComponent();
-			TileID id = ui.getSelectedTile().getId();
-			if (mouseDrag) {
-				for (int x = dragStart.x; x <= Math.min(mapWidth-1,(p.x / Main.tileSize)); x++) {
-					for (int y = dragStart.y; y <= Math.min(mapHeight-1, (p.y / Main.tileSize)); y++) {
+
+			if (!mouseDrag) {// start drag or single click
+				dragStart.setLocation(Math.max(0, Math.min(mapWidth - 1, (mouseLocation.x / Main.tileSize))),
+						Math.max(0, Math.min(mapHeight - 1, (mouseLocation.y / Main.tileSize))));
+			}
+			mouseDrag = true;
+		} else {// no click
+			if (mouseDrag) {// end drag
+
+				for (int x = Math.min(mouseLocation.x / Main.tileSize, dragStart.x); x < Math.max(0,
+						Math.min(mapWidth - 1, Math.max(mouseLocation.x / Main.tileSize, dragStart.x))) + 1; x++) {
+
+					for (int y = Math.min(mouseLocation.y / Main.tileSize, dragStart.y); y < Math.max(0,
+							Math.min(mapHeight - 1, Math.max(mouseLocation.y / Main.tileSize, dragStart.y))) + 1; y++) {
+
 						map.get(x).set(y, id);
 					}
 				}
-			} else {
-				map.get(Math.min(mapWidth-1,(p.x / Main.tileSize))).set(Math.min(mapHeight-1, (p.y / Main.tileSize)), id);
-				dragStart.setLocation(Math.min(mapWidth-1,(p.x / Main.tileSize)), Math.min(mapHeight-1, (p.y / Main.tileSize)));
-				mouseDrag = true;
 			}
-		} else {
 			mouseDrag = false;
 		}
 
@@ -140,63 +149,44 @@ public class BuildMap {
 
 	public void update() {
 
-		checkMapChange();
-		checkPlayerTilePlacement();
-		checkNewTileSheet();
-
 		mouseLocation = Main.input.getMousePositionRelativeToComponent();
-
+		if (!ui.isInFocus()) {
+			checkMapChange();
+			checkPlayerTilePlacement();
+			checkNewTileSheet();
+		} else {
+			mouseDrag = false;
+		}
 		ui.update(mouseLocation);
 
 	}
 
 	public void draw(Graphics g) {
 
-		// if (type_path) {
-		// g.setColor(Color.black);
-		// g.fillRect(0, 0, Main.width, Main.height);
-		// g.setColor(Color.white);
-		// Font textFont = new Font("Verdana", Font.BOLD, 35);
-		// g.setFont(textFont);
-		// FontMetrics met = g.getFontMetrics();
-		//
-		// String line1 = "Please type the Tile Sheets path Then press enter.";
-		// g.drawString(line1, (Main.width - met.stringWidth(line1)) / 2,
-		// (Main.height / 4));
-		// String line2 = "Assume the path starts with
-		// '/src/resources/tileSheets/'";
-		// g.drawString(line2, (Main.width - met.stringWidth(line2)) / 2,
-		// (Main.height / 4) + met.getHeight());
-		// String line3 = "and ends with '.png'.";
-		// g.drawString(line3, (Main.width - met.stringWidth(line3)) / 2,
-		// (Main.height / 4) + 2 * met.getHeight());
-		//
-		// String path = Main.input.getTypedAcum();
-		// g.drawString(path, (Main.width - met.stringWidth(path)) / 2,
-		// (Main.height * 3 / 4));
-		//
-		// if (Main.input.isKeyDown(KeyEvent.VK_ENTER)) {
-		// type_path = false;
-		// loadTileSheet = true;
-		// lastPath = path;
-		// Main.input.artificialKeyReleased(KeyEvent.VK_ENTER);
-		// }
-		// } else {
-
 		g.setColor(Color.white);
 		for (int x = 0; x < mapWidth; x++) {
 			for (int y = 0; y < mapHeight; y++) {
-				g.fillRect(x * 16 + 1, y * 16 + 1, 14, 14);
+				g.fillRect(x * Main.tileSize + 1, y * Main.tileSize + 1, Main.tileSize - 2, Main.tileSize - 2);
 				if (map.get(x).get(y) != null) {
 					g.drawImage(ui.getTile(map.get(x).get(y)).getImage(), x * Main.tileSize, y * Main.tileSize, null);
 				}
 			}
 		}
-		
-		BufferedImage img = ui.getSelectedTile().getImage();
-		g.drawImage(img, mouseLocation.x - ui.getSelectedTileSet().getTileSize() / 2,
-				mouseLocation.y - ui.getSelectedTileSet().getTileSize() / 2, null);
+		if (!ui.isInFocus()) {
+			BufferedImage img = ui.getSelectedTile().getImage();
+			g.drawImage(img, (mouseLocation.x / Main.tileSize) * Main.tileSize,
+					(mouseLocation.y / Main.tileSize) * Main.tileSize, null);
 
+			if (mouseDrag) {
+				g.setColor(new Color(127, 0, 255, 127));
+				g.fillRect(Math.min((mouseLocation.x / Main.tileSize) * Main.tileSize, dragStart.x * Main.tileSize),
+						Math.min((mouseLocation.y / Main.tileSize) * Main.tileSize, dragStart.y * Main.tileSize),
+						Math.abs(((mouseLocation.x / Main.tileSize) * Main.tileSize) - (dragStart.x * Main.tileSize))
+								+ Main.tileSize,
+						Math.abs(((mouseLocation.y / Main.tileSize) * Main.tileSize) - (dragStart.y * Main.tileSize))
+								+ Main.tileSize);
+			}
+		}
 		ui.draw(g);
 		// }
 	}

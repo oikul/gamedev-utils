@@ -88,7 +88,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		try{
 		keyArray[e.getKeyCode()] = true;
+		}catch(NullPointerException ex){
+			// key not included in array			
+		}
 	}
 	
 	public void artificialKeyPressed(int keyCode) {
@@ -97,7 +101,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		try{
 		keyArray[e.getKeyCode()] = false;
+		}catch(NullPointerException ex){
+			// key not included in array			
+		}
 	}
 	
 	public void artificialKeyReleased(int keyCode) {

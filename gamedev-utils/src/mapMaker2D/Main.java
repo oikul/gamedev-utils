@@ -7,12 +7,12 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.text.DefaultEditorKit.DefaultKeyTypedAction;
 
 import utils.InputHandler;
 
@@ -115,7 +115,7 @@ public class Main extends JFrame {
 
 		this.setVisible(true);
 		frame = this;
-		tileSize = 16;
+		tileSize = 32;
 		BufferImage = this.createImage(width, height);
 		g = this.getGraphics();
 		ui = new UI();
@@ -146,6 +146,10 @@ public class Main extends JFrame {
 
 	private void update() {
 
+		if(input.isKeyDown(KeyEvent.VK_ESCAPE)){
+			System.exit(0);
+		}
+		
 		builder.update();
 
 	}

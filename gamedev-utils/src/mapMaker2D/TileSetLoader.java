@@ -16,7 +16,6 @@ public class TileSetLoader {
 	private LinkedHashMap<String,TileSet> sets = new LinkedHashMap<String,TileSet>();
 	
 	public BufferedImage getTileSet(String path) {
-		sets.
 		try {
 			URL url = this.getClass().getClassLoader().getResource("resources/tileSheets/" + path + ".png");
 			return ImageIO.read(url);
