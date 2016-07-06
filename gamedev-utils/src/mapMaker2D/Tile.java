@@ -1,13 +1,13 @@
 package mapMaker2D;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 public class Tile {
 
 	private TileID id;
-	private Image image;
+	private BufferedImage image;
 	
-	public Tile(TileID id, Image image) {
+	public Tile(TileID id, BufferedImage image) {
 		this.id = id;
 		this.image = image;
 	}
@@ -16,7 +16,7 @@ public class Tile {
 		return id;
 	}
 
-	public Image getImage() {
+	public BufferedImage getImage() {
 		return image;
 	}
 

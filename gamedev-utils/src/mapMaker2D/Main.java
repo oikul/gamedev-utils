@@ -1,45 +1,97 @@
 package mapMaker2D;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultEditorKit.DefaultKeyTypedAction;
 
 import utils.InputHandler;
 
 public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static Component component;
+	private static JFrame frame;
 	public static int width, height, tileSize;
 	public static Dimension screenSize;
 	public static InputHandler input;
-	
+	public static boolean forceFront;
+
 	private boolean running = false;
 	private Image BufferImage;
 	private Graphics g;
 	private BuildMap builder;
 	private UI ui;
 
+	private void addListeners() {
+		addWindowListener(new WindowListener() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				e.getWindow().dispose();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				if(forceFront){
+					Main.frame.setState(Frame.NORMAL);
+				}
+			}
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+			}
+		});
+	}
 
 	public void run() {
 
 		init();
+		long beforeTime,afterTime,deltaT;
 		while (running) {
+			beforeTime = System.currentTimeMillis();
 			update();
 			draw();
+			afterTime = System.currentTimeMillis();
+			deltaT = afterTime - beforeTime;
+			if(deltaT < 1000/60){
+				try {
+					Thread.sleep(1000/60 - deltaT);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}
 
 	private void init() {
+		addListeners();
 		running = true;
+		forceFront = false;
 		input = new InputHandler(this);
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] gds = ge.getScreenDevices();
@@ -62,12 +114,13 @@ public class Main extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		this.setVisible(true);
-		component = this.getComponent(0);
+		frame = this;
 		tileSize = 16;
 		BufferImage = this.createImage(width, height);
 		g = this.getGraphics();
 		ui = new UI();
-		builder = new BuildMap(10, 10, ui);
+		// build map sizes in tiles 16px atm
+		builder = new BuildMap(50, 90, ui);
 	}
 
 	private int chooseDevice(GraphicsDevice[] gds) {
@@ -80,12 +133,12 @@ public class Main extends JFrame {
 
 		}
 
-		String choice = (String) JOptionPane.showInputDialog(component,
+		String choice = (String) JOptionPane.showInputDialog(frame,
 				"Choose which display you want the screen displayed on. \nBigger screens are normaly better.",
 				"Display", JOptionPane.QUESTION_MESSAGE, null, possibilities, null);
 		if (choice == null) {
 			choice = "-1";
-		}else{
+		} else {
 			choice = "" + choice.charAt(0);
 		}
 		return Integer.parseInt(choice);
@@ -94,24 +147,23 @@ public class Main extends JFrame {
 	private void update() {
 
 		builder.update();
-		
+
 	}
 
 	private void draw() {
 		Graphics bufferGraphics = BufferImage.getGraphics();
 		// draw here
-		bufferGraphics.setColor(Color.white);
-		bufferGraphics.fillRect(0, 0, width, height);
 		bufferGraphics.setColor(Color.blue);
-		bufferGraphics.fillRect(0, 0, 100, 100);
+		bufferGraphics.fillRect(0, 0, width, height);
+
 		builder.draw(bufferGraphics);
-		
+
 		// to here
 		g.drawImage(BufferImage, 0, 0, null);
 	}
-	
-	public static Component getComponent(){
-		return component;
+
+	public static JFrame getFrame() {
+		return frame;
 	}
 
 	public static void main(String[] args) {

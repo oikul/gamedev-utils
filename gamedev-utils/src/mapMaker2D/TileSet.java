@@ -30,4 +30,8 @@ public class TileSet {
 	public BufferedImage getTileSheet(){
 		return tileSheet;
 	}
+
+	public LinkedHashMap<TileID, Tile> getTiles() {
+		return tiles;
+	}
 }

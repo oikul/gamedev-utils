@@ -10,26 +10,26 @@ import javax.imageio.ImageIO;
 
 import utils.MathHelper;
 
+// class can be optimised to do everything at once and return only needed info
 public class TileSetLoader {
 
-	private LinkedHashMap<String,TileSet> sets;
+	private LinkedHashMap<String,TileSet> sets = new LinkedHashMap<String,TileSet>();
 	
 	public BufferedImage getTileSet(String path) {
-		
+		sets.
 		try {
-			URL url = this.getClass().getClassLoader().getResource("" + path + ".png");
-			System.out.println(url);
+			URL url = this.getClass().getClassLoader().getResource("resources/tileSheets/" + path + ".png");
 			return ImageIO.read(url);
-		} catch (IOException e) {
-			System.out.println("failed to load");
-			e.printStackTrace();
+		} catch (IOException | NullPointerException | IllegalArgumentException e) {
+//			e.printStackTrace();
+//			System.out.println("failed to load");
 		}
 		return null;
 	}
 
 	public LinkedHashMap<TileID, Tile> getTiles(BufferedImage tileSetImage, int tileSize, String path) {
 
-		LinkedHashMap<TileID, Tile> tiles = new LinkedHashMap<>();
+		LinkedHashMap<TileID, Tile> tiles = new LinkedHashMap<TileID, Tile>();
 
 		int tilesWide = MathHelper.ceiling(tileSetImage.getWidth(), tileSize);
 		int tilesHigh = MathHelper.ceiling(tileSetImage.getHeight(), tileSize);
@@ -45,7 +45,6 @@ public class TileSetLoader {
 				tiles.put(id, tile);
 			}
 		}
-
 		return tiles;
 
 	}
