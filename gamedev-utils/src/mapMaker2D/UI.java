@@ -117,11 +117,16 @@ public class UI {
 		uiGraphics.setColor(new Color(.25f, .25f, .25f, .5f));
 		uiGraphics.fillRect(0, 0, (int) (Main.width / 5.0), Main.height);
 		
+		int midPoint = Main.width/10;
+		
 		for (int i = 0; i < imageSets.size(); i++) {
-			g.drawImage(imageSets.get(i), i * 64, 0, 64, 64, null);
+			uiGraphics.drawImage(imageSets.get(i), midPoint + ((i - selectedTileSetIndex) * 70) - 32, 3, 64, 64, null);
 		}
+		int sizeOfTileOnUI = (Main.width/5)/3;
+		int border = sizeOfTileOnUI/20;
+		int size = sizeOfTileOnUI*19/20;
 		for (int i = 0; i < imageTiles.size(); i++) {
-			g.drawImage(imageTiles.get(i), i * 32, 64, 32, 32, null);
+			uiGraphics.drawImage(imageTiles.get(i), border/2 + (i % 3) * sizeOfTileOnUI, 74+(i/3)*sizeOfTileOnUI, size, size, null);
 		}
 
 		g.drawImage(uiImage, uiLocation.x, uiLocation.y, null);
