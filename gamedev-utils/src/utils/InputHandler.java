@@ -208,6 +208,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	 */
 	public void stopMouseWheel(){
 		mouseWheelMoved = false;
+		mouseWheelRotation = 0;
 	}
 
 }

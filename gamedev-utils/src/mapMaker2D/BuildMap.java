@@ -28,6 +28,7 @@ public class BuildMap {
 		lastPath = "";
 		tileSize = "16";
 		tsl = ui.getTileSetLoader();
+		tsl.getKeys();
 		mouseDrag = loadTileSheet = false;
 		dragStart = mouseLocation = new Point(0, 0);
 		map = new ArrayList<ArrayList<TileID>>();
@@ -157,7 +158,7 @@ public class BuildMap {
 		} else {
 			mouseDrag = false;
 		}
-		ui.update(mouseLocation);
+			ui.update(mouseLocation, mouseDrag);
 
 	}
 
@@ -168,14 +169,15 @@ public class BuildMap {
 			for (int y = 0; y < mapHeight; y++) {
 				g.fillRect(x * Main.tileSize + 1, y * Main.tileSize + 1, Main.tileSize - 2, Main.tileSize - 2);
 				if (map.get(x).get(y) != null) {
-					g.drawImage(ui.getTile(map.get(x).get(y)).getImage(), x * Main.tileSize, y * Main.tileSize, null);
+					g.drawImage(ui.getTile(map.get(x).get(y)).getImage(), x * Main.tileSize, y * Main.tileSize,
+							Main.tileSize, Main.tileSize, null);
 				}
 			}
 		}
 		if (!ui.isInFocus()) {
 			BufferedImage img = ui.getSelectedTile().getImage();
 			g.drawImage(img, (mouseLocation.x / Main.tileSize) * Main.tileSize,
-					(mouseLocation.y / Main.tileSize) * Main.tileSize, null);
+					(mouseLocation.y / Main.tileSize) * Main.tileSize, Main.tileSize, Main.tileSize, null);
 
 			if (mouseDrag) {
 				g.setColor(new Color(127, 0, 255, 127));

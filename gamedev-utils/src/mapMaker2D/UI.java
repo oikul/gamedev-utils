@@ -4,20 +4,30 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class UI {
 	// overlay that will hide itself after seconds of inactivity
 
+	private int selectedTileIndex, selectedTileSetIndex;
 	private Tile selectedTile;
 	private TileSet selectedTileSet;
 	private TileSetLoader tsl;
 	private boolean inFocus;
 	private Point uiLocation;
 
+	private BufferedImage uiImage;
+	private ArrayList<BufferedImage> imageSets;
+	private ArrayList<BufferedImage> imageTiles;
+
 	public UI() {
 		tsl = new TileSetLoader();
-		selectedTile = null;
+		selectedTileIndex = selectedTileSetIndex = 0;
 		uiLocation = new Point(Main.width, 0);
+		uiImage = new BufferedImage(Main.width / 5, Main.height, BufferedImage.TYPE_INT_ARGB);
+		imageSets = new ArrayList<BufferedImage>();
+		imageTiles = new ArrayList<BufferedImage>();
 	}
 
 	public Tile getSelectedTile() {
@@ -51,35 +61,70 @@ public class UI {
 
 	}
 
-	public void update(Point mouseLocation) {
+	private void updateUI(Point mouseLocation) {
+		imageSets.clear();
+		imageTiles.clear();
+		LinkedHashMap<String, TileSet> set = tsl.getSets();
+		TileSet tempSet;
+		for (int i = 0; i < set.size(); i++) {
+			tempSet = tsl.getSets().get(tsl.getKey(i));
+			if (tempSet.equals(selectedTileSet)) {
+				selectedTileSetIndex = i;
+			}
+			imageSets.add(tempSet.getTileSheet());
+		}
 
-		if (inFocus) {
-			if (mouseLocation.x < (Main.width * 16.0) / 20.0) {
-				inFocus = false;
-				System.out.println("one");
-			} else if (uiLocation.x > (Main.width * 16.0) / 20.0) {
-				uiLocation.x -= Main.width / 100.0;
-				if (uiLocation.x < (Main.width * 16.0) / 20.0) {
-					uiLocation.x = (int) ((Main.width * 16.0) / 20.0);
-				}
-				System.out.println("two");
+		LinkedHashMap<TileID, Tile> tileSet = selectedTileSet.getTiles();
+		Tile tempTile;
+		for (int i = 0; i < tileSet.size(); i++) {
+			tempTile = tileSet.get(selectedTileSet.getKey(i));
+			if (tempTile.equals(selectedTile)) {
+				selectedTileIndex = i;
 			}
-		} else {
-			if (mouseLocation.x > (Main.width * 19.0) / 20.0) {
-				inFocus = true;
-				System.out.println("three");
-			} else if (uiLocation.x < Main.width) {
-				uiLocation.x += Main.width / 100.0;
-				System.out.println("four");
-			}
+			imageTiles.add(tempTile.getImage());
 		}
 
 	}
 
+	public void update(Point mouseLocation, boolean mouseDrag) {
+
+		if (inFocus) {
+			if (mouseLocation.x < (Main.width * 16.0) / 20.0) {
+				inFocus = false;
+			} else if (uiLocation.x > (Main.width * 16.0) / 20.0) {
+				uiLocation.x -= Main.width / 100.0;
+				if (uiLocation.x < (Main.width * 16.0) / 20.0) {
+					uiLocation.x = (int) ((Main.width * 16.0) / 20.0) + 1;
+				}
+			}
+		} else {
+			if (mouseLocation.x > (Main.width * 19.0) / 20.0 && !mouseDrag) {
+				inFocus = true;
+			} else if (uiLocation.x < Main.width) {
+				uiLocation.x += Main.width / 100.0;
+			}
+		}
+		if (!mouseDrag && inFocus) {
+			updateUI(mouseLocation);
+		}
+	}
+
 	public void draw(Graphics g) {
 
-		g.setColor(new Color(50, 200, 50, 127));
-		g.fillRect(uiLocation.x, uiLocation.y, (int) (Main.width / 5.0), Main.height);
+		Graphics uiGraphics = uiImage.getGraphics();
+		uiGraphics.setColor(new Color(0, 0, 0, 0));
+		uiGraphics.fillRect(0, 0, uiImage.getWidth(), uiImage.getHeight());
+		uiGraphics.setColor(new Color(.25f, .25f, .25f, .5f));
+		uiGraphics.fillRect(0, 0, (int) (Main.width / 5.0), Main.height);
+		
+		for (int i = 0; i < imageSets.size(); i++) {
+			g.drawImage(imageSets.get(i), i * 64, 0, 64, 64, null);
+		}
+		for (int i = 0; i < imageTiles.size(); i++) {
+			g.drawImage(imageTiles.get(i), i * 32, 64, 32, 32, null);
+		}
+
+		g.drawImage(uiImage, uiLocation.x, uiLocation.y, null);
 
 	}
 

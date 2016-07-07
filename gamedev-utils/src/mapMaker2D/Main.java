@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -56,7 +57,7 @@ public class Main extends JFrame {
 
 			@Override
 			public void windowIconified(WindowEvent e) {
-				if(forceFront){
+				if (forceFront) {
 					Main.frame.setState(Frame.NORMAL);
 				}
 			}
@@ -70,16 +71,16 @@ public class Main extends JFrame {
 	public void run() {
 
 		init();
-		long beforeTime,afterTime,deltaT;
+		long beforeTime, afterTime, deltaT;
 		while (running) {
 			beforeTime = System.currentTimeMillis();
 			update();
 			draw();
 			afterTime = System.currentTimeMillis();
 			deltaT = afterTime - beforeTime;
-			if(deltaT < 1000/60){
+			if (deltaT < 1000 / 60) {
 				try {
-					Thread.sleep(1000/60 - deltaT);
+					Thread.sleep(1000 / 60 - deltaT);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -115,12 +116,12 @@ public class Main extends JFrame {
 
 		this.setVisible(true);
 		frame = this;
-		tileSize = 32;
-		BufferImage = this.createImage(width, height);
+		tileSize = 16;
+		BufferImage = new BufferedImage(Main.width,Main.height,BufferedImage.TYPE_INT_ARGB);
 		g = this.getGraphics();
 		ui = new UI();
 		// build map sizes in tiles 16px atm
-		builder = new BuildMap(50, 90, ui);
+		builder = new BuildMap(50, 50, ui);
 	}
 
 	private int chooseDevice(GraphicsDevice[] gds) {
@@ -146,12 +147,23 @@ public class Main extends JFrame {
 
 	private void update() {
 
-		if(input.isKeyDown(KeyEvent.VK_ESCAPE)){
+		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
-		
-		builder.update();
+		if (input.getMouseWheelDown()) {
+			tileSize /= 2;
+			if (tileSize < 4)
+				tileSize = 4;
+			Main.input.stopMouseWheel();
+		}
+		if (input.getMouseWheelUp()) {
+			tileSize *= 2;
+			if (tileSize > 256)
+				tileSize = 256;
+			Main.input.stopMouseWheel();
+		}
 
+		builder.update();
 	}
 
 	private void draw() {
