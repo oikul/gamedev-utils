@@ -29,6 +29,7 @@ public class Main extends JFrame {
 	private boolean running = false;
 	private Image BufferImage;
 	private Graphics g;
+	private Color background;
 	private BuildMap builder;
 	private UI ui;
 
@@ -118,6 +119,7 @@ public class Main extends JFrame {
 		frame = this;
 		tileSize = 16;
 		BufferImage = new BufferedImage(Main.width,Main.height,BufferedImage.TYPE_INT_ARGB);
+		background = Color.blue;
 		g = this.getGraphics();
 		ui = new UI();
 		// build map sizes in tiles 16px atm

@@ -56,7 +56,7 @@ public class UI {
 		tsl.getSets().put(path, tiles);
 		if (selectedTile == null || selectedTileSet == null) {
 			selectedTileSet = tiles;
-			selectedTile = tiles.getTile((TileID) tiles.getTiles().keySet().toArray()[0]);
+			selectedTile = tiles.getTile((TileID) tiles.getTiles().keySet().toArray()[6]);
 		}
 
 	}
