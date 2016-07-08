@@ -126,6 +126,10 @@ public class UI {
 		int border = sizeOfTileOnUI/20;
 		int size = sizeOfTileOnUI*19/20;
 		for (int i = 0; i < imageTiles.size(); i++) {
+			if(i == selectedTileIndex){
+				uiGraphics.setColor(Color.white);
+				uiGraphics.fillRect((i % 3) * sizeOfTileOnUI, 70+(i/3)*sizeOfTileOnUI, sizeOfTileOnUI, sizeOfTileOnUI);
+			}
 			uiGraphics.drawImage(imageTiles.get(i), border/2 + (i % 3) * sizeOfTileOnUI, 74+(i/3)*sizeOfTileOnUI, size, size, null);
 		}
 
