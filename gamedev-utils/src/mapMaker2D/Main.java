@@ -29,7 +29,6 @@ public class Main extends JFrame {
 	private boolean running = false;
 	private Image BufferImage;
 	private Graphics g;
-	private Color background;
 	private BuildMap builder;
 	private UI ui;
 
@@ -119,7 +118,6 @@ public class Main extends JFrame {
 		frame = this;
 		tileSize = 16;
 		BufferImage = new BufferedImage(Main.width,Main.height,BufferedImage.TYPE_INT_ARGB);
-		background = Color.blue;
 		g = this.getGraphics();
 		ui = new UI();
 		// build map sizes in tiles 16px atm
@@ -152,26 +150,29 @@ public class Main extends JFrame {
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
+		boolean zoomed = false;
 		if (input.getMouseWheelDown()) {
 			tileSize /= 2;
 			if (tileSize < 4)
 				tileSize = 4;
 			Main.input.stopMouseWheel();
+			zoomed = true;
 		}
 		if (input.getMouseWheelUp()) {
 			tileSize *= 2;
 			if (tileSize > 256)
 				tileSize = 256;
 			Main.input.stopMouseWheel();
+			zoomed = true;
 		}
 
-		builder.update();
+		builder.update(zoomed);
 	}
 
 	private void draw() {
 		Graphics bufferGraphics = BufferImage.getGraphics();
 		// draw here
-		bufferGraphics.setColor(Color.blue);
+		bufferGraphics.setColor(Color.white);
 		bufferGraphics.fillRect(0, 0, width, height);
 
 		builder.draw(bufferGraphics);

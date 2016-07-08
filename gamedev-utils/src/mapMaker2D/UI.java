@@ -56,12 +56,12 @@ public class UI {
 		tsl.getSets().put(path, tiles);
 		if (selectedTile == null || selectedTileSet == null) {
 			selectedTileSet = tiles;
-			selectedTile = tiles.getTile((TileID) tiles.getTiles().keySet().toArray()[6]);
+			selectedTile = tiles.getTile((TileID) tiles.getTiles().keySet().toArray()[0]);
 		}
 
 	}
 
-	private void updateUI(Point mouseLocation) {
+	private void updateUI() {
 		imageSets.clear();
 		imageTiles.clear();
 		LinkedHashMap<String, TileSet> set = tsl.getSets();
@@ -86,7 +86,7 @@ public class UI {
 
 	}
 
-	public void update(Point mouseLocation, boolean mouseDrag) {
+	public void update(Point mouseLocation, boolean mouseDrag, boolean updateTiles) {
 
 		if (inFocus) {
 			if (mouseLocation.x < (Main.width * 16.0) / 20.0) {
@@ -104,8 +104,8 @@ public class UI {
 				uiLocation.x += Main.width / 100.0;
 			}
 		}
-		if (!mouseDrag && inFocus) {
-			updateUI(mouseLocation);
+		if (!mouseDrag && inFocus && updateTiles) {
+			updateUI();
 		}
 	}
 
@@ -114,23 +114,25 @@ public class UI {
 		Graphics uiGraphics = uiImage.getGraphics();
 		uiGraphics.setColor(new Color(0, 0, 0, 0));
 		uiGraphics.fillRect(0, 0, uiImage.getWidth(), uiImage.getHeight());
-		uiGraphics.setColor(new Color(.25f, .25f, .25f, .5f));
+		uiGraphics.setColor(new Color(100, 100, 100));
 		uiGraphics.fillRect(0, 0, (int) (Main.width / 5.0), Main.height);
-		
-		int midPoint = Main.width/10;
-		
+
+		int midPoint = Main.width / 10;
+
 		for (int i = 0; i < imageSets.size(); i++) {
 			uiGraphics.drawImage(imageSets.get(i), midPoint + ((i - selectedTileSetIndex) * 70) - 32, 3, 64, 64, null);
 		}
-		int sizeOfTileOnUI = (Main.width/5)/3;
-		int border = sizeOfTileOnUI/20;
-		int size = sizeOfTileOnUI*19/20;
+		float sizeOfTileOnUI = (Main.width / 5) / 3;
+		float border = sizeOfTileOnUI / 20;
+		float size = sizeOfTileOnUI * 19 / 20;
 		for (int i = 0; i < imageTiles.size(); i++) {
-			if(i == selectedTileIndex){
+			if (i == selectedTileIndex) {
 				uiGraphics.setColor(Color.white);
-				uiGraphics.fillRect((i % 3) * sizeOfTileOnUI, 70+(i/3)*sizeOfTileOnUI, sizeOfTileOnUI, sizeOfTileOnUI);
+				uiGraphics.fillRect((int) ((i % 3) * sizeOfTileOnUI), (int) (70 + (i / 3) * sizeOfTileOnUI),
+						(int) sizeOfTileOnUI, (int) sizeOfTileOnUI);
 			}
-			uiGraphics.drawImage(imageTiles.get(i), border/2 + (i % 3) * sizeOfTileOnUI, 74+(i/3)*sizeOfTileOnUI, size, size, null);
+			uiGraphics.drawImage(imageTiles.get(i), (int) (border / 2 + (i % 3) * sizeOfTileOnUI),
+					(int) (70 + (border / 2) + (i / 3) * sizeOfTileOnUI), (int) size, (int) size, null);
 		}
 
 		g.drawImage(uiImage, uiLocation.x, uiLocation.y, null);
