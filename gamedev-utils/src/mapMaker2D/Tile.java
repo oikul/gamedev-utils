@@ -10,6 +10,7 @@ public class Tile {
 	public Tile(TileID id, BufferedImage image) {
 		this.id = id;
 		this.image = image;
+		id.setTile(this);
 	}
 
 	public boolean equals(Object obj) {

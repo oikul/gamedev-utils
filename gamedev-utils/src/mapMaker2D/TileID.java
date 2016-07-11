@@ -26,6 +26,10 @@ public class TileID {
 		return test;
 	}
 
+	public void setTile(Tile tile) {
+		this.tile = tile;
+	}
+
 	public String getTileSet() {
 		return tileSet;
 	}

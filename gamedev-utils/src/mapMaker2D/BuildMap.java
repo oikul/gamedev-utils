@@ -21,6 +21,7 @@ public class BuildMap {
 	private UI ui;
 	private ArrayList<ArrayList<TileID>> map;
 	private ArrayList<TileUpdate> mapUpdates;
+	private BufferedImage gridImage;
 	private BufferedImage tileImage;
 
 	public BuildMap(int mapWidth, int mapHeight, UI ui) {
@@ -43,6 +44,7 @@ public class BuildMap {
 				map.get(x).add(null);
 			}
 		}
+		gridImage = new BufferedImage(Main.width, Main.height, BufferedImage.TYPE_INT_RGB);
 		tileImage = new BufferedImage(Main.width, Main.height, BufferedImage.TYPE_INT_RGB);
 		ui.addTileSet(tsl.getTileSet("testTileSheet"), "testTileSheet", 16);
 
@@ -80,7 +82,8 @@ public class BuildMap {
 			mapHeight++;
 			Main.input.artificialKeyReleased(KeyEvent.VK_DOWN);
 		}
-
+		System.out
+				.println("BuildMap.checkMapChange(), " + maxWidth + "," + maxHeight + "," + mapWidth + "," + mapHeight);
 	}
 
 	private void checkPlayerTilePlacement() {
@@ -91,7 +94,8 @@ public class BuildMap {
 			Main.input.artificialMouseReleased(MouseEvent.BUTTON1);
 		}
 		TileID id = ui.getSelectedTile().getId();
-		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && ui.getSelectedTile() != null) {
+		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && (mouseDrag || (ui.getSelectedTile() != null
+				&& mouseLocation.x <= mapWidth * Main.tileSize && mouseLocation.y <= mapHeight * Main.tileSize))) {
 
 			if (!mouseDrag) {// start drag or single click
 				dragStart.setLocation(Math.max(0, Math.min(mapWidth - 1, (mouseLocation.x / Main.tileSize))),
@@ -162,7 +166,7 @@ public class BuildMap {
 
 		this.zoomed = zoomed;
 		mouseLocation = Main.input.getMousePositionRelativeToComponent();
-		if(Main.input.isKeyDown(KeyEvent.VK_G)){
+		if (Main.input.isKeyDown(KeyEvent.VK_G)) {
 			grid = !grid;
 			Main.input.artificialKeyReleased(KeyEvent.VK_G);
 		}
@@ -177,7 +181,9 @@ public class BuildMap {
 
 	}
 
-	public void draw(Graphics g, Color background) {
+	public void draw(Graphics g) {
+		long before, after = 0;
+		// remove all nested for loops
 
 		g.fillRect(0, 0, Main.width, Main.height);
 		Graphics tg = tileImage.getGraphics();
@@ -200,6 +206,7 @@ public class BuildMap {
 				}
 			}
 		}
+		before = System.nanoTime();
 		if (updateTiles) {
 			updateTiles = false;
 			for (TileUpdate tileup : mapUpdates) {
@@ -208,6 +215,7 @@ public class BuildMap {
 			}
 
 		}
+		after = System.nanoTime();
 
 		g.drawImage(tileImage, 0, 0, tileImage.getWidth(), tileImage.getHeight(), null);
 		if (!ui.isInFocus()) {
@@ -222,23 +230,9 @@ public class BuildMap {
 						Math.abs(((mouseLocation.y / size) * size) - (dragStart.y * size)) + size);
 			}
 		}
-		if(grid){
-			for(int x = 0; x < mapWidth; x++){
-				if(x * size > Main.width){
-					break;
-				}
-				for(int y = 0; y < mapHeight; y++){
-					if(y * size > Main.height){
-						break;
-					}
-					g.setColor(Color.black);
-					g.drawLine(x * size, 0, x * size,mapHeight * size);
-					g.drawLine(x * size+size-1, 0, x * size+size-1,mapHeight * size);
-					g.drawLine(0,y * size,mapWidth * size,y * size);
-					g.drawLine(0,y * size+size-1,mapWidth * size,y * size+size-1);
-				}
-			}
+		if (grid) {
 		}
+		System.out.println("BuildMap.draw(), " + (after - before));
 		ui.draw(g);
 		// }
 	}
