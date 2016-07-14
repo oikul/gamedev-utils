@@ -26,7 +26,7 @@ public class Main extends JFrame {
 	public static InputHandler input;
 	public static boolean forceFront;
 
-	private boolean running = false;
+	private boolean running = false,zoomed = true;
 	private Image BufferImage;
 	private Graphics g;
 	private BuildMap builder;
@@ -69,22 +69,24 @@ public class Main extends JFrame {
 	}
 
 	public void run() {
-
+		System.out.println("Main.run(), start");
 		init();
+		System.out.println("Main.run(), after init");
 		long beforeTime, afterTime, deltaT;
 		while (running) {
-			beforeTime = System.currentTimeMillis();
+			beforeTime = System.nanoTime();
 			update();
 			draw();
-			afterTime = System.currentTimeMillis();
+			afterTime = System.nanoTime();
 			deltaT = afterTime - beforeTime;
-			if (deltaT < 1000 / 60) {
-				try {
-					Thread.sleep(1000 / 60 - deltaT);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
+			System.out.println("Main.run(), "+deltaT);
+//			if (deltaT < 1000 / 60) {
+//				try {
+//					Thread.sleep(1000 / 60 - deltaT);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
 		}
 
 	}
@@ -150,7 +152,6 @@ public class Main extends JFrame {
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
-		boolean zoomed = false;
 		if (input.getMouseWheelDown()) {
 			tileSize /= 2;
 			if (tileSize < 4)
@@ -167,6 +168,7 @@ public class Main extends JFrame {
 		}
 
 		builder.update(zoomed);
+		zoomed = false;
 	}
 
 	private void draw() {

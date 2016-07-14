@@ -16,6 +16,7 @@ public class UI {
 	private TileSetLoader tsl;
 	private boolean inFocus;
 	private Point uiLocation;
+	private float sizeOfTileOnUI, border, tileSetSize, size;
 
 	private BufferedImage uiImage;
 	private ArrayList<BufferedImage> imageSets;
@@ -28,6 +29,11 @@ public class UI {
 		uiImage = new BufferedImage(Main.width / 5, Main.height, BufferedImage.TYPE_INT_ARGB);
 		imageSets = new ArrayList<BufferedImage>();
 		imageTiles = new ArrayList<BufferedImage>();
+
+		sizeOfTileOnUI = (Main.width / 15);
+		border = sizeOfTileOnUI / 20;
+		tileSetSize = Main.width / 18;
+		size = sizeOfTileOnUI * 19 / 20;
 	}
 
 	public Tile getSelectedTile() {
@@ -86,6 +92,19 @@ public class UI {
 
 	}
 
+	private void checkMouseOverTile(Point mouseLocation) {
+
+		int selectedTile;
+		if(mouseLocation.y > tileSetSize){			
+		selectedTile = Math.min(tsl.getSets().get(tsl.getKey(selectedTileSetIndex)).getTiles().size()-1,
+				Math.max(0, (int) ((mouseLocation.x - uiLocation.x) / sizeOfTileOnUI)
+						+ (int) ((mouseLocation.y - tileSetSize) / sizeOfTileOnUI) * 3));
+		System.out.println("UI.checkMouseOverTile(), " + selectedTile);
+		}else{
+			
+		}
+	}
+
 	public void update(Point mouseLocation, boolean mouseDrag, boolean updateTiles) {
 
 		if (inFocus) {
@@ -104,9 +123,11 @@ public class UI {
 				uiLocation.x += Main.width / 100.0;
 			}
 		}
-		if (!mouseDrag && inFocus && updateTiles) {
+		if (!mouseDrag && inFocus) {
 			updateUI();
+			checkMouseOverTile(mouseLocation);
 		}
+
 	}
 
 	public void draw(Graphics g) {
@@ -120,19 +141,19 @@ public class UI {
 		int midPoint = Main.width / 10;
 
 		for (int i = 0; i < imageSets.size(); i++) {
-			uiGraphics.drawImage(imageSets.get(i), midPoint + ((i - selectedTileSetIndex) * 70) - 32, 3, 64, 64, null);
+			uiGraphics.drawImage(imageSets.get(i),
+					midPoint + (int) ((i - selectedTileSetIndex) * (tileSetSize)) - (int) (tileSetSize / 2),
+					(int) border / 2, (int) (tileSetSize - border), (int) (tileSetSize - border), null);
 		}
-		float sizeOfTileOnUI = (Main.width / 5) / 3;
-		float border = sizeOfTileOnUI / 20;
-		float size = sizeOfTileOnUI * 19 / 20;
+
 		for (int i = 0; i < imageTiles.size(); i++) {
 			if (i == selectedTileIndex) {
 				uiGraphics.setColor(Color.white);
-				uiGraphics.fillRect((int) ((i % 3) * sizeOfTileOnUI), (int) (70 + (i / 3) * sizeOfTileOnUI),
+				uiGraphics.fillRect((int) ((i % 3) * sizeOfTileOnUI), (int) (tileSetSize + (i / 3) * sizeOfTileOnUI),
 						(int) sizeOfTileOnUI, (int) sizeOfTileOnUI);
 			}
 			uiGraphics.drawImage(imageTiles.get(i), (int) (border / 2 + (i % 3) * sizeOfTileOnUI),
-					(int) (70 + (border / 2) + (i / 3) * sizeOfTileOnUI), (int) size, (int) size, null);
+					(int) (tileSetSize + (border / 2) + (i / 3) * sizeOfTileOnUI), (int) size, (int) size, null);
 		}
 
 		g.drawImage(uiImage, uiLocation.x, uiLocation.y, null);

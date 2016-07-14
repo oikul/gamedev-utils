@@ -82,8 +82,6 @@ public class BuildMap {
 			mapHeight++;
 			Main.input.artificialKeyReleased(KeyEvent.VK_DOWN);
 		}
-		System.out
-				.println("BuildMap.checkMapChange(), " + maxWidth + "," + maxHeight + "," + mapWidth + "," + mapHeight);
 	}
 
 	private void checkPlayerTilePlacement() {
