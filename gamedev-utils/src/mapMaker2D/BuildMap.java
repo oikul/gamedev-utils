@@ -44,45 +44,36 @@ public class BuildMap {
 				map.get(x).add(null);
 			}
 		}
-		gridImage = new BufferedImage(Main.width, Main.height, BufferedImage.TYPE_INT_RGB);
-		tileImage = new BufferedImage(Main.width, Main.height, BufferedImage.TYPE_INT_RGB);
+		gridImage = new BufferedImage(mapWidth * Settings.resolution, mapHeight * Settings.resolution,
+				BufferedImage.TYPE_INT_ARGB);
+		tileImage = new BufferedImage(mapWidth * Settings.resolution, mapHeight * Settings.resolution,
+				BufferedImage.TYPE_INT_ARGB);
 		ui.addTileSet(tsl.getTileSet("testTileSheet"), "testTileSheet", 16);
 
 	}
 
-	private void checkMapChange() {
-
-		if (Main.input.isKeyDown(KeyEvent.VK_RIGHT)) {
-			if (maxWidth <= mapWidth) {
-				map.add(new ArrayList<TileID>());
-				for (int y = 0; y < maxHeight; y++) {
-					map.get(map.size() - 1).add(null);
-				}
-				maxWidth++;
-			}
-			mapWidth++;
-			Main.input.artificialKeyReleased(KeyEvent.VK_RIGHT);
-		} else if (Main.input.isKeyDown(KeyEvent.VK_LEFT)) {
-			// map.remove(map.size() - 1);
-			mapWidth = Math.max(0, --mapWidth);
-			Main.input.artificialKeyReleased(KeyEvent.VK_LEFT);
-		} else if (Main.input.isKeyDown(KeyEvent.VK_UP)) {
-			// for (int x = 0; x < mapWidth; x++) {
-			// map.get(x).remove(map.get(x).size() - 1);
-			// }
-			mapHeight = Math.max(0, --mapHeight);
-			Main.input.artificialKeyReleased(KeyEvent.VK_UP);
-		} else if (Main.input.isKeyDown(KeyEvent.VK_DOWN)) {
-			if (maxHeight <= mapHeight) {
-				for (int x = 0; x < maxWidth; x++) {
-					map.get(x).add(null);
-				}
-				maxHeight++;
-			}
-			mapHeight++;
-			Main.input.artificialKeyReleased(KeyEvent.VK_DOWN);
-		}
+	public UI getUI() {
+		return ui;
 	}
+
+	/*
+	 * private void checkMapChange() { if
+	 * (Main.input.isKeyDown(KeyEvent.VK_RIGHT)) { if (maxWidth <= mapWidth) {
+	 * map.add(new ArrayList<TileID>()); for (int y = 0; y < maxHeight; y++) {
+	 * map.get(map.size() - 1).add(null); } maxWidth++; } mapWidth++;
+	 * Main.input.artificialKeyReleased(KeyEvent.VK_RIGHT); } else if
+	 * (Main.input.isKeyDown(KeyEvent.VK_LEFT)) { map.remove(map.size() - 1);
+	 * mapWidth = Math.max(0, --mapWidth);
+	 * Main.input.artificialKeyReleased(KeyEvent.VK_LEFT); } else if
+	 * (Main.input.isKeyDown(KeyEvent.VK_UP)) { for (int x = 0; x < mapWidth;
+	 * x++) { map.get(x).remove(map.get(x).size() - 1); } mapHeight =
+	 * Math.max(0, --mapHeight);
+	 * Main.input.artificialKeyReleased(KeyEvent.VK_UP); } else if
+	 * (Main.input.isKeyDown(KeyEvent.VK_DOWN)) { if (maxHeight <= mapHeight) {
+	 * for (int x = 0; x < maxWidth; x++) { map.get(x).add(null); } maxHeight++;
+	 * } mapHeight++; Main.input.artificialKeyReleased(KeyEvent.VK_DOWN); }
+	 * }
+	 */
 
 	private void checkPlayerTilePlacement() {
 		// place selected tiles and drag logic
@@ -92,22 +83,34 @@ public class BuildMap {
 			Main.input.artificialMouseReleased(MouseEvent.BUTTON1);
 		}
 		TileID id = ui.getSelectedTile().getId();
-		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && (mouseDrag || (ui.getSelectedTile() != null
-				&& mouseLocation.x <= mapWidth * Main.tileSize && mouseLocation.y <= mapHeight * Main.tileSize))) {
+		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && (mouseDrag
+				|| (ui.getSelectedTile() != null && mouseLocation.x <= (mapWidth + Main.XOffset) * Main.tileSize
+						&& mouseLocation.y <= (mapHeight + Main.YOffset) * Main.tileSize
+						&& mouseLocation.x >= (Main.XOffset) * Main.tileSize
+						&& mouseLocation.y >= (Main.YOffset) * Main.tileSize))) {
 
 			if (!mouseDrag) {// start drag or single click
-				dragStart.setLocation(Math.max(0, Math.min(mapWidth - 1, (mouseLocation.x / Main.tileSize))),
-						Math.max(0, Math.min(mapHeight - 1, (mouseLocation.y / Main.tileSize))));
+				dragStart.setLocation(
+						Math.max(0, Math.min(mapWidth - 1, (mouseLocation.x) / Main.tileSize - (int) Main.XOffset)),
+						Math.max(0, Math.min(mapHeight - 1, (mouseLocation.y / Main.tileSize - (int) Main.YOffset))));
 			}
 			mouseDrag = true;
 		} else {// no click
 			if (mouseDrag) {// end drag
 				updateTiles = true;
-				for (int x = Math.min(mouseLocation.x / Main.tileSize, dragStart.x); x < Math.max(0,
-						Math.min(mapWidth - 1, Math.max(mouseLocation.x / Main.tileSize, dragStart.x))) + 1; x++) {
+				// **Math.min(mouseLocation.x / Main.tileSize, dragStart.x)**
+				// accounts for backwards drag
+				int fromx = Math.max(0, Math.min(mouseLocation.x / Main.tileSize - (int) Main.XOffset, dragStart.x));
+				int toox = Math.min(mapWidth - 1,
+						Math.max(mouseLocation.x / Main.tileSize - (int) Main.XOffset, dragStart.x)) + 1;
 
-					for (int y = Math.min(mouseLocation.y / Main.tileSize, dragStart.y); y < Math.max(0,
-							Math.min(mapHeight - 1, Math.max(mouseLocation.y / Main.tileSize, dragStart.y))) + 1; y++) {
+				int fromy = Math.max(0, Math.min(mouseLocation.y / Main.tileSize - (int) Main.YOffset, dragStart.y));
+				int tooy = Math.min(mapHeight - 1,
+						Math.max(mouseLocation.y / Main.tileSize - (int) Main.YOffset, dragStart.y)) + 1;
+
+				for (int x = fromx; x < toox; x++) {
+
+					for (int y = fromy; y < tooy; y++) {
 
 						// tile change happens here
 						map.get(x).set(y, id);
@@ -132,7 +135,7 @@ public class BuildMap {
 
 			tileSize = (String) JOptionPane.showInputDialog(Main.getFrame(),
 					"Please choose the size of the tiles on the tile sheet", "Enter Tile Size",
-					JOptionPane.PLAIN_MESSAGE, null, new String[] { "8", "16", "32", "64", "128" }, tileSize);
+					JOptionPane.PLAIN_MESSAGE, null, new String[] { "8", "16", "32", "64" }, tileSize);
 			Main.forceFront = false;
 			loadTileSheet = true;
 			Main.input.artificialKeyReleased(KeyEvent.VK_T);
@@ -160,16 +163,16 @@ public class BuildMap {
 
 	}
 
-	public void update(boolean zoomed) {
+	public void update(boolean zoomed, Point mouseLocation) {
 
 		this.zoomed = zoomed;
-		mouseLocation = Main.input.getMousePositionRelativeToComponent();
+		this.mouseLocation = mouseLocation;
 		if (Main.input.isKeyDown(KeyEvent.VK_G)) {
 			grid = !grid;
 			Main.input.artificialKeyReleased(KeyEvent.VK_G);
 		}
 		if (!ui.isInFocus()) {
-			checkMapChange();
+			// checkMapChange();
 			checkPlayerTilePlacement();
 			checkNewTileSheet();
 		} else {
@@ -180,57 +183,39 @@ public class BuildMap {
 	}
 
 	public void draw(Graphics g) {
-		long before, after = 0;
 		// remove all nested for loops
-
-		g.fillRect(0, 0, Main.width, Main.height);
-		Graphics tg = tileImage.getGraphics();
 		int size = Main.tileSize;
-		if (zoomed) {
-			zoomed = false;
-			tg.setColor(Color.white);
-			tg.fillRect(0, 0, Main.width, Main.height);
-			for (int x = 0; x < mapWidth; x++) {
-				for (int y = 0; y < mapHeight; y++) {
-					if (y * size > Main.height) {
-						break;
-					}
-					if (map.get(x).get(y) != null) {
-						tg.drawImage(ui.getTile(map.get(x).get(y)).getImage(), x * size, y * size, size, size, null);
-					}
-				}
-				if (x * size > Main.width) {
-					break;
-				}
-			}
-		}
-		before = System.nanoTime();
+		Graphics tg = tileImage.getGraphics();
+
 		if (updateTiles) {
 			updateTiles = false;
 			for (TileUpdate tileup : mapUpdates) {
-				tg.drawImage(tileup.getTile().getImage(), tileup.getLocation().x * size, tileup.getLocation().y * size,
-						size, size, null);
+				tg.drawImage(tileup.getTile().getImage(), tileup.getLocation().x * Settings.resolution,
+						tileup.getLocation().y * Settings.resolution, Settings.resolution, Settings.resolution, null);
 			}
 
 		}
-		after = System.nanoTime();
 
-		g.drawImage(tileImage, 0, 0, tileImage.getWidth(), tileImage.getHeight(), null);
+		g.drawImage(tileImage, (int) Main.XOffset * Settings.resolution, (int) Main.YOffset * Settings.resolution,
+				(Main.width / Settings.resolution) * size, (Main.height / Settings.resolution) * size, null);
 		if (!ui.isInFocus()) {
 			BufferedImage img = ui.getSelectedTile().getImage();
 			g.drawImage(img, (mouseLocation.x / size) * size, (mouseLocation.y / size) * size, size, size, null);
 
 			if (mouseDrag) {
 				g.setColor(new Color(100, 100, 255, 100));
-				g.fillRect(Math.min((mouseLocation.x / size) * size, dragStart.x * size),
-						Math.min((mouseLocation.y / size) * size, dragStart.y * size),
-						Math.abs(((mouseLocation.x / size) * size) - (dragStart.x * size)) + size,
-						Math.abs(((mouseLocation.y / size) * size) - (dragStart.y * size)) + size);
+				int x = Math.min((mouseLocation.x / size) * size, (dragStart.x + (int) Main.XOffset) * size);
+				int y = Math.min((mouseLocation.y / size) * size, (dragStart.y + (int) Main.YOffset) * size);
+				int w = Math.abs(((mouseLocation.x / size) * size) - (dragStart.x + (int) Main.XOffset) * size) + size;
+				int h = Math.abs(((mouseLocation.y / size) * size) - (dragStart.y + (int) Main.YOffset) * size) + size;
+				System.out.println("BuildMap.draw(), " + x + "," + y + "," + w + "," + h);
+				g.fillRect(x, y, w, h);
 			}
 		}
 		if (grid) {
+			// g.drawImage(gridImage, 0, 0, tileImage.getWidth(),
+			// tileImage.getHeight(), null);
 		}
-		System.out.println("BuildMap.draw(), " + (after - before));
 		ui.draw(g);
 		// }
 	}

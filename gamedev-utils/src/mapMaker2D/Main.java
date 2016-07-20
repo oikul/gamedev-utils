@@ -7,7 +7,9 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -16,17 +18,20 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import utils.InputHandler;
+import utils.MathHelper;
 
 public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
+	public static float XOffset, YOffset;
 	public static int width, height, tileSize;
 	public static Dimension screenSize;
 	public static InputHandler input;
 	public static boolean forceFront;
 
-	private boolean running = false,zoomed = true;
+	private boolean running = false, zoomed = true;
+	private Point mouseLocation;
 	private Image BufferImage;
 	private Graphics g;
 	private BuildMap builder;
@@ -69,9 +74,7 @@ public class Main extends JFrame {
 	}
 
 	public void run() {
-		System.out.println("Main.run(), start");
 		init();
-		System.out.println("Main.run(), after init");
 		long beforeTime, afterTime, deltaT;
 		while (running) {
 			beforeTime = System.nanoTime();
@@ -79,14 +82,13 @@ public class Main extends JFrame {
 			draw();
 			afterTime = System.nanoTime();
 			deltaT = afterTime - beforeTime;
-			System.out.println("Main.run(), "+deltaT);
-//			if (deltaT < 1000 / 60) {
-//				try {
-//					Thread.sleep(1000 / 60 - deltaT);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
+			// if (deltaT < 1000 / 60) {
+			// try {
+			// Thread.sleep(1000 / 60 - deltaT);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			// }
 		}
 
 	}
@@ -119,11 +121,12 @@ public class Main extends JFrame {
 		this.setVisible(true);
 		frame = this;
 		tileSize = 16;
-		BufferImage = new BufferedImage(Main.width,Main.height,BufferedImage.TYPE_INT_ARGB);
+		BufferImage = new BufferedImage(Main.width, Main.height, BufferedImage.TYPE_INT_ARGB);
 		g = this.getGraphics();
 		ui = new UI();
 		// build map sizes in tiles 16px atm
 		builder = new BuildMap(50, 50, ui);
+		mouseLocation = new Point(0, 0);
 	}
 
 	private int chooseDevice(GraphicsDevice[] gds) {
@@ -147,27 +150,57 @@ public class Main extends JFrame {
 		return Integer.parseInt(choice);
 	}
 
+	private void moveScreen() {
+
+		Point mouseDiff = input.getMousePositionRelativeToComponent();
+		XOffset += (mouseDiff.x - mouseLocation.x) / (float) tileSize;
+		YOffset += (mouseDiff.y - mouseLocation.y) / (float) tileSize;
+
+	}
+
+	private void zoom() {
+		// zoom out
+		if (input.getMouseWheelDown() && tileSize != 4) {
+			XOffset = (mouseLocation.x / tileSize) - ((mouseLocation.x / tileSize) - (XOffset)) / 2;
+			YOffset = (mouseLocation.y / tileSize) - ((mouseLocation.y / tileSize) - (YOffset)) / 2;
+			tileSize /= 2;
+			Main.input.stopMouseWheel();
+			zoomed = true;
+		}
+		// zoom in
+		if (input.getMouseWheelUp() && tileSize != 256) {
+			XOffset =  (-(mouseLocation.x / tileSize)) / 2 + 2*XOffset;
+			YOffset =  (-(mouseLocation.y / tileSize)) / 2 + 2*YOffset;
+//			XOffset = (mouseLocation.x / tileSize) - 2 * ((mouseLocation.x / tileSize) - (XOffset));
+//			YOffset = (mouseLocation.y / tileSize) - 2 * ((mouseLocation.y / tileSize) - (YOffset));
+			tileSize *= 2;
+			Main.input.stopMouseWheel();
+			zoomed = true;
+		}
+	}
+
 	private void update() {
 
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
-		if (input.getMouseWheelDown()) {
-			tileSize /= 2;
-			if (tileSize < 4)
-				tileSize = 4;
-			Main.input.stopMouseWheel();
-			zoomed = true;
+		if (input.isKeyDown(KeyEvent.VK_E)) {
+			XOffset = 0;
+			YOffset = 0;
 		}
-		if (input.getMouseWheelUp()) {
-			tileSize *= 2;
-			if (tileSize > 256)
-				tileSize = 256;
-			Main.input.stopMouseWheel();
-			zoomed = true;
+		if (!builder.getUI().isInFocus()) {
+			if (input.isMouseDown(MouseEvent.BUTTON2)) {
+				moveScreen();
+				input.stopMouseWheel();
+			} else {
+				zoom();
+			}
+		} else {
+			input.stopMouseWheel();
 		}
-
-		builder.update(zoomed);
+		
+		mouseLocation = input.getMousePositionRelativeToComponent();
+		builder.update(zoomed, mouseLocation);
 		zoomed = false;
 	}
 

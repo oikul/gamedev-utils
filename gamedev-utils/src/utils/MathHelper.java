@@ -250,9 +250,12 @@ public class MathHelper {
 		return (int) (result) + 1;
 
 	}
-
+	
 	public static void setRandomSeed(long seed) {
 		random = new Random(seed);
+	}
+	
+	public static void main(String[] args){
 	}
 
 }
