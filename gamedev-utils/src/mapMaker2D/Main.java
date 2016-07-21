@@ -161,19 +161,21 @@ public class Main extends JFrame {
 	private void zoom() {
 		// zoom out
 		if (input.getMouseWheelDown() && tileSize != 4) {
-			XOffset = (mouseLocation.x / tileSize) - ((mouseLocation.x / tileSize) - (XOffset)) / 2;
-			YOffset = (mouseLocation.y / tileSize) - ((mouseLocation.y / tileSize) - (YOffset)) / 2;
+			XOffset -= (mouseLocation.x / tileSize);
+			YOffset -= (mouseLocation.y / tileSize);
 			tileSize /= 2;
+			XOffset += (mouseLocation.x / tileSize);
+			YOffset += (mouseLocation.y / tileSize);
 			Main.input.stopMouseWheel();
 			zoomed = true;
 		}
 		// zoom in
 		if (input.getMouseWheelUp() && tileSize != 256) {
-			XOffset =  (-(mouseLocation.x / tileSize)) / 2 + 2*XOffset;
-			YOffset =  (-(mouseLocation.y / tileSize)) / 2 + 2*YOffset;
-//			XOffset = (mouseLocation.x / tileSize) - 2 * ((mouseLocation.x / tileSize) - (XOffset));
-//			YOffset = (mouseLocation.y / tileSize) - 2 * ((mouseLocation.y / tileSize) - (YOffset));
+			XOffset -= (mouseLocation.x / tileSize);
+			YOffset -= (mouseLocation.y / tileSize);
 			tileSize *= 2;
+			XOffset += (mouseLocation.x / tileSize);
+			YOffset += (mouseLocation.y / tileSize);
 			Main.input.stopMouseWheel();
 			zoomed = true;
 		}

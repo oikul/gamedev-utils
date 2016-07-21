@@ -48,6 +48,9 @@ public class BuildMap {
 				BufferedImage.TYPE_INT_ARGB);
 		tileImage = new BufferedImage(mapWidth * Settings.resolution, mapHeight * Settings.resolution,
 				BufferedImage.TYPE_INT_ARGB);
+		Graphics tg = tileImage.getGraphics();
+		tg.setColor(Color.black);
+		tg.fillRect(0, 0, tileImage.getWidth(), tileImage.getHeight());
 		ui.addTileSet(tsl.getTileSet("testTileSheet"), "testTileSheet", 16);
 
 	}
@@ -71,8 +74,7 @@ public class BuildMap {
 	 * Main.input.artificialKeyReleased(KeyEvent.VK_UP); } else if
 	 * (Main.input.isKeyDown(KeyEvent.VK_DOWN)) { if (maxHeight <= mapHeight) {
 	 * for (int x = 0; x < maxWidth; x++) { map.get(x).add(null); } maxHeight++;
-	 * } mapHeight++; Main.input.artificialKeyReleased(KeyEvent.VK_DOWN); }
-	 * }
+	 * } mapHeight++; Main.input.artificialKeyReleased(KeyEvent.VK_DOWN); } }
 	 */
 
 	private void checkPlayerTilePlacement() {
@@ -196,8 +198,17 @@ public class BuildMap {
 
 		}
 
-		g.drawImage(tileImage, (int) Main.XOffset * Settings.resolution, (int) Main.YOffset * Settings.resolution,
-				(Main.width / Settings.resolution) * size, (Main.height / Settings.resolution) * size, null);
+		int dx = (int)(Main.XOffset*size)/size*size;
+		int dy = (int)(Main.YOffset*size)/size*size;
+		
+		g.drawImage(tileImage,
+				dx ,dy ,
+				dx+(tileImage.getWidth() * size) / Settings.resolution,
+				dy+(tileImage.getHeight() * size) / Settings.resolution,
+				
+				0, 0, tileImage.getWidth(), tileImage.getHeight(), 
+				null);
+		
 		if (!ui.isInFocus()) {
 			BufferedImage img = ui.getSelectedTile().getImage();
 			g.drawImage(img, (mouseLocation.x / size) * size, (mouseLocation.y / size) * size, size, size, null);
@@ -208,7 +219,6 @@ public class BuildMap {
 				int y = Math.min((mouseLocation.y / size) * size, (dragStart.y + (int) Main.YOffset) * size);
 				int w = Math.abs(((mouseLocation.x / size) * size) - (dragStart.x + (int) Main.XOffset) * size) + size;
 				int h = Math.abs(((mouseLocation.y / size) * size) - (dragStart.y + (int) Main.YOffset) * size) + size;
-				System.out.println("BuildMap.draw(), " + x + "," + y + "," + w + "," + h);
 				g.fillRect(x, y, w, h);
 			}
 		}
