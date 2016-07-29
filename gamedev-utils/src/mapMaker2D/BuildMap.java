@@ -134,14 +134,14 @@ public class BuildMap {
 					"Please type the Tile Sheets path Then press enter. "
 							+ "\nAssume the path starts with '/src/resources/tileSheets/' \nand ends with '.png'.",
 					"Enter Path", JOptionPane.PLAIN_MESSAGE);
-
-			tileSize = (String) JOptionPane.showInputDialog(Main.getFrame(),
-					"Please choose the size of the tiles on the tile sheet", "Enter Tile Size",
-					JOptionPane.PLAIN_MESSAGE, null, new String[] { "8", "16", "32", "64" }, tileSize);
-			Main.forceFront = false;
-			loadTileSheet = true;
-			Main.input.artificialKeyReleased(KeyEvent.VK_T);
-			// Main.input.clearTypedAcum();
+			if (lastPath != null) {
+				tileSize = (String) JOptionPane.showInputDialog(Main.getFrame(),
+						"Please choose the size of the tiles on the tile sheet", "Enter Tile Size",
+						JOptionPane.PLAIN_MESSAGE, null, new String[] { "8", "16", "32", "64" }, tileSize);
+				Main.forceFront = false;
+				loadTileSheet = true;
+				Main.input.artificialKeyReleased(KeyEvent.VK_T);
+			}
 		}
 		if (loadTileSheet) {
 			// change the tile size to a user inputed var-----------------------
@@ -198,17 +198,14 @@ public class BuildMap {
 
 		}
 
-		int dx = (int)(Main.XOffset*size)/size*size;
-		int dy = (int)(Main.YOffset*size)/size*size;
-		
-		g.drawImage(tileImage,
-				dx ,dy ,
-				dx+(tileImage.getWidth() * size) / Settings.resolution,
-				dy+(tileImage.getHeight() * size) / Settings.resolution,
-				
-				0, 0, tileImage.getWidth(), tileImage.getHeight(), 
-				null);
-		
+		int dx = (int) (Main.XOffset * size) / size * size;
+		int dy = (int) (Main.YOffset * size) / size * size;
+
+		g.drawImage(tileImage, dx, dy, dx + (tileImage.getWidth() * size) / Settings.resolution,
+				dy + (tileImage.getHeight() * size) / Settings.resolution,
+
+				0, 0, tileImage.getWidth(), tileImage.getHeight(), null);
+
 		if (!ui.isInFocus()) {
 			BufferedImage img = ui.getSelectedTile().getImage();
 			g.drawImage(img, (mouseLocation.x / size) * size, (mouseLocation.y / size) * size, size, size, null);
