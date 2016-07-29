@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class UI {
-	// overlay that will hide itself after seconds of inactivity
+	// overlay that will hide itself when the cursor leaves
 
-	private int selectedTileIndex, selectedTileSetIndex, hoveredTile;
+	private int selectedTileIndex, selectedTileSetIndex, hoveredTile, hoveredTileSet, uiMidpoint;
 	private Tile selectedTile;
 	private TileSet selectedTileSet;
 	private TileSetLoader tsl;
-	private boolean inFocus, updateUI;
+	private boolean inFocus;
 	private Point uiLocation;
 	private float sizeOfTileOnUI, border, tileSetSize, size;
 
@@ -31,10 +31,11 @@ public class UI {
 		imageSets = new ArrayList<BufferedImage>();
 		imageTiles = new ArrayList<BufferedImage>();
 
+		tileSetSize = Main.width / 18;
 		sizeOfTileOnUI = (Main.width / 15);
 		border = sizeOfTileOnUI / 20;
-		tileSetSize = Main.width / 18;
 		size = sizeOfTileOnUI * 19 / 20;
+		uiMidpoint = Main.width / 10;
 	}
 
 	public Tile getSelectedTile() {
@@ -99,11 +100,26 @@ public class UI {
 				+ (int) ((mouseLocation.y - tileSetSize) / sizeOfTileOnUI) * 3;
 		int max = tsl.getSets().get(tsl.getKey(selectedTileSetIndex)).getTiles().size() - 1;
 
-		if (test > max) {
+		if (test > max || mouseLocation.y <= tileSetSize) {
 			hoveredTile = -1;
 		} else if (mouseLocation.y > tileSetSize) {
-			hoveredTile = Math.min(max, Math.max(0, test));
-			updateUI = true;
+			hoveredTile = test;
+		}
+	}
+
+	public void checkMouseOverTileSet(Point mouseLocation) {
+		if (mouseLocation.y <= tileSetSize) {
+
+			int test = Math.round((mouseLocation.x - (uiLocation.x + uiMidpoint)) / tileSetSize) + selectedTileSetIndex;
+			int max = imageSets.size() - 1;
+
+			if (test > max || test < 0) {
+				hoveredTileSet = -1;
+			} else {
+				hoveredTileSet = test;
+			}
+		} else {
+			hoveredTileSet = -1;
 		}
 	}
 
@@ -111,12 +127,22 @@ public class UI {
 		if (!mouseDrag && inFocus) {
 			updateUI();
 			checkMouseOverTile(mouseLocation);
+			checkMouseOverTileSet(mouseLocation);
 		} else {
 			hoveredTile = -1;
+			hoveredTileSet = -1;
 		}
-		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && hoveredTile != -1) {
-			selectedTileIndex = hoveredTile;
-			selectedTile = selectedTileSet.getTile(selectedTileSet.getKey(selectedTileIndex));
+		if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
+			if (hoveredTile != -1) {
+				selectedTileIndex = hoveredTile;
+				selectedTile = selectedTileSet.getTile(selectedTileSet.getKey(selectedTileIndex));
+			} 
+			if (hoveredTileSet != -1) {
+				selectedTileSetIndex = hoveredTileSet;
+				selectedTileSet = tsl.getSets().get(tsl.getKey(selectedTileSetIndex));
+				selectedTileIndex = 0;
+				selectedTile = selectedTileSet.getTile(selectedTileSet.getKey(selectedTileIndex));
+			}
 		}
 		if (inFocus) {
 			if (mouseLocation.x < (Main.width * 16.0) / 20.0) {
@@ -145,13 +171,12 @@ public class UI {
 		uiGraphics.setColor(new Color(100, 100, 100, 100));
 		uiGraphics.fillRect(0, 0, (int) (Main.width / 5.0), Main.height);
 
-		int midPoint = Main.width / 10;
-
 		// marks the selected tile
 		uiGraphics.setColor(Color.white);
 		uiGraphics.fillRect((int) ((selectedTileIndex % 3) * sizeOfTileOnUI),
 				(int) (tileSetSize + (selectedTileIndex / 3) * sizeOfTileOnUI), (int) sizeOfTileOnUI,
 				(int) sizeOfTileOnUI);
+
 		// marks the tile being hovered over
 		if (hoveredTile != -1) {
 			uiGraphics.setColor(Color.red);
@@ -160,11 +185,17 @@ public class UI {
 					(int) sizeOfTileOnUI);
 		}
 
-		updateUI = false;
+		// marks the tile set being hovered over
+		if (hoveredTileSet != -1) {
+			uiGraphics.setColor(Color.red);
+			uiGraphics.fillRect((int) ((hoveredTileSet - selectedTileSetIndex) * tileSetSize)
+					+ (int) (uiMidpoint - (tileSetSize / 2)), 0, (int) tileSetSize, (int) tileSetSize);
+		}
+
 		// draws all the tile sets
 		for (int i = 0; i < imageSets.size(); i++) {
 			uiGraphics.drawImage(imageSets.get(i),
-					midPoint + (int) ((i - selectedTileSetIndex) * (tileSetSize)) - (int) (tileSetSize / 2),
+					uiMidpoint + (int) (((i - selectedTileSetIndex) - 0.5) * tileSetSize) + (int) border / 2,
 					(int) border / 2, (int) (tileSetSize - border), (int) (tileSetSize - border), null);
 		}
 
@@ -173,7 +204,7 @@ public class UI {
 			uiGraphics.drawImage(imageTiles.get(i), (int) (border / 2 + (i % 3) * sizeOfTileOnUI),
 					(int) (tileSetSize + (border / 2) + (i / 3) * sizeOfTileOnUI), (int) size, (int) size, null);
 		}
-		
+
 		g.drawImage(uiImage, uiLocation.x, uiLocation.y, null);
 
 	}
