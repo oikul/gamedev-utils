@@ -90,6 +90,7 @@ public class Main extends JFrame {
 			// }
 			// }
 		}
+		close();
 
 	}
 
@@ -129,6 +130,10 @@ public class Main extends JFrame {
 		mouseLocation = new Point(0, 0);
 	}
 
+	private void close(){
+		this.dispose();
+	}
+	
 	private int chooseDevice(GraphicsDevice[] gds) {
 
 		Object[] possibilities = new Object[gds.length];
@@ -169,10 +174,12 @@ public class Main extends JFrame {
 		}
 		// zoom in
 		if (input.getMouseWheelUp() && tileSize != 256) {
-			XOffset =  (-(mouseLocation.x / tileSize)) / 2 + 2*XOffset;
-			YOffset =  (-(mouseLocation.y / tileSize)) / 2 + 2*YOffset;
-//			XOffset = (mouseLocation.x / tileSize) - 2 * ((mouseLocation.x / tileSize) - (XOffset));
-//			YOffset = (mouseLocation.y / tileSize) - 2 * ((mouseLocation.y / tileSize) - (YOffset));
+			XOffset = (-(mouseLocation.x / tileSize)) / 2 + 2 * XOffset;
+			YOffset = (-(mouseLocation.y / tileSize)) / 2 + 2 * YOffset;
+			// XOffset = (mouseLocation.x / tileSize) - 2 * ((mouseLocation.x /
+			// tileSize) - (XOffset));
+			// YOffset = (mouseLocation.y / tileSize) - 2 * ((mouseLocation.y /
+			// tileSize) - (YOffset));
 			tileSize *= 2;
 			Main.input.stopMouseWheel();
 			zoomed = true;
@@ -182,26 +189,27 @@ public class Main extends JFrame {
 	private void update() {
 
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
-			System.exit(0);
-		}
-		if (input.isKeyDown(KeyEvent.VK_E)) {
-			XOffset = 0;
-			YOffset = 0;
-		}
-		if (!builder.getUI().isInFocus()) {
-			if (input.isMouseDown(MouseEvent.BUTTON2)) {
-				moveScreen();
-				input.stopMouseWheel();
-			} else {
-				zoom();
-			}
+			running = false;
 		} else {
-			input.stopMouseWheel();
+			if (input.isKeyDown(KeyEvent.VK_E)) {
+				XOffset = 0;
+				YOffset = 0;
+			}
+			if (!builder.getUI().isInFocus()) {
+				if (input.isMouseDown(MouseEvent.BUTTON2)) {
+					moveScreen();
+					input.stopMouseWheel();
+				} else {
+					zoom();
+				}
+			} else {
+				input.stopMouseWheel();
+			}
+
+			mouseLocation = input.getMousePositionRelativeToComponent();
+			builder.update(zoomed, mouseLocation);
+			zoomed = false;
 		}
-		
-		mouseLocation = input.getMousePositionRelativeToComponent();
-		builder.update(zoomed, mouseLocation);
-		zoomed = false;
 	}
 
 	private void draw() {
