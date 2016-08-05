@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 import utils.MathHelper;
 
-// class can be optimised to do everything at once and return only needed info
+// class can be optimised to unpack a tile sheet all at once and return only needed info
 public class TileSetLoader {
 
 	private LinkedHashMap<String, TileSet> sets = new LinkedHashMap<String, TileSet>();
@@ -23,8 +23,8 @@ public class TileSetLoader {
 			URL url = this.getClass().getClassLoader().getResource("resources/tileSheets/" + path + ".png");
 			return ImageIO.read(url);
 		} catch (IOException | NullPointerException | IllegalArgumentException e) {
-//			e.printStackTrace();
-//			System.out.println("failed to load");
+			e.printStackTrace();
+			System.out.println("failed to load");
 		}
 		return null;
 	}

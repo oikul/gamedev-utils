@@ -7,34 +7,34 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 public class BuildMap {
 
-	private int mapWidth, mapHeight, maxWidth, maxHeight;
-	private boolean mouseDrag, loadTileSheet, updateTiles, zoomed, grid;
+	private int mapWidth, mapHeight;
+	private boolean mouseDrag, loadTileSheet, updateTiles, grid;
 	private String lastPath, tileSize;
 	private Point dragStart, mouseLocation;
 	private TileSetLoader tsl;
 	private UI ui;
 	private ArrayList<ArrayList<TileID>> map;
 	private ArrayList<TileUpdate> mapUpdates;
-	private BufferedImage gridImage;
+	// private BufferedImage gridImage;
 	private BufferedImage tileImage;
 
 	public BuildMap(int mapWidth, int mapHeight, UI ui) {
 
-		this.mapWidth = maxWidth = mapWidth;
-		this.mapHeight = maxHeight = mapHeight;
+		this.mapWidth = mapWidth;
+		this.mapHeight = mapHeight;
 		this.ui = ui;
 		lastPath = "";
 		tileSize = "16";
 		tsl = ui.getTileSetLoader();
 		tsl.getKeys();
-		mouseDrag = loadTileSheet = zoomed = false;
+		mouseDrag = loadTileSheet = false;
 		grid = true;
+
 		dragStart = mouseLocation = new Point(0, 0);
 		map = new ArrayList<ArrayList<TileID>>();
 		mapUpdates = new ArrayList<TileUpdate>();
@@ -44,8 +44,10 @@ public class BuildMap {
 				map.get(x).add(null);
 			}
 		}
-		gridImage = new BufferedImage(mapWidth * Settings.resolution, mapHeight * Settings.resolution,
-				BufferedImage.TYPE_INT_ARGB);
+
+		// gridImage = new BufferedImage(mapWidth * Settings.resolution,
+		// mapHeight * Settings.resolution,
+		// BufferedImage.TYPE_INT_ARGB);
 		tileImage = new BufferedImage(mapWidth * Settings.resolution, mapHeight * Settings.resolution,
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics tg = tileImage.getGraphics();
@@ -129,19 +131,18 @@ public class BuildMap {
 
 		if (Main.input.isKeyDown(KeyEvent.VK_T)) {
 			// type_path = true;
-			Main.forceFront = true;
-			lastPath = (String) JOptionPane.showInputDialog(Main.getFrame(),
+//			Main.forceFront = true;
+			lastPath = (String) JOptionPane.showInputDialog(
 					"Please type the Tile Sheets path Then press enter. "
 							+ "\nAssume the path starts with '/src/resources/tileSheets/' \nand ends with '.png'.",
-					"Enter Path", JOptionPane.PLAIN_MESSAGE);
+					"Enter Path");
 			if (lastPath != null) {
-				tileSize = (String) JOptionPane.showInputDialog(Main.getFrame(),
-						"Please choose the size of the tiles on the tile sheet", "Enter Tile Size",
-						JOptionPane.PLAIN_MESSAGE, null, new String[] { "8", "16", "32", "64" }, tileSize);
-				Main.forceFront = false;
+				tileSize = (String) JOptionPane.showInputDialog("Please choose the size of the tiles on the tile sheet",
+						new String[] { "8", "16", "32", "64" });
 				loadTileSheet = true;
-				Main.input.artificialKeyReleased(KeyEvent.VK_T);
 			}
+//			Main.forceFront = false;
+			Main.input.artificialKeyReleased(KeyEvent.VK_T);
 		}
 		if (loadTileSheet) {
 			// change the tile size to a user inputed var-----------------------
@@ -165,9 +166,8 @@ public class BuildMap {
 
 	}
 
-	public void update(boolean zoomed, Point mouseLocation) {
+	public void update(Point mouseLocation) {
 
-		this.zoomed = zoomed;
 		this.mouseLocation = mouseLocation;
 		if (Main.input.isKeyDown(KeyEvent.VK_G)) {
 			grid = !grid;

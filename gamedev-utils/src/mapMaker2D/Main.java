@@ -2,7 +2,6 @@ package mapMaker2D;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -18,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import utils.InputHandler;
-import utils.MathHelper;
 
 public class Main extends JFrame {
 
@@ -30,7 +28,7 @@ public class Main extends JFrame {
 	public static InputHandler input;
 	public static boolean forceFront;
 
-	private boolean running = false, zoomed = true;
+	private boolean running = false;
 	private Point mouseLocation;
 	private Image BufferImage;
 	private Graphics g;
@@ -62,9 +60,9 @@ public class Main extends JFrame {
 
 			@Override
 			public void windowIconified(WindowEvent e) {
-				if (forceFront) {
-					Main.frame.setState(Frame.NORMAL);
-				}
+//				if (forceFront) {
+//					Main.frame.setState(Frame.NORMAL);
+//				}
 			}
 
 			@Override
@@ -75,13 +73,13 @@ public class Main extends JFrame {
 
 	public void run() {
 		init();
-		long beforeTime, afterTime, deltaT;
+		// long beforeTime, afterTime, deltaT;
 		while (running) {
-			beforeTime = System.nanoTime();
+			// beforeTime = System.nanoTime();
 			update();
 			draw();
-			afterTime = System.nanoTime();
-			deltaT = afterTime - beforeTime;
+			// afterTime = System.nanoTime();
+			// deltaT = afterTime - beforeTime;
 			// if (deltaT < 1000 / 60) {
 			// try {
 			// Thread.sleep(1000 / 60 - deltaT);
@@ -100,15 +98,15 @@ public class Main extends JFrame {
 		forceFront = false;
 		input = new InputHandler(this);
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice[] gds = ge.getScreenDevices();
-		// puts the game on the second screen if it exists
+		Settings.gds = ge.getScreenDevices();
 		this.setUndecorated(true);
-		int deviceIndex = chooseDevice(gds);
+		// user chooses which screen to display the frame on
+		int deviceIndex = chooseDevice(Settings.gds);
 
 		try {
-			gds[deviceIndex].setFullScreenWindow(this);
-			width = gds[deviceIndex].getDisplayMode().getWidth();
-			height = gds[deviceIndex].getDisplayMode().getHeight();
+			Settings.gds[deviceIndex].setFullScreenWindow(this);
+			width = Settings.gds[deviceIndex].getDisplayMode().getWidth();
+			height = Settings.gds[deviceIndex].getDisplayMode().getHeight();
 			screenSize = new Dimension(width, height);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.exit(0);
@@ -121,6 +119,7 @@ public class Main extends JFrame {
 
 		this.setVisible(true);
 		frame = this;
+		JOptionPane.setRootFrame(frame);
 		tileSize = 16;
 		BufferImage = new BufferedImage(Main.width, Main.height, BufferedImage.TYPE_INT_ARGB);
 		g = this.getGraphics();
@@ -130,10 +129,10 @@ public class Main extends JFrame {
 		mouseLocation = new Point(0, 0);
 	}
 
-	private void close(){
+	private void close() {
 		this.dispose();
 	}
-	
+
 	private int chooseDevice(GraphicsDevice[] gds) {
 
 		Object[] possibilities = new Object[gds.length];
@@ -172,7 +171,6 @@ public class Main extends JFrame {
 			XOffset += (mouseLocation.x / tileSize);
 			YOffset += (mouseLocation.y / tileSize);
 			Main.input.stopMouseWheel();
-			zoomed = true;
 		}
 		// zoom in
 		if (input.getMouseWheelUp() && tileSize != 256) {
@@ -182,12 +180,10 @@ public class Main extends JFrame {
 			XOffset += (mouseLocation.x / tileSize);
 			YOffset += (mouseLocation.y / tileSize);
 			Main.input.stopMouseWheel();
-			zoomed = true;
 		}
 	}
 
 	private void update() {
-
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			running = false;
 		} else {
@@ -207,8 +203,7 @@ public class Main extends JFrame {
 			}
 
 			mouseLocation = input.getMousePositionRelativeToComponent();
-			builder.update(zoomed, mouseLocation);
-			zoomed = false;
+			builder.update(mouseLocation);
 		}
 	}
 
