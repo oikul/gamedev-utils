@@ -17,7 +17,7 @@ public class UI {
 	private TileSetLoader tsl;
 	private boolean inFocus;
 	private Point uiLocation;
-	private float sizeOfTileOnUI, border, tileSetSize, size;
+	private float sizeOfTileOnUI, border, tileSetSize, size, tileScroll, tileSetScroll;
 
 	private BufferedImage uiImage;
 	private ArrayList<BufferedImage> imageSets;
@@ -26,6 +26,7 @@ public class UI {
 	public UI() {
 		tsl = new TileSetLoader();
 		selectedTileIndex = selectedTileSetIndex = 0;
+		tileScroll = tileSetScroll = 0f;
 		uiLocation = new Point(Main.width, 0);
 		uiImage = new BufferedImage(Main.width / 5, Main.height, BufferedImage.TYPE_INT_ARGB);
 		imageSets = new ArrayList<BufferedImage>();
@@ -97,7 +98,7 @@ public class UI {
 	private void checkMouseOverTile(Point mouseLocation) {
 
 		int test = (int) ((mouseLocation.x - uiLocation.x) / sizeOfTileOnUI)
-				+ (int) ((mouseLocation.y - tileSetSize) / sizeOfTileOnUI) * 3;
+				+ (int) ((mouseLocation.y - tileSetSize) / sizeOfTileOnUI - tileScroll) * 3;
 		int max = tsl.getSets().get(tsl.getKey(selectedTileSetIndex)).getTiles().size() - 1;
 
 		if (test > max || mouseLocation.y <= tileSetSize) {
@@ -109,18 +110,36 @@ public class UI {
 
 	public void checkMouseOverTileSet(Point mouseLocation) {
 		if (mouseLocation.y <= tileSetSize) {
+			if (mouseLocation.x - uiLocation.x > uiImage.getWidth() / 10
+					&& mouseLocation.x - uiLocation.x < uiImage.getWidth() * 9 / 10) {
 
-			int test = Math.round((mouseLocation.x - (uiLocation.x + uiMidpoint)) / tileSetSize) + selectedTileSetIndex;
-			int max = imageSets.size() - 1;
+				int test = Math.round((mouseLocation.x - (uiLocation.x + uiMidpoint)) / tileSetSize)
+						+ selectedTileSetIndex;
+				int max = imageSets.size() - 1;
 
-			if (test > max || test < 0) {
-				hoveredTileSet = -1;
+				if (test > max || test < 0) {
+					hoveredTileSet = -1;
+				} else {
+					hoveredTileSet = test;
+				}
 			} else {
-				hoveredTileSet = test;
+				hoveredTileSet = -1;
 			}
-		} else {
-			hoveredTileSet = -1;
 		}
+	}
+
+	private void scrollTiles() {
+		double rotation = Main.input.getMouseWheelRotation();
+		tileScroll -= (rotation * 0.5f);
+		if (tileScroll > 0f) {
+			tileScroll = 0f;
+		} else if (tileScroll < -imageTiles.size() / 3) {
+			tileScroll = -imageTiles.size() / 3;
+		}
+	}
+
+	private void scrollTileSets() {
+
 	}
 
 	public void update(Point mouseLocation, boolean mouseDrag, boolean updateTiles) {
@@ -128,21 +147,27 @@ public class UI {
 			updateUI();
 			checkMouseOverTile(mouseLocation);
 			checkMouseOverTileSet(mouseLocation);
+			if (mouseLocation.y > tileSetSize) {
+				scrollTiles();
+			} else {
+				scrollTileSets();
+			}
+			if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
+				if (hoveredTile != -1) {
+					selectedTileIndex = hoveredTile;
+					selectedTile = selectedTileSet.getTile(selectedTileSet.getKey(selectedTileIndex));
+				}
+				if (hoveredTileSet != -1) {
+					selectedTileSetIndex = hoveredTileSet;
+					selectedTileSet = tsl.getSets().get(tsl.getKey(selectedTileSetIndex));
+					selectedTileIndex = 0;
+					selectedTile = selectedTileSet.getTile(selectedTileSet.getKey(selectedTileIndex));
+					tileScroll = tileSetScroll = 0f;
+				}
+			}
 		} else {
 			hoveredTile = -1;
 			hoveredTileSet = -1;
-		}
-		if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
-			if (hoveredTile != -1) {
-				selectedTileIndex = hoveredTile;
-				selectedTile = selectedTileSet.getTile(selectedTileSet.getKey(selectedTileIndex));
-			} 
-			if (hoveredTileSet != -1) {
-				selectedTileSetIndex = hoveredTileSet;
-				selectedTileSet = tsl.getSets().get(tsl.getKey(selectedTileSetIndex));
-				selectedTileIndex = 0;
-				selectedTile = selectedTileSet.getTile(selectedTileSet.getKey(selectedTileIndex));
-			}
 		}
 		if (inFocus) {
 			if (mouseLocation.x < (Main.width * 16.0) / 20.0) {
@@ -166,44 +191,67 @@ public class UI {
 	public void draw(Graphics g) {
 
 		Graphics uiGraphics = uiImage.getGraphics();
-		uiGraphics.setColor(new Color(0, 0, 0, 100));
+		uiGraphics.setColor(Color.gray);
 		uiGraphics.fillRect(0, 0, uiImage.getWidth(), uiImage.getHeight());
-		uiGraphics.setColor(new Color(100, 100, 100, 100));
-		uiGraphics.fillRect(0, 0, (int) (Main.width / 5.0), Main.height);
 
 		// marks the selected tile
 		uiGraphics.setColor(Color.white);
 		uiGraphics.fillRect((int) ((selectedTileIndex % 3) * sizeOfTileOnUI),
-				(int) (tileSetSize + (selectedTileIndex / 3) * sizeOfTileOnUI), (int) sizeOfTileOnUI,
-				(int) sizeOfTileOnUI);
+				(int) (tileSetSize + (selectedTileIndex / 3) * sizeOfTileOnUI) + (int) (tileScroll * sizeOfTileOnUI),
+				(int) sizeOfTileOnUI, (int) sizeOfTileOnUI);
 
 		// marks the tile being hovered over
 		if (hoveredTile != -1) {
 			uiGraphics.setColor(Color.red);
 			uiGraphics.fillRect((int) ((hoveredTile % 3) * sizeOfTileOnUI),
-					(int) (tileSetSize + (hoveredTile / 3) * sizeOfTileOnUI), (int) sizeOfTileOnUI,
-					(int) sizeOfTileOnUI);
+					(int) (tileSetSize + (hoveredTile / 3) * sizeOfTileOnUI) + (int) (tileScroll * sizeOfTileOnUI),
+					(int) sizeOfTileOnUI, (int) sizeOfTileOnUI);
 		}
 
-		// marks the tile set being hovered over
+		// draws all the tiles
+		for (int i = 0; i < imageTiles.size(); i++) {
+			uiGraphics.drawImage(imageTiles.get(i), (int) (border / 2 + (i % 3) * sizeOfTileOnUI),
+					(int) (tileSetSize + (border / 2) + (i / 3) * sizeOfTileOnUI) + (int) (tileScroll * sizeOfTileOnUI),
+					(int) size, (int) size, null);
+		}
+
+		uiGraphics.setColor(Color.lightGray);
+		uiGraphics.fillRect(0, 0, uiImage.getWidth(), (int) tileSetSize);
+
+		// marks the selected tileSet
+		uiGraphics.setColor(Color.white);
+		uiGraphics.fillRect((int) (uiMidpoint - (tileSetSize / 2)) + (int) (tileSetScroll * tileSetSize), 0,
+				(int) tileSetSize, (int) tileSetSize);
+
+		// marks the tileSet being hovered over
 		if (hoveredTileSet != -1) {
 			uiGraphics.setColor(Color.red);
 			uiGraphics.fillRect((int) ((hoveredTileSet - selectedTileSetIndex) * tileSetSize)
 					+ (int) (uiMidpoint - (tileSetSize / 2)), 0, (int) tileSetSize, (int) tileSetSize);
 		}
 
-		// draws all the tile sets
+		// draws all the tileSets
 		for (int i = 0; i < imageSets.size(); i++) {
 			uiGraphics.drawImage(imageSets.get(i),
 					uiMidpoint + (int) (((i - selectedTileSetIndex) - 0.5) * tileSetSize) + (int) border / 2,
 					(int) border / 2, (int) (tileSetSize - border), (int) (tileSetSize - border), null);
 		}
 
-		// draws all the tiles
-		for (int i = 0; i < imageTiles.size(); i++) {
-			uiGraphics.drawImage(imageTiles.get(i), (int) (border / 2 + (i % 3) * sizeOfTileOnUI),
-					(int) (tileSetSize + (border / 2) + (i / 3) * sizeOfTileOnUI), (int) size, (int) size, null);
-		}
+		// draws the left and right arrows for the tileSets
+		uiGraphics.setColor(new Color(100, 100, 100, 100));
+		uiGraphics.fillRect(0, 0, uiImage.getWidth() / 10, (int) tileSetSize);
+		uiGraphics.fillRect((uiImage.getWidth() * 9) / 10, 0, uiImage.getWidth() / 10, (int) tileSetSize);
+		uiGraphics.setColor(new Color(50, 50, 50, 100));
+		int top, mid, bottom, left, right, offset;
+		top = (int) (tileSetSize / 10f);
+		bottom = (int) (tileSetSize * 9f / 10f);
+		left = (int) (uiImage.getWidth() / 100f);
+		right = (int) (uiImage.getWidth() * 9f / 100f);
+		mid = (int) (tileSetSize / 2f);
+		offset = (int) (uiImage.getWidth() * 9f / 10f);
+		uiGraphics.fillPolygon(new int[] { left, right, right }, new int[] { mid, top, bottom }, 3);
+		uiGraphics.fillPolygon(new int[] { left + offset, left + offset, right + offset },
+				new int[] { bottom, top, mid }, 3);
 
 		g.drawImage(uiImage, uiLocation.x, uiLocation.y, null);
 

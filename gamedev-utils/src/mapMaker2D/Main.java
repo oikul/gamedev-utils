@@ -2,6 +2,7 @@ package mapMaker2D;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -60,9 +61,9 @@ public class Main extends JFrame {
 
 			@Override
 			public void windowIconified(WindowEvent e) {
-//				if (forceFront) {
-//					Main.frame.setState(Frame.NORMAL);
-//				}
+				if (forceFront) {
+					Main.frame.setState(Frame.NORMAL);
+				}
 			}
 
 			@Override
@@ -198,12 +199,11 @@ public class Main extends JFrame {
 				} else {
 					zoom();
 				}
-			} else {
-				input.stopMouseWheel();
 			}
 
 			mouseLocation = input.getMousePositionRelativeToComponent();
 			builder.update(mouseLocation);
+			input.stopMouseWheel();
 		}
 	}
 

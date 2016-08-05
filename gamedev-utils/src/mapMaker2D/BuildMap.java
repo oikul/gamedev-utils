@@ -131,7 +131,7 @@ public class BuildMap {
 
 		if (Main.input.isKeyDown(KeyEvent.VK_T)) {
 			// type_path = true;
-//			Main.forceFront = true;
+			Main.forceFront = true;
 			lastPath = (String) JOptionPane.showInputDialog(
 					"Please type the Tile Sheets path Then press enter. "
 							+ "\nAssume the path starts with '/src/resources/tileSheets/' \nand ends with '.png'.",
@@ -141,7 +141,7 @@ public class BuildMap {
 						new String[] { "8", "16", "32", "64" });
 				loadTileSheet = true;
 			}
-//			Main.forceFront = false;
+			Main.forceFront = false;
 			Main.input.artificialKeyReleased(KeyEvent.VK_T);
 		}
 		if (loadTileSheet) {

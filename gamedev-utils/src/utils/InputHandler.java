@@ -190,7 +190,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	 * positive value is down/towards user negative value is up/away from user
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		mouseWheelRotation = e.getWheelRotation();
+		mouseWheelRotation = e.getPreciseWheelRotation();
 		mouseWheelMoved = true;
 	}
 	
