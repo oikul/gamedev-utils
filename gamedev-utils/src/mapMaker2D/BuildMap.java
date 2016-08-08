@@ -132,13 +132,16 @@ public class BuildMap {
 		if (Main.input.isKeyDown(KeyEvent.VK_T)) {
 			// type_path = true;
 			Main.forceFront = true;
-			lastPath = (String) JOptionPane.showInputDialog(
-					"Please type the Tile Sheets path Then press enter. "
-							+ "\nAssume the path starts with '/src/resources/tileSheets/' \nand ends with '.png'.",
-					"Enter Path");
+			lastPath = (String) Main.textEnterDialog("Please type the Tile Sheets path Then press enter. ", "Enter Path");
+//			lastPath = (String) JOptionPane.showInputDialog(
+//					"Please type the Tile Sheets path Then press enter. "
+//							+ "\nAssume the path starts with '/src/resources/tileSheets/' \nand ends with '.png'.",
+//					"Enter Path");
 			if (lastPath != null) {
-				tileSize = (String) JOptionPane.showInputDialog("Please choose the size of the tiles on the tile sheet",
-						new String[] { "8", "16", "32", "64" });
+				tileSize = (String) Main.multipleChoiceDialog("Please choose the size of the tiles on the tile sheet",
+						"16", "TileSize", new String[] { "8", "16", "32", "64" }, JOptionPane.QUESTION_MESSAGE);
+//				tileSize = (String) JOptionPane.showInputDialog("Please choose the size of the tiles on the tile sheet",
+//						new String[] { "8", "16", "32", "64" });
 				loadTileSheet = true;
 			}
 			Main.forceFront = false;

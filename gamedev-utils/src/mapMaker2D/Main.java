@@ -114,7 +114,7 @@ public class Main extends JFrame {
 		}
 
 		this.setTitle("2D Map Maker");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setSize(width, height);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -136,17 +136,18 @@ public class Main extends JFrame {
 
 	private int chooseDevice(GraphicsDevice[] gds) {
 
-		Object[] possibilities = new Object[gds.length];
+		String[] possibilities = new String[gds.length];
 		for (int x = 0; x < gds.length; x++) {
 
 			possibilities[x] = x + ". Width:" + gds[x].getDisplayMode().getWidth() + ", Height:"
 					+ gds[x].getDisplayMode().getHeight();
 
 		}
-
-		String choice = (String) JOptionPane.showInputDialog(frame,
-				"Choose which display you want the screen displayed on. \nBigger screens are normaly better.",
-				"Display", JOptionPane.QUESTION_MESSAGE, null, possibilities, null);
+		String choice = (String) multipleChoiceDialog("Choose which display you want the screen displayed on. \nBigger screens are normaly better.",
+				null, "Display", possibilities, JOptionPane.QUESTION_MESSAGE);
+//		String choice = (String) JOptionPane.showInputDialog(frame,
+//				"Choose which display you want the screen displayed on. \nBigger screens are normaly better.",
+//				"Display", JOptionPane.QUESTION_MESSAGE, null, possibilities, null);
 		if (choice == null) {
 			choice = "-1";
 		} else {
@@ -217,6 +218,18 @@ public class Main extends JFrame {
 
 		// to here
 		g.drawImage(BufferImage, 0, 0, null);
+	}
+
+	public static Object textEnterDialog(String message, String initialSelectionValue) {
+		Object obj = JOptionPane.showInputDialog(frame, message, initialSelectionValue);
+		return obj;
+
+	}
+
+	public static Object multipleChoiceDialog(String message, String initialSelectionValue, String title,
+			String[] selectionValues, int messageType) {
+		Object obj = JOptionPane.showInputDialog(frame, message, title, messageType, null, selectionValues, initialSelectionValue);
+		return obj;
 	}
 
 	public static JFrame getFrame() {
