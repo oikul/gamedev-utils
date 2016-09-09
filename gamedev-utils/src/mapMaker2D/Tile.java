@@ -29,4 +29,10 @@ public class Tile {
 		return image;
 	}
 
+	public void close() {
+		id = null;
+		image = null;
+		
+	}
+
 }

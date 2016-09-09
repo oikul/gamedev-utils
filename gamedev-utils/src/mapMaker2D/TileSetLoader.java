@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import javax.imageio.ImageIO;
@@ -67,6 +68,15 @@ public class TileSetLoader {
 	public String getKey(int index) {
 		update();
 		return setsKeys.get(index);
+	}
+
+	public void close() {
+		for (TileSet ts : sets.values()) {
+			ts.close();
+			ts = null;
+		}
+		sets = null;
+		setsKeys = null;
 	}
 
 }

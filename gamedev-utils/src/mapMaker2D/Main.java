@@ -76,6 +76,7 @@ public class Main extends JFrame {
 		init();
 		// long beforeTime, afterTime, deltaT;
 		while (running) {
+			System.out.println("Main.run(), "+ input.getMousePositionOnScreen());
 			// beforeTime = System.nanoTime();
 			update();
 			draw();
@@ -131,6 +132,8 @@ public class Main extends JFrame {
 	}
 
 	private void close() {
+		builder.close();
+		builder = null;
 		this.dispose();
 	}
 

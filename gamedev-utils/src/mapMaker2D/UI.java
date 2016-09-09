@@ -114,7 +114,7 @@ public class UI {
 					&& mouseLocation.x - uiLocation.x < uiImage.getWidth() * 9 / 10) {
 
 				int test = Math.round((mouseLocation.x - (uiLocation.x + uiMidpoint)) / tileSetSize)
-						+ selectedTileSetIndex;
+						+ selectedTileSetIndex - (int)tileSetScroll;
 				int max = imageSets.size() - 1;
 
 				if (test > max || test < 0) {
@@ -138,7 +138,17 @@ public class UI {
 		}
 	}
 
-	private void scrollTileSets() {
+	private void scrollTileSets(Point mouseLocation) {
+
+		if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
+			if (mouseLocation.x - uiLocation.x < uiImage.getWidth() / 10) {
+				tileSetScroll = Math.max(-selectedTileSetIndex, --tileSetScroll);
+				System.out.println("UI.scrollTileSets()1, " + tileSetScroll);
+			} else if (mouseLocation.x - uiLocation.x > uiImage.getWidth() * 9 / 10) {
+				tileSetScroll = Math.min(imageSets.size() - selectedTileSetIndex - 1, ++tileSetScroll);
+				System.out.println("UI.scrollTileSets()2, " + tileSetScroll);
+			}
+		}
 
 	}
 
@@ -150,7 +160,7 @@ public class UI {
 			if (mouseLocation.y > tileSetSize) {
 				scrollTiles();
 			} else {
-				scrollTileSets();
+				scrollTileSets(mouseLocation);
 			}
 			if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
 				if (hoveredTile != -1) {
@@ -220,7 +230,7 @@ public class UI {
 
 		// marks the selected tileSet
 		uiGraphics.setColor(Color.white);
-		uiGraphics.fillRect((int) (uiMidpoint - (tileSetSize / 2)) + (int) (tileSetScroll * tileSetSize), 0,
+		uiGraphics.fillRect((int) (uiMidpoint - (tileSetSize / 2)) + (int) (-tileSetScroll * tileSetSize), 0,
 				(int) tileSetSize, (int) tileSetSize);
 
 		// marks the tileSet being hovered over
@@ -233,7 +243,7 @@ public class UI {
 		// draws all the tileSets
 		for (int i = 0; i < imageSets.size(); i++) {
 			uiGraphics.drawImage(imageSets.get(i),
-					uiMidpoint + (int) (((i - selectedTileSetIndex) - 0.5) * tileSetSize) + (int) border / 2,
+					uiMidpoint + (int) (((i - selectedTileSetIndex - tileSetScroll) - 0.5) * tileSetSize) + (int) border / 2,
 					(int) border / 2, (int) (tileSetSize - border), (int) (tileSetSize - border), null);
 		}
 
@@ -242,6 +252,8 @@ public class UI {
 		uiGraphics.fillRect(0, 0, uiImage.getWidth() / 10, (int) tileSetSize);
 		uiGraphics.fillRect((uiImage.getWidth() * 9) / 10, 0, uiImage.getWidth() / 10, (int) tileSetSize);
 		uiGraphics.setColor(new Color(50, 50, 50, 100));
+
+		// the six coordinates of the arrows points
 		int top, mid, bottom, left, right, offset;
 		top = (int) (tileSetSize / 10f);
 		bottom = (int) (tileSetSize * 9f / 10f);
@@ -255,6 +267,14 @@ public class UI {
 
 		g.drawImage(uiImage, uiLocation.x, uiLocation.y, null);
 
+	}
+	
+	public void close(){
+		tsl.close();
+		tsl = null;
+		uiImage = null;
+		imageSets = null;
+		imageTiles = null;
 	}
 
 }

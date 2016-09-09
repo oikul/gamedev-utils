@@ -62,4 +62,13 @@ public class TileSet {
 	public TileID getKey(int index) {
 		return tilesKeys.get(index);
 	}
+	public void close(){
+		for (Tile t : tiles.values()) {
+			t.close();
+			t = null;
+		}
+		tiles = null;
+		tilesKeys = null;
+		tileSheet = null;
+	}
 }
