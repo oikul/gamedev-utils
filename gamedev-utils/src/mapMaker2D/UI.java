@@ -15,7 +15,7 @@ public class UI {
 	private Tile selectedTile;
 	private TileSet selectedTileSet;
 	private TileSetLoader tsl;
-	private boolean inFocus;
+	private boolean inFocus, scrollTileSets;
 	private Point uiLocation;
 	private float sizeOfTileOnUI, border, tileSetSize, size, tileScroll, tileSetScroll;
 
@@ -27,6 +27,7 @@ public class UI {
 		tsl = new TileSetLoader();
 		selectedTileIndex = selectedTileSetIndex = 0;
 		tileScroll = tileSetScroll = 0f;
+		scrollTileSets = false;
 		uiLocation = new Point(Main.width, 0);
 		uiImage = new BufferedImage(Main.width / 5, Main.height, BufferedImage.TYPE_INT_ARGB);
 		imageSets = new ArrayList<BufferedImage>();
@@ -109,22 +110,20 @@ public class UI {
 	}
 
 	public void checkMouseOverTileSet(Point mouseLocation) {
-		if (mouseLocation.y <= tileSetSize) {
-			if (mouseLocation.x - uiLocation.x > uiImage.getWidth() / 10
-					&& mouseLocation.x - uiLocation.x < uiImage.getWidth() * 9 / 10) {
+		if (mouseLocation.y <= tileSetSize && mouseLocation.x - uiLocation.x > uiImage.getWidth() / 10
+				&& mouseLocation.x - uiLocation.x < uiImage.getWidth() * 9 / 10) {
 
 				int test = Math.round((mouseLocation.x - (uiLocation.x + uiMidpoint)) / tileSetSize)
 						+ selectedTileSetIndex - (int)tileSetScroll;
 				int max = imageSets.size() - 1;
-
-				if (test > max || test < 0) {
-					hoveredTileSet = -1;
-				} else {
-					hoveredTileSet = test;
-				}
-			} else {
+			if (test > max || test < 0) {
 				hoveredTileSet = -1;
+			} else {
+				hoveredTileSet = test;
 			}
+
+		} else {
+			hoveredTileSet = -1;
 		}
 	}
 
@@ -139,7 +138,7 @@ public class UI {
 	}
 
 	private void scrollTileSets(Point mouseLocation) {
-
+		
 		if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
 			if (mouseLocation.x - uiLocation.x < uiImage.getWidth() / 10) {
 				tileSetScroll = Math.max(-selectedTileSetIndex, --tileSetScroll);
@@ -150,6 +149,30 @@ public class UI {
 			}
 		}
 
+		mouseLocation.translate(-uiLocation.x, 0);
+
+		if (scrollTileSets) {
+			if (Main.input.isMouseDown(MouseEvent.BUTTON1)) {
+				if (mouseLocation.x < uiImage.getWidth() / 10) {
+					tileSetScroll--;
+					if (tileSetScroll < 0 - selectedTileSetIndex) {
+						tileSetScroll = 0 - selectedTileSetIndex;
+					}
+				} else if (mouseLocation.x > uiImage.getWidth() * 9 / 10) {
+					tileSetScroll++;
+					if (tileSetScroll >= imageSets.size() - selectedTileSetIndex) {
+						tileSetScroll = imageSets.size() - 1 - selectedTileSetIndex;
+					}
+				}
+			}
+		} else if (!Main.input.isMouseDown(MouseEvent.BUTTON1)
+				&& (mouseLocation.x < uiImage.getWidth() / 10 || mouseLocation.x > uiImage.getWidth() * 9 / 10)) {
+			scrollTileSets = true;
+		} else {
+			scrollTileSets = false;
+		}
+		mouseLocation.translate(uiLocation.x, 0);
+		
 	}
 
 	public void update(Point mouseLocation, boolean mouseDrag, boolean updateTiles) {
@@ -230,13 +253,13 @@ public class UI {
 
 		// marks the selected tileSet
 		uiGraphics.setColor(Color.white);
-		uiGraphics.fillRect((int) (uiMidpoint - (tileSetSize / 2)) + (int) (-tileSetScroll * tileSetSize), 0,
+		uiGraphics.fillRect((int) (uiMidpoint - (tileSetSize / 2)) - (int) (tileSetScroll * tileSetSize), 0,
 				(int) tileSetSize, (int) tileSetSize);
 
 		// marks the tileSet being hovered over
 		if (hoveredTileSet != -1) {
 			uiGraphics.setColor(Color.red);
-			uiGraphics.fillRect((int) ((hoveredTileSet - selectedTileSetIndex) * tileSetSize)
+			uiGraphics.fillRect((int) ((hoveredTileSet - selectedTileSetIndex - tileSetScroll) * tileSetSize)
 					+ (int) (uiMidpoint - (tileSetSize / 2)), 0, (int) tileSetSize, (int) tileSetSize);
 		}
 

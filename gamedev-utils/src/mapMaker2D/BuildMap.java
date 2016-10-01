@@ -14,7 +14,9 @@ import utils.MathHelper;
 
 public class BuildMap {
 
+	// The number of tiles wide and high the map is
 	private int mapWidth, mapHeight;
+	// flags
 	private boolean mouseDrag, loadTileSheet, updateTiles, grid;
 	private String tileSheetPath, tileSize, brushType;
 	private Point dragStart, mouseLocation;
@@ -37,7 +39,7 @@ public class BuildMap {
 		mouseDrag = loadTileSheet = false;
 		grid = true;
 
-		dragStart = mouseLocation = new Point(0, 0);
+		dragStart = mouseLocation = new Point(50, 50);
 		map = new ArrayList<ArrayList<TileID>>();
 		mapUpdates = new ArrayList<TileUpdate>();
 		for (int x = 0; x < mapWidth; x++) {
@@ -53,7 +55,7 @@ public class BuildMap {
 		tileImage = new BufferedImage(mapWidth * Settings.resolution, mapHeight * Settings.resolution,
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics tg = tileImage.getGraphics();
-		tg.setColor(Color.black);
+		tg.setColor(Color.white);
 		tg.fillRect(0, 0, tileImage.getWidth(), tileImage.getHeight());
 		ui.addTileSet(tsl.getTileSet("testTileSheet"), "testTileSheet", 16);
 
@@ -108,8 +110,9 @@ public class BuildMap {
 				&& (mouseDrag || (ui.getSelectedTile() != null && pointInMap(mouseLocation)))) {
 
 			if (!mouseDrag) {// start drag or single click
-				dragStart.setLocation((mouseLocation.x) / Main.tileSize - (int) Main.XOffset,
-						mouseLocation.y / Main.tileSize - (int) Main.YOffset);
+				// dragStart.setLocation((mouseLocation.x) / Main.tileSize -
+				// (int) Main.XOffset,
+				// mouseLocation.y / Main.tileSize - (int) Main.YOffset);
 			}
 			mouseDrag = true;
 
@@ -148,67 +151,117 @@ public class BuildMap {
 		}
 		updateTiles = false;
 		TileID id = ui.getSelectedTile().getId();
+		int x = Math.max(0, Math.min(mouseLocation.x / Main.tileSize - (int) Main.XOffset, mapWidth - 1));
+		int y = Math.max(0, Math.min(mouseLocation.y / Main.tileSize - (int) Main.YOffset, mapHeight - 1));
 
-		if (Main.input.isMouseDown(MouseEvent.BUTTON1)) { // click
+		if (Main.input.isMouseDown(MouseEvent.BUTTON1) && (ui.getSelectedTile() != null)) { // click
 
-				int x = mouseLocation.x / Main.tileSize;
-				int y = mouseLocation.y / Main.tileSize;
-				map.get(x).set(y, id);
-				mapUpdates.add(new TileUpdate(ui.getSelectedTile(), new Point(x, y)));
+			if (pointInMap(mouseLocation)) {
+
+				if (!mouseDrag) {
+
+					map.get(x).set(y, id);
+					mapUpdates.add(new TileUpdate(ui.getSelectedTile(), new Point(x, y)));
+
+				} else {
+
+					mapUpdates.addAll(drawLine(new Point(dragStart), new Point(x, y), id));
+
+				}
+
 				updateTiles = true;
+				mouseDrag = true;
 
-//			if (!mouseDrag) {
-//				dragStart.setLocation((mouseLocation.x) / Main.tileSize - (int) Main.XOffset,
-//						mouseLocation.y / Main.tileSize - (int) Main.YOffset);
-//
-//			}
-//			mouseDrag = true;
+			} else {
+
+				if (mouseDrag) {
+					mapUpdates.addAll(drawLine(new Point(dragStart), new Point(x, y), id));
+				}
+
+			}
 
 		} else { // no click
 
-//			if (mouseDrag) {
-//
-//				mouseDrag = false;
-//				updateTiles = true;
-//				mapUpdates.addAll(drawLine(dragStart, mouseLocation, id));
-//
-//			}
+			mouseDrag = false;
 
 		}
+		dragStart.setLocation(x, y);
 
 	}
 
 	private ArrayList<TileUpdate> drawLine(Point start, Point end, TileID id) {
+		ArrayList<TileUpdate> updates = new ArrayList<TileUpdate>();
 
-		int distX = MathHelper.ceiling(Math.abs(start.x - end.x), Main.tileSize);
-		int distY = MathHelper.ceiling(Math.abs(start.y - end.y), Main.tileSize);
+		Point line = new Point(end.x - start.x, end.y - start.y);
 
-		for (double step = 0; step < 10; step += 0.1) {
+		int xMultiplier = 1;
+		int yMultiplier = 1;
+		boolean swapCoords = false;
+
+		float grad = (float) line.y / (float) line.x;
+
+		if (line.y < 0) {
+			yMultiplier = -1;
+			line.setLocation(line.x, -line.y);
+		}
+		if (line.x < 0) {
+			xMultiplier = -1;
+			line.setLocation(-line.x, line.y);
+		}
+		if (Math.abs(grad) > 1) {
+			swapCoords = true;
+			line.setLocation(line.y, line.x);
+		}
+
+		grad = (float) line.y / (float) line.x;
+
+		for (int x = 0; x <= line.x; x++) {
+
+			int y = Math.round(x * grad);
+			if (swapCoords) {
+				updates.add(
+						new TileUpdate(id.getTile(), new Point(start.x + y * xMultiplier, start.y + x * yMultiplier)));
+				map.get(start.y + x * yMultiplier).set(start.x + y * xMultiplier, id);
+			} else {
+				updates.add(
+						new TileUpdate(id.getTile(), new Point(start.x + x * xMultiplier, start.y + y * yMultiplier)));
+				map.get(start.y + y * yMultiplier).set(start.x + x * xMultiplier, id);
+			}
 
 		}
 
-		return null;
+		return updates;
 
 	}
 
 	private boolean pointInMap(Point point) {
-		return point.x <= (mapWidth + Main.XOffset) * Main.tileSize
-				&& point.y <= (mapHeight + Main.YOffset) * Main.tileSize && point.x >= (Main.XOffset) * Main.tileSize
-				&& point.y >= (Main.YOffset) * Main.tileSize;
+		return point.x < (mapWidth + (int) Main.XOffset) * Main.tileSize
+				&& point.y < (mapHeight + (int) Main.YOffset) * Main.tileSize
+				&& point.x > ((int) Main.XOffset) * Main.tileSize && point.y > ((int) Main.YOffset) * Main.tileSize;
 	}
 
 	private void checkNewTileSheet() {
 
-		// type_path = true;
-		Main.forceFront = true;
-		tileSheetPath = (String) JOptionPane.showInputDialog(
-				"Please type the Tile Sheets path Then press enter. "
-						+ "\nAssume the path starts with '/src/resources/tileSheets/' \nand ends with '.png'.",
-				"Enter Path");
-		if (tileSheetPath != null) {
-			tileSize = (String) JOptionPane.showInputDialog("Please choose the size of the tiles on the tile sheet",
-					new String[] { "8", "16", "32", "64" });
-			loadTileSheet = true;
+		if (Main.input.isKeyDown(KeyEvent.VK_T)) {
+			// type_path = true;
+			Main.forceFront = true;
+			tileSheetPath = (String) Main.textEnterDialog("Please type the Tile Sheets path Then press enter. ",
+					"Enter Path");
+			// lastPath = (String) JOptionPane.showInputDialog(
+			// "Please type the Tile Sheets path Then press enter. "
+			// + "\nAssume the path starts with '/src/resources/tileSheets/'
+			// \nand ends with '.png'.",
+			// "Enter Path");
+			if (tileSheetPath != null) {
+				tileSize = (String) Main.multipleChoiceDialog("Please choose the size of the tiles on the tile sheet",
+						"16", "TileSize", new String[] { "8", "16", "32", "64" }, JOptionPane.QUESTION_MESSAGE);
+				// tileSize = (String) JOptionPane.showInputDialog("Please
+				// choose the size of the tiles on the tile sheet",
+				// new String[] { "8", "16", "32", "64" });
+				loadTileSheet = true;
+			}
+			Main.forceFront = false;
+			Main.input.artificialKeyReleased(KeyEvent.VK_T);
 		}
 		Main.forceFront = false;
 		Main.input.artificialKeyReleased(KeyEvent.VK_T);
@@ -253,7 +306,6 @@ public class BuildMap {
 			mouseDrag = false;
 		}
 		ui.update(mouseLocation, mouseDrag, updateTiles);
-
 	}
 
 	public void draw(Graphics g) {
@@ -269,20 +321,21 @@ public class BuildMap {
 			}
 
 		}
+		// Draw all map updates before here
+		mapUpdates.removeAll(mapUpdates);
 
 		int dx = (int) (Main.XOffset * size) / size * size;
 		int dy = (int) (Main.YOffset * size) / size * size;
 
 		g.drawImage(tileImage, dx, dy, dx + (tileImage.getWidth() * size) / Settings.resolution,
-				dy + (tileImage.getHeight() * size) / Settings.resolution,
-
-				0, 0, tileImage.getWidth(), tileImage.getHeight(), null);
+				dy + (tileImage.getHeight() * size) / Settings.resolution, 0, 0, tileImage.getWidth(),
+				tileImage.getHeight(), null);
 
 		if (!ui.isInFocus()) {
 			BufferedImage img = ui.getSelectedTile().getImage();
 			g.drawImage(img, (mouseLocation.x / size) * size, (mouseLocation.y / size) * size, size, size, null);
 
-			if (mouseDrag) {
+			if (mouseDrag && brushType.equals("square")) {
 				g.setColor(new Color(100, 100, 255, 100));
 				int x = Math.min((mouseLocation.x / size) * size, (dragStart.x + (int) Main.XOffset) * size);
 				int y = Math.min((mouseLocation.y / size) * size, (dragStart.y + (int) Main.YOffset) * size);

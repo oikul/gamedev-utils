@@ -2,7 +2,11 @@ package utils;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Random;
+
+import mapMaker2D.TileID;
+import mapMaker2D.TileUpdate;
 
 public class MathHelper {
 
@@ -15,6 +19,68 @@ public class MathHelper {
 			sum += i;
 		}
 		return sum;
+	}
+
+	/**
+	 * A function to calculate all the points on a line between two points
+	 * @param start The first point
+	 * @param end The second point
+	 * @return An ArrayList of points between the two points
+	 */
+	public static ArrayList<Point> drawLine(Point start, Point end) {
+		ArrayList<Point> updates = new ArrayList<Point>();
+
+		// Creates a new point that represents the line from start to end
+		Point line = new Point(end.x - start.x, end.y - start.y);
+
+		// Flags for x, y inversion and coordinate swapping
+		int xMultiplier = 1;
+		int yMultiplier = 1;
+		boolean swapCoords = false;
+
+		// Get the gradient of the line
+		float grad = (float) line.y / (float) line.x;
+
+		// If the line is below the x-axis flip the y coordinate 
+		if (line.y < 0) {
+			yMultiplier = -1;
+			line.setLocation(line.x, -line.y);
+		}
+		// If the line is behind the y-axis flip the x coordinate
+		if (line.x < 0) {
+			xMultiplier = -1;
+			line.setLocation(-line.x, line.y);
+		}
+		// If the gradient of the line is greater than one flip the coordinates 
+		if (Math.abs(grad) > 1) {
+			swapCoords = true;
+			line.setLocation(line.y, line.x);
+		}
+
+		// Get the new gradient 
+		grad = (float) line.y / (float) line.x;
+
+		/** The line should now conform to the assumptions
+		  * 1. Both the x and y coordinates are positive
+		  * 2. the gradient is less than one
+	     */
+		
+		// For each x Coord on the line
+		for (int x = 0; x <= line.x; x++) {
+
+			// Calculate the y Coord
+			int y = Math.round(x * grad);
+			// Add the point to the ArrayList and undo the transformation of the line for the point
+			if (swapCoords) {
+				updates.add(new Point(start.x + y * xMultiplier, start.y + x * yMultiplier));
+			} else {
+				updates.add(new Point(start.x + x * xMultiplier, start.y + y * yMultiplier));
+			}
+
+		}
+
+		return updates;
+
 	}
 
 	public static double getDistance(Point2D.Double p1, Point2D.Double p2) {
