@@ -21,9 +21,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	
 	private boolean[] keyArray = new boolean[256];
 	private boolean[] mouseArray = new boolean[MouseInfo.getNumberOfButtons()];
-	private boolean overComp, mouseWheelUp = false, mouseWheelDown = false;
+	private boolean overComp, mouseWheelMoved = false;
 	private String typedAcum = "";
+	private Point lastMousePosition = new Point(0,0);
 	private Component c;
+	private double mouseWheelRotation = 0;
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static Point2D.Double midPoint = new Point2D.Double((double)screenSize.width/2, (double)screenSize.height/2);
 	
@@ -36,15 +38,21 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		c.addMouseListener(this);
 		c.addMouseWheelListener(this);
 		this.c = c;
+		
 	}
-	
+
 	/**
 	 * returns the position of the mouse on the screen
 	 * @return the position of the mouse on the screen as a Point
 	 */
 	public Point getMousePositionOnScreen(){
 		try {
-			return MouseInfo.getPointerInfo().getLocation();
+			Point p = MouseInfo.getPointerInfo().getLocation();
+			if(p == null){
+				return lastMousePosition;
+			}
+			lastMousePosition = p;
+			return p;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return c.getMousePosition();
@@ -57,7 +65,12 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	 */
 	public Point getMousePositionRelativeToComponent(){
 		try {
-			return c.getMousePosition();
+			Point p = c.getMousePosition();
+			if(p == null){
+				return lastMousePosition;
+			}
+			lastMousePosition = p;
+			return p;
 		} catch (Exception e){
 			e.printStackTrace();
 			return MouseInfo.getPointerInfo().getLocation();
@@ -75,7 +88,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		try{
 		keyArray[e.getKeyCode()] = true;
+		}catch(NullPointerException ex){
+			// key not included in array			
+		}
 	}
 	
 	public void artificialKeyPressed(int keyCode) {
@@ -84,7 +101,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		try{
 		keyArray[e.getKeyCode()] = false;
+		}catch(NullPointerException ex){
+			// key not included in array			
+		}
 	}
 	
 	public void artificialKeyReleased(int keyCode) {
@@ -101,6 +122,13 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+			if(typedAcum.length() == 0){
+				return;
+			}
+			typedAcum = typedAcum.substring(0, typedAcum.length()-1);
+			return;
+		}
 		typedAcum += e.getKeyChar();
 	}
 
@@ -146,30 +174,41 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	}
 	
 	public boolean getMouseWheelUp(){
-		return mouseWheelUp;
+		return mouseWheelRotation < 0;
 	}
 	
 	public boolean getMouseWheelDown(){
-		return mouseWheelDown;
+		return mouseWheelRotation > 0;
 	}
 
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(e.getWheelRotation() < 0){
-			mouseWheelUp = true;
-			mouseWheelDown = false;
-		}else if (e.getWheelRotation() > 0){
-			mouseWheelUp = false;
-			mouseWheelDown = true;
-		}else{
-			mouseWheelUp = false;
-			mouseWheelDown = false;
-		}
+	public boolean hasMouseWheelMoved(){
+		return mouseWheelMoved;
 	}
 	
+	@Override
+	/**
+	 * positive value is down/towards user negative value is up/away from user
+	 */
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		mouseWheelRotation = e.getPreciseWheelRotation();
+		mouseWheelMoved = true;
+	}
+	
+	/**
+	 * get the rotation amount of the mouse wheel
+	 * @return rotation amount as a double
+	 */
+	public double getMouseWheelRotation() {
+		mouseWheelMoved = false;
+		return mouseWheelRotation;
+	}
+	
+	/**
+	 * stops the mouse wheel
+	 */
 	public void stopMouseWheel(){
-		mouseWheelUp = false;
-		mouseWheelDown = false;
+		mouseWheelMoved = false;
+		mouseWheelRotation = 0;
 	}
 
 }
