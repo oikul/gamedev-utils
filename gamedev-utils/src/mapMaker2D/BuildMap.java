@@ -65,6 +65,13 @@ public class BuildMap {
 		return ui;
 	}
 
+	public TileSetLoader getTSL(){
+		return tsl;
+	}
+
+	public ArrayList<ArrayList<TileID>> getMap(){
+		return map;
+	}
 	/*
 	 * private void checkMapChange() { if
 	 * (Main.input.isKeyDown(KeyEvent.VK_RIGHT)) { if (maxWidth <= mapWidth) {
@@ -83,7 +90,7 @@ public class BuildMap {
 	 * } mapHeight++; Main.input.artificialKeyReleased(KeyEvent.VK_DOWN); } }
 	 */
 
-	private void checkPlayerTilePlacement() {
+ 	private void checkPlayerTilePlacement() {
 
 		switch (brushType) {
 		case "square":

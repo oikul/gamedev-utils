@@ -25,6 +25,11 @@ public class TileID {
 		test &= externalID.y == y;
 		return test;
 	}
+	
+	public String toString(){
+		return ""+x+","+y+","+tileSet;
+		
+	}
 
 	public void setTile(Tile tile) {
 		this.tile = tile;

@@ -51,6 +51,8 @@ public class Main extends JFrame {
 	private BuildMap builder;
 	// The ui class
 	private UI ui;
+	// The saving class
+	private SaveMap save;
 
 	/**
 	 * Sets the listeners for the frame
@@ -148,6 +150,8 @@ public class Main extends JFrame {
 		this.setSize(width, height);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+		// save class
+		save = new SaveMap();
 		// Make the frame visible
 		this.setVisible(true);
 		// Sets the frame var and the root frame
@@ -261,6 +265,12 @@ public class Main extends JFrame {
 				} else if (input.hasMouseWheelMoved()) {
 					zoom();
 				}
+			}
+			if(input.isKeyDown(KeyEvent.VK_CONTROL)){
+				if(input.isKeyDown(KeyEvent.VK_S)){
+					save.save(builder);
+				}
+				input.artificialKeyReleased(KeyEvent.VK_S);
 			}
 
 			// Gets the new mouse location
