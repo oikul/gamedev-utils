@@ -1,4 +1,6 @@
-package utils;
+package generators;
+
+import utils.MathHelper;
 
 public class CellularAutomata {
 	

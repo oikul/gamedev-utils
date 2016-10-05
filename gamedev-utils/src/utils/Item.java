@@ -3,6 +3,9 @@ package utils;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import entities.Entity;
+import handlers.ResourceLoader;
+
 public abstract class Item {
 	
 	private String name;

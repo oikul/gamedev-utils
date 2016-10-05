@@ -1,8 +1,10 @@
-package utils;
+package generators;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
+
+import utils.MathHelper;
 
 public class NoiseGenerator {
 
