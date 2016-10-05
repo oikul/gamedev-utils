@@ -10,11 +10,9 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class Sound {
 	
-	public static final Sound laser = new Sound("sound/laser/laser.wav");
-	public static final Sound explosion = new Sound("sound/explosion/explosion.wav");
-	public static final Sound ghostHurt = new Sound("sound/ghost_hurt.wav");
-	public static final Sound ghost = new Sound("sound/ghost.wav");
-	public static final Sound ghostLaughter = new Sound("sound/ghost_laughter.wav");
+	public static final Sound ghostHurt = new Sound("sound/ghost/ghost_hurt.wav");
+	public static final Sound ghost = new Sound("sound/ghost/ghost.wav");
+	public static final Sound ghostLaughter = new Sound("sound/ghost/ghost_laughter.wav");
 	
 	private Clip clip, clip1, clip2;
 	
