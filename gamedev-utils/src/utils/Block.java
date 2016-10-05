@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 
 public class Block {
-	
+
 	private Image[] textures;
 	private long time, animationWaitTime;
 	private int index, width, height;
@@ -18,21 +18,25 @@ public class Block {
 		this.setWidth(width);
 		this.setHeight(height);
 	}
-	
-	public void update(){
+
+	public void update() {
 		long newTime = System.currentTimeMillis();
-		if(newTime > time + animationWaitTime){
+		if (newTime > time + animationWaitTime) {
 			time = newTime;
-			if(index < textures.length){
-				index ++;
-			}else{
+			if (index < textures.length) {
+				index++;
+			} else {
 				index = 0;
 			}
 		}
 	}
-	
-	public void draw(Graphics2D g2d, int x, int y){
+
+	public void draw(Graphics2D g2d, int x, int y) {
 		g2d.drawImage(textures[index], x, y, width, height, null);
+	}
+
+	public void draw(Graphics2D g2d, int x, int y, int multiplier) {
+		g2d.drawImage(textures[index], x, y, width * multiplier, height * multiplier, null);
 	}
 
 	public boolean isSolid() {

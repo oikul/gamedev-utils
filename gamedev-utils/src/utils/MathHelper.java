@@ -158,7 +158,7 @@ public class MathHelper {
 
 	// gets the next point along the line
 	// set accuracy to zero for perfect next point
-	public static Point2D.Double getPoint(Point2D.Double p1, Point2D.Double p2, double speed, double accuracy) {
+	public static Point2D.Double getPoint2D(Point2D.Double p1, Point2D.Double p2, double speed, double accuracy) {
 		double angle = 0;
 		if (p1.x != p2.x && p1.y != p2.y) {
 			double xdif = (p2.getX() - p1.getX());
@@ -200,6 +200,50 @@ public class MathHelper {
 		ygain = -Math.sin(angle) * speed;
 
 		return new Point2D.Double(xgain, ygain);
+	}
+	
+	public static Point getPoint(Point p1, Point p2, double speed, double accuracy) {
+		double angle = 0;
+		if (p1.x != p2.x && p1.y != p2.y) {
+			double xdif = (p2.getX() - p1.getX());
+			double ydif = (p2.getY() - p1.getY());
+			angle = 0; // in radians
+
+			angle = -Math.atan(ydif / xdif);
+			if (xdif < 0) {
+				if (ydif < 0) {
+					angle += Math.PI;
+				} else {
+					angle -= +Math.PI;
+				}
+			}
+			if (accuracy != 0) {
+				angle += (random.nextGaussian() * accuracy);
+			}
+			double xgain = 0;
+			double ygain = 0;
+			xgain = Math.cos(angle) * speed;
+			ygain = -Math.sin(angle) * speed;
+
+			return new Point((int)xgain, (int)ygain);
+		} else if (p1.x > p2.x) {
+			angle = Math.PI;
+		} else if (p1.x < p2.x) {
+			angle = 0;
+		} else if (p1.y > p2.y) {
+			angle = Math.PI / 2;
+		} else if (p1.y < p2.y) {
+			angle = -Math.PI / 2;
+		}
+		if (accuracy != 0) {
+			angle += (random.nextGaussian() * accuracy);
+		}
+		double xgain = 0;
+		double ygain = 0;
+		xgain = Math.cos(angle) * speed;
+		ygain = -Math.sin(angle) * speed;
+
+		return new Point((int)xgain, (int)ygain);
 	}
 
 	/**
