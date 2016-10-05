@@ -43,6 +43,11 @@ public class NameGenerator {
 		return s.toString();
 	}
 	
+	public static String generateName(int permutations, long seed) {
+		setSeed(seed);
+		return generateName(permutations);
+	}
+	
 	public static void setSeed(long seed){
 		random.setSeed(seed);
 	}

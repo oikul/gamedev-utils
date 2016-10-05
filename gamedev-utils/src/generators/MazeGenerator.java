@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
 
-import utils.Block;
+import blocks.Block;
 
 public class MazeGenerator {
 
 	private int width, height, size = 64;
 	private boolean[][] north, east, south, west, visited, treasure;
-	private Block wall = new Block("stone/rock.png", 0, true, 16, 16);
-	private Block floor = new Block("stone/stone.png", 0, false, 16, 16);
 	private Random random;
 
 	public MazeGenerator(int width, int height, long seed) {
@@ -86,12 +84,12 @@ public class MazeGenerator {
 	public void draw(Graphics2D g2d, int mult) {
 		for(int i = 4; i < (size + 2)*2; i++){
 			for(int j = 4; j < (size + 2)*2; j++){
-				floor.draw(g2d, i*16 * mult, j*16 * mult, mult);
+				Block.stone.draw(g2d, i*16 * mult, j*16 * mult, mult);
 			}
 		}
 		for (int i = 1; i <= width; i++) {
 			for (int j = 1; j <= height; j++) {
-				wall.draw(g2d, i * size * mult, j * size * mult, mult);
+				Block.rock.draw(g2d, i * size * mult, j * size * mult, mult);
 				if (south[i][j]) {
 					drawLine(g2d, (i * size), (j * size), ((i + 1) * size), (j * size), mult);
 				}
@@ -114,11 +112,10 @@ public class MazeGenerator {
 	
 	private void drawLine(Graphics2D g2d, int startx, int starty, int endx, int endy, int mult){
 		for(int i = startx; i < endx; i+=16){
-			
-			wall.draw(g2d, i * mult, starty * mult, mult);
+			Block.rock.draw(g2d, i * mult, starty * mult, mult);
 		}
 		for(int j = starty; j < endy; j+=16){
-			wall.draw(g2d, startx * mult, j * mult, mult);
+			Block.rock.draw(g2d, startx * mult, j * mult, mult);
 		}
 		
 	}

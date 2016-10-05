@@ -4,18 +4,13 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
 
-import utils.MathHelper;
+import handlers.MathHelper;
 
 public class NoiseGenerator {
 
 	private Random random;
 	private int width, height;
-	private String[] namePart = { "en", "la", "can", "be", "and", "phi", "eth", "ol", "ve", "ho", "a", "lia", "an",
-			"ar", "ur", "mi", "in", "ti", "que", "so", "ed", "ess", "ex", "io", "ce", "ze", "fa", "ay", "wa", "da",
-			"ack", "gre", "bio", "chrom", "chron", "cap", "dict", "dom", "fer", "gen", "geo", "ject", "luc", "mal",
-			"nal", "phil", "pos", "spec", "vac", "ven", "ver", "bi", "di", "dis", "mis", "neo", "er", "or", "ant",
-			"ent", "ess", "ian", "ist", "ize", "luk", "hut", "tat", "oo", "ine", "e", "i", "o", "u", "dor" };
-
+	
 	public NoiseGenerator(long seed) {
 		random = new Random(seed);
 	}
@@ -58,28 +53,7 @@ public class NoiseGenerator {
 		return genSmoothNoise(genWhiteNoise(width, height), octave);
 	}
 
-	/**
-	 * generates a 2D array of boolean values using cellular-automata
-	 * 
-	 * @param width
-	 *            the first size of the array
-	 * @param height
-	 *            the second size of the array
-	 * @param birthLimit
-	 *            the number of true values next to the current node before it
-	 *            can't spread
-	 * @param deathLimit
-	 *            how many nodes have to be next to it before it can't die
-	 * @param numberOfSteps
-	 *            the number of times the algorithm runs
-	 * @return a 2D array of boolean values
-	 */
-	public boolean[][] getCellularAutomataNoise(int width, int height, int birthLimit, int deathLimit,
-			int numberOfSteps) {
-		this.width = width;
-		this.height = height;
-		return genCellularAutomataNoise(width, height, birthLimit, deathLimit, numberOfSteps);
-	}
+	
 
 	private float[][] genWhiteNoise(int width, int height) {
 		float[][] noise = new float[width][height];
@@ -186,82 +160,7 @@ public class NoiseGenerator {
 		return perlinNoise;
 	}
 
-	private boolean[][] genCellularAutomataNoise(int width, int height, int birthLimit, int deathLimit,
-			int numberOfSteps) {
-		boolean[][] automata = new boolean[width][height];
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				automata[i][j] = random.nextBoolean();
-			}
-		}
-		while (numberOfSteps > 0) {
-			doStep(automata, birthLimit, deathLimit, width, height);
-			numberOfSteps--;
-		}
-		return automata;
-	}
-
-	private void doStep(boolean[][] automata, int birthLimit, int deathLimit, int width, int height) {
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				int count = 0;
-				if (i > 0 && j > 0) {
-					if (automata[i - 1][j - 1]) {
-						count++;
-					}
-				}
-				if (i > 0) {
-					if (automata[i - 1][j]) {
-						count++;
-					}
-					if (j + 1 < height) {
-						if (automata[i - 1][j + 1]) {
-							count++;
-						}
-					}
-				}
-				if (j > 0) {
-					if (automata[i][j - 1]) {
-						count++;
-					}
-					if (i + 1 < width) {
-						if (automata[i + 1][j - 1]) {
-							count++;
-						}
-					}
-				}
-				if (j + 1 < height) {
-					if (automata[i][j + 1]) {
-						count++;
-					}
-				}
-				if (i + 1 < width) {
-					if (automata[i + 1][j]) {
-						count++;
-					}
-				}
-				if (i + 1 < width && j + 1 < height) {
-					if (automata[i + 1][j + 1]) {
-						count++;
-					}
-				}
-				if (count <= deathLimit && automata[i][j]) {
-					automata[i][j] = false;
-				}
-				if (count >= birthLimit && !automata[i][j]) {
-					automata[i][j] = true;
-				}
-			}
-		}
-	}
-
-	public String generateName(int permutations) {
-		StringBuilder s = new StringBuilder();
-		for (int i = 0; i < permutations; i++) {
-			s.append(namePart[MathHelper.random.nextInt(namePart.length)]);
-		}
-		return s.toString();
-	}
+	
 
 	public Rectangle[] generateRooms(int numOfRooms, int xLimit, int yLimit, int xMod, int yMod, int widthLimit,
 			int heightLimit, int widthMod, int heightMod, int corridorSize) {
