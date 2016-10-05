@@ -34,7 +34,7 @@ public class ResourceLoader {
 	
 	public static BufferedImage getBufferedImage(String path) {
 		try {
-			URL url = rl.getClass().getClassLoader().getResource("zResources/images/" + path + ".png");
+			URL url = rl.getClass().getClassLoader().getResource("Resources/" + path + ".png");
 			return ImageIO.read(url);
 		} catch (IOException e) {
 			System.out.println("failed to load");
@@ -50,10 +50,10 @@ public class ResourceLoader {
 	 * @param spriteHeight the height of the sprite you would like to take from the image
 	 * @return an array of the sub-images taken from the image, size depending on the width and height of the sub-images
 	 */
-	public static Image[][] getPlayerSprites(String path, int spriteWidth, int spriteHeight){
-		Image spriteSheet = ResourceLoader.getImage(path);
+	public static BufferedImage[][] getPlayerSprites(String path, int spriteWidth, int spriteHeight){
+		BufferedImage spriteSheet = ResourceLoader.getBufferedImage(path);
 		BufferedImage BI = new BufferedImage(spriteSheet.getWidth(null), spriteSheet.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-		Image[][] sprites = new Image[spriteSheet.getWidth(null)/spriteWidth][spriteSheet.getHeight(null)/spriteHeight];
+		BufferedImage[][] sprites = new BufferedImage[spriteSheet.getWidth(null)/spriteWidth][spriteSheet.getHeight(null)/spriteHeight];
 		Graphics2D bGr = BI.createGraphics();
 		bGr.drawImage(spriteSheet, 0, 0, null);
 		for(int i = 0; i <= sprites.length - 1; i++){
