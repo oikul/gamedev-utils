@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 
 import javax.imageio.ImageIO;
 
-import utils.MathHelper;
+import handlers.MathHelper;
 
 // class can be optimised to unpack a tile sheet all at once and return only needed info
 public class TileSetLoader {
