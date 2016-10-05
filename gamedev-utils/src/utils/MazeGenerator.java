@@ -47,8 +47,8 @@ public class MazeGenerator {
 				}
 			}
 		}
-		west[1][1] = false;
-		east[width][height] = false;
+		//west[1][1] = false;
+		//east[width][height] = false;
 	}
 
 	public void generate(int x, int y) {
@@ -82,8 +82,8 @@ public class MazeGenerator {
 	}
 
 	public void draw(Graphics2D g2d) {
-		for(int i = 1; i < (size + 2)*2; i++){
-			for(int j = 1; j < (size + 2)*2; j++){
+		for(int i = 4; i < (size + 2)*2; i++){
+			for(int j = 4; j < (size + 2)*2; j++){
 				floor.draw(g2d, i*16, j*16);
 			}
 		}
