@@ -81,42 +81,42 @@ public class MazeGenerator {
 		}
 	}
 
-	public void draw(Graphics2D g2d) {
+	public void draw(Graphics2D g2d, int mult) {
 		for(int i = 4; i < (size + 2)*2; i++){
 			for(int j = 4; j < (size + 2)*2; j++){
-				floor.draw(g2d, i*16, j*16);
+				floor.draw(g2d, i*16 * mult, j*16 * mult, mult);
 			}
 		}
 		for (int i = 1; i <= width; i++) {
 			for (int j = 1; j <= height; j++) {
-				wall.draw(g2d, i * size, j * size);
+				wall.draw(g2d, i * size * mult, j * size * mult, mult);
 				if (south[i][j]) {
-					drawLine(g2d, (i * size), (j * size), ((i + 1) * size), (j * size));
+					drawLine(g2d, (i * size), (j * size), ((i + 1) * size), (j * size), mult);
 				}
 				if (north[i][j]) {
-					drawLine(g2d, i * size, (j + 1) * size, (i + 1) * size, (j + 1) * size);
+					drawLine(g2d, i * size, (j + 1) * size, (i + 1) * size, (j + 1) * size, mult);
 				}
 				if (west[i][j]) {
-					drawLine(g2d, i * size, j * size, i * size, (j + 1) * size);
+					drawLine(g2d, i * size, j * size, i * size, (j + 1) * size, mult);
 				}
 				if (east[i][j]) {
-					drawLine(g2d, (i + 1) * size, j * size, (i + 1) * size, (j + 1) * size);
+					drawLine(g2d, (i + 1) * size, j * size, (i + 1) * size, (j + 1) * size, mult);
 				}
 				if (treasure[i][j]) {
 					g2d.setColor(Color.yellow);
-					g2d.fillRect(i * size + 1, j * size + 1, 16 - 1, 16 - 1);
+					//g2d.fillRect(i * size + 1, j * size + 1, 16 - 1, 16 - 1);
 				}
 			}
 		}
 	}
 	
-	private void drawLine(Graphics2D g2d, int startx, int starty, int endx, int endy){
+	private void drawLine(Graphics2D g2d, int startx, int starty, int endx, int endy, int mult){
 		for(int i = startx; i < endx; i+=16){
 			
-			wall.draw(g2d, i, starty);
+			wall.draw(g2d, i * mult, starty * mult, mult);
 		}
 		for(int j = starty; j < endy; j+=16){
-			wall.draw(g2d, startx, j);
+			wall.draw(g2d, startx * mult, j * mult, mult);
 		}
 		
 	}

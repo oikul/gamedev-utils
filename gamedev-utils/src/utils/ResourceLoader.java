@@ -34,7 +34,7 @@ public class ResourceLoader {
 	
 	public static BufferedImage getBufferedImage(String path) {
 		try {
-			URL url = rl.getClass().getClassLoader().getResource("Resources/" + path + ".png");
+			URL url = rl.getClass().getClassLoader().getResource("resources/" + path + ".png");
 			return ImageIO.read(url);
 		} catch (IOException e) {
 			System.out.println("failed to load");
