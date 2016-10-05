@@ -29,6 +29,7 @@ public abstract class Entity {
 		changeTimer = 500;
 		attackCooldown = System.currentTimeMillis() + changeTimer;
 		animationTimer = System.currentTimeMillis() + changeTimer;
+		System.out.println("testing");
 	}
 
 	public float getX() {
