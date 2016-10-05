@@ -3,6 +3,8 @@ package utils;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import handlers.ResourceLoader;
+
 public class Block {
 
 	private Image[] textures;

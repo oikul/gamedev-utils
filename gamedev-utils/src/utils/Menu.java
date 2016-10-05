@@ -5,6 +5,9 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+import handlers.InputHandler;
+import handlers.ResourceLoader;
+
 public abstract class Menu extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
