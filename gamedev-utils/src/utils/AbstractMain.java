@@ -13,23 +13,38 @@ public abstract class AbstractMain extends JFrame {
 
 	public void run() {
 		initialise();
-		double nextTick = System.currentTimeMillis();
-		int loops;
+		// double nextTick = System.currentTimeMillis();
+		// int loops;
+		// while (running) {
+		// long beforeTime = System.currentTimeMillis();
+		// update();
+		// draw();
+		// long afterTime = System.currentTimeMillis();
+		// long sleepTime = 1000 / FPS - (afterTime - beforeTime);
+		// if (sleepTime > 0) {
+		// try {
+		// Thread.sleep(sleepTime);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// draw();
+		// }
+		double previous = System.currentTimeMillis();
+		double lag = 0.0;
 		while (running) {
-			long beforeTime = System.currentTimeMillis();
-			update();
-			draw();
-			long afterTime = System.currentTimeMillis();
-			long sleepTime = 1000 / FPS - (afterTime - beforeTime);
-			if (sleepTime > 0) {
-				try {
-					Thread.sleep(sleepTime);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			double current = System.currentTimeMillis();
+			double elapsed = current - previous;
+			previous = current;
+			lag += elapsed;
+			while (lag >= 60/1000) {
+				update();
+				lag -= 60/1000;
 			}
+
 			draw();
 		}
+
 	}
 
 	public abstract void initialise();
