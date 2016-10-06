@@ -1,7 +1,9 @@
-package utils;
+package entities;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+
+import handlers.ResourceLoader;
 
 public abstract class Item {
 	

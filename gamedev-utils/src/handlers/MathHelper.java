@@ -1,4 +1,4 @@
-package utils;
+package handlers;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;

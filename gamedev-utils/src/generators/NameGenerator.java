@@ -1,4 +1,4 @@
-package utils;
+package generators;
 
 import java.util.Random;
 
@@ -41,6 +41,11 @@ public class NameGenerator {
 			s.append(namePart[random.nextInt(namePart.length)]);
 		}
 		return s.toString();
+	}
+	
+	public static String generateName(int permutations, long seed) {
+		setSeed(seed);
+		return generateName(permutations);
 	}
 	
 	public static void setSeed(long seed){

@@ -1,9 +1,12 @@
-package utils;
+package menus;
 
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JPanel;
+
+import handlers.InputHandler;
+import handlers.ResourceLoader;
 
 public abstract class Menu extends JPanel {
 	

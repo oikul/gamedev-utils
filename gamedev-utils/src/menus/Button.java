@@ -1,8 +1,10 @@
-package utils;
+package menus;
 
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+
+import handlers.InputHandler;
 
 public abstract class Button extends JButton {
 

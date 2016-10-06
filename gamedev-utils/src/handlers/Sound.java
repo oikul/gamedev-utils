@@ -1,4 +1,4 @@
-package utils;
+package handlers;
 
 import java.io.IOException;
 
@@ -7,8 +7,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
-
-import handlers.ResourceLoader;
 
 public class Sound {
 	

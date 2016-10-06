@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import utils.InputHandler;
+import handlers.InputHandler;
 
 /**
  * @author Reece Meek The start of the map builder engine
