@@ -9,13 +9,6 @@ public class ValueNoiseGenerator {
 	private int xOffset = 0, zOffset = 0, octaves;
 	private float amplitude, roughness;
 
-	public ValueNoiseGenerator(long seed){
-		random.setSeed(seed);
-		amplitude = random.nextFloat() * 64f;
-		roughness = random.nextFloat();
-		octaves = random.nextInt(8);
-	}
-	
 	public ValueNoiseGenerator(long seed, float amplitude, float roughness, int octaves) {
 		this.seed = seed;
 		this.amplitude = amplitude;
