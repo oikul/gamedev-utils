@@ -18,7 +18,7 @@ public class SoundHandler {
 	
 	public SoundHandler(String path){
 		try {
-			AudioInputStream sound = ResourceLoader.getSound(path);
+			AudioInputStream sound = ResourceHandler.getSound(path);
 			DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
 			clip = (Clip) AudioSystem.getLine(info);
 			clip.open(sound);

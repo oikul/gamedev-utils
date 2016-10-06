@@ -6,7 +6,7 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 import handlers.InputHandler;
-import handlers.ResourceLoader;
+import handlers.ResourceHandler;
 
 public abstract class Menu extends JPanel {
 	
@@ -14,7 +14,7 @@ public abstract class Menu extends JPanel {
 	private Image bg;
 	
 	public Menu(String background){
-		bg = ResourceLoader.getImage(background);
+		bg = ResourceHandler.getImage(background);
 	}
 	
 	public abstract int update();

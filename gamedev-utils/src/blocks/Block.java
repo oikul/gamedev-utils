@@ -3,7 +3,7 @@ package blocks;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-import handlers.ResourceLoader;
+import handlers.ResourceHandler;
 
 public class Block {
 
@@ -92,7 +92,7 @@ public class Block {
 	private boolean solid;
 
 	public Block(String path, long animationWaitTime, boolean solid, int width, int height) {
-		textures = ResourceLoader.getBlockSprites(path, width, height);
+		textures = ResourceHandler.getBlockSprites(path, width, height);
 		this.animationWaitTime = animationWaitTime;
 		time = System.currentTimeMillis();
 		this.setSolid(solid);

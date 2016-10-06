@@ -3,7 +3,7 @@ package entities;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-import handlers.ResourceLoader;
+import handlers.ResourceHandler;
 
 public abstract class Item {
 	
@@ -40,7 +40,7 @@ public abstract class Item {
 	}
 
 	public void setSprite(String imagePath) {
-		this.sprite = ResourceLoader.getImage(imagePath);
+		this.sprite = ResourceHandler.getImage(imagePath);
 	}
 
 	public int getValue() {

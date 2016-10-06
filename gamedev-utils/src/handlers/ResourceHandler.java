@@ -13,9 +13,9 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.ImageIcon;
 
-public class ResourceLoader {
+public class ResourceHandler {
 	
-	private static ResourceLoader rl = new ResourceLoader();
+	private static ResourceHandler rl = new ResourceHandler();
 	private static BufferedReader reader = null;
 	
 	/**
@@ -51,7 +51,7 @@ public class ResourceLoader {
 	 * @return an array of the sub-images taken from the image, size depending on the width and height of the sub-images
 	 */
 	public static BufferedImage[][] getPlayerSprites(String path, int spriteWidth, int spriteHeight){
-		BufferedImage spriteSheet = ResourceLoader.getBufferedImage(path);
+		BufferedImage spriteSheet = ResourceHandler.getBufferedImage(path);
 		BufferedImage BI = new BufferedImage(spriteSheet.getWidth(null), spriteSheet.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 		BufferedImage[][] sprites = new BufferedImage[spriteSheet.getWidth(null)/spriteWidth][spriteSheet.getHeight(null)/spriteHeight];
 		Graphics2D bGr = BI.createGraphics();
@@ -72,7 +72,7 @@ public class ResourceLoader {
 	 * @return an array of the sub-images
 	 */
 	public static Image[] getBlockSprites(String path, int spriteWidth, int spriteHeight){
-		Image spriteSheet = ResourceLoader.getImage(path);
+		Image spriteSheet = ResourceHandler.getImage(path);
 		BufferedImage BI = new BufferedImage(spriteSheet.getWidth(null), spriteSheet.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 		Image[] sprites = new Image[spriteSheet.getWidth(null)/spriteWidth];
 		Graphics2D bGr = BI.createGraphics();
