@@ -8,15 +8,15 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 
-public class Sound {
+public class SoundHandler {
 	
-	public static final Sound ghostHurt = new Sound("sound/ghost/ghost_hurt.wav");
-	public static final Sound ghost = new Sound("sound/ghost/ghost.wav");
-	public static final Sound ghostLaughter = new Sound("sound/ghost/ghost_laughter.wav");
+	public static final SoundHandler ghostHurt = new SoundHandler("sound/ghost/ghost_hurt.wav");
+	public static final SoundHandler ghost = new SoundHandler("sound/ghost/ghost.wav");
+	public static final SoundHandler ghostLaughter = new SoundHandler("sound/ghost/ghost_laughter.wav");
 	
 	private Clip clip, clip1, clip2;
 	
-	public Sound(String path){
+	public SoundHandler(String path){
 		try {
 			AudioInputStream sound = ResourceLoader.getSound(path);
 			DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());

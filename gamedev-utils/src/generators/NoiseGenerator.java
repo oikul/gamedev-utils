@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
 
-import handlers.MathHelper;
+import handlers.MathHandler;
 
 public class NoiseGenerator {
 
@@ -72,32 +72,32 @@ public class NoiseGenerator {
 			for (int i = 0; i < width - 1; i++) {
 				for (int j = 0; j < height - 1; j++) {
 					if (i > 0 && j > 0 && i < width && j < height) {
-						noise[i][j] = (float) MathHelper.smooth9(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
+						noise[i][j] = (float) MathHandler.smooth9(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
 								whiteNoise[i - 1][j + 1], whiteNoise[i][j - 1], whiteNoise[i][j], whiteNoise[i][j + 1],
 								whiteNoise[i + 1][j - 1], whiteNoise[i + 1][j], whiteNoise[i + 1][j + 1]);
 					} else if (i == 0 && j == 0) {
-						noise[i][j] = (float) MathHelper.smooth4(whiteNoise[i][j], whiteNoise[i][j + 1], whiteNoise[i + 1][j],
+						noise[i][j] = (float) MathHandler.smooth4(whiteNoise[i][j], whiteNoise[i][j + 1], whiteNoise[i + 1][j],
 								whiteNoise[i + 1][j + 1]);
 					} else if (i == 0 && j == height) {
-						noise[i][j] = (float) MathHelper.smooth4(whiteNoise[i][j - 1], whiteNoise[i][j],
+						noise[i][j] = (float) MathHandler.smooth4(whiteNoise[i][j - 1], whiteNoise[i][j],
 								whiteNoise[i + 1][j - 1], whiteNoise[i + 1][j]);
 					} else if (i == width && j == 0) {
-						noise[i][j] = (float) MathHelper.smooth4(whiteNoise[i - 1][j], whiteNoise[i - 1][j + 1],
+						noise[i][j] = (float) MathHandler.smooth4(whiteNoise[i - 1][j], whiteNoise[i - 1][j + 1],
 								whiteNoise[i][j], whiteNoise[i][j + 1]);
 					} else if (i == 0) {
-						noise[i][j] = (float) MathHelper.smooth6(whiteNoise[i][j - 1], whiteNoise[i][j], whiteNoise[i][j + 1],
+						noise[i][j] = (float) MathHandler.smooth6(whiteNoise[i][j - 1], whiteNoise[i][j], whiteNoise[i][j + 1],
 								whiteNoise[i + 1][j - 1], whiteNoise[i + 1][j], whiteNoise[i + 1][j + 1]);
 					} else if (j == 0) {
-						noise[i][j] = (float) MathHelper.smooth6(whiteNoise[i - 1][j], whiteNoise[i - 1][j + 1],
+						noise[i][j] = (float) MathHandler.smooth6(whiteNoise[i - 1][j], whiteNoise[i - 1][j + 1],
 								whiteNoise[i][j], whiteNoise[i][j + 1], whiteNoise[i + 1][j], whiteNoise[i + 1][j + 1]);
 					} else if (i == width && j == height) {
-						noise[i][j] = (float) MathHelper.smooth4(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
+						noise[i][j] = (float) MathHandler.smooth4(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
 								whiteNoise[i][j - 1], whiteNoise[i][j]);
 					} else if (i == width) {
-						noise[i][j] = (float) MathHelper.smooth6(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
+						noise[i][j] = (float) MathHandler.smooth6(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
 								whiteNoise[i - 1][j + 1], whiteNoise[i][j - 1], whiteNoise[i][j], whiteNoise[i][j + 1]);
 					} else if (j == height) {
-						noise[i][j] = (float) MathHelper.smooth6(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
+						noise[i][j] = (float) MathHandler.smooth6(whiteNoise[i - 1][j - 1], whiteNoise[i - 1][j],
 								whiteNoise[i][j - 1], whiteNoise[i][j], whiteNoise[i + 1][j - 1], whiteNoise[i + 1][j]);
 					}
 					smoothNoise[i][j] += noise[i][j];
@@ -124,11 +124,11 @@ public class NoiseGenerator {
 				int sample_j0 = (j / samplePeriod) * samplePeriod;
 				int sample_j1 = (sample_j0 + samplePeriod) % height;
 				float vertical_blend = (j - sample_j0) * sampleFrequency;
-				float top = (float) MathHelper.cosineInterpolate(baseNoise[sample_i0][sample_j0],
+				float top = (float) MathHandler.cosineInterpolate(baseNoise[sample_i0][sample_j0],
 						baseNoise[sample_i1][sample_j0], horizontal_blend);
-				float bottom = (float) MathHelper.cosineInterpolate(baseNoise[sample_i0][sample_j1],
+				float bottom = (float) MathHandler.cosineInterpolate(baseNoise[sample_i0][sample_j1],
 						baseNoise[sample_i1][sample_j1], horizontal_blend);
-				smoothNoise[i][j] = (float) MathHelper.cosineInterpolate(top, bottom, vertical_blend);
+				smoothNoise[i][j] = (float) MathHandler.cosineInterpolate(top, bottom, vertical_blend);
 			}
 		}
 		return smoothNoise;
@@ -166,9 +166,9 @@ public class NoiseGenerator {
 			int heightLimit, int widthMod, int heightMod, int corridorSize) {
 		ArrayList<Rectangle> rooms = new ArrayList<Rectangle>();
 		for (int i = 0; i < numOfRooms; i++) {
-			rooms.add(new Rectangle(MathHelper.random.nextInt(xLimit) + xMod, MathHelper.random.nextInt(yLimit) + yMod,
-					MathHelper.random.nextInt(widthLimit) + widthMod,
-					MathHelper.random.nextInt(heightLimit) + heightMod));
+			rooms.add(new Rectangle(MathHandler.random.nextInt(xLimit) + xMod, MathHandler.random.nextInt(yLimit) + yMod,
+					MathHandler.random.nextInt(widthLimit) + widthMod,
+					MathHandler.random.nextInt(heightLimit) + heightMod));
 		}
 		int pls = rooms.size();
 		for (int i = 0; i < pls; i++) {

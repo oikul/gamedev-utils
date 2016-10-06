@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import handlers.MathHelper;
-
 public class BuildMap {
 
 	// The number of tiles wide and high the map is

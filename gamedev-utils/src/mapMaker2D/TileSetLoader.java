@@ -6,12 +6,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import javax.imageio.ImageIO;
 
-import handlers.MathHelper;
+import handlers.MathHandler;
 
 // class can be optimised to unpack a tile sheet all at once and return only needed info
 public class TileSetLoader {
@@ -34,8 +33,8 @@ public class TileSetLoader {
 
 		LinkedHashMap<TileID, Tile> tiles = new LinkedHashMap<TileID, Tile>();
 
-		int tilesWide = MathHelper.ceiling(tileSetImage.getWidth(), tileSize);
-		int tilesHigh = MathHelper.ceiling(tileSetImage.getHeight(), tileSize);
+		int tilesWide = MathHandler.ceiling(tileSetImage.getWidth(), tileSize);
+		int tilesHigh = MathHandler.ceiling(tileSetImage.getHeight(), tileSize);
 
 		for (int y = 0; y < tilesHigh; y++) {
 			for (int x = 0; x < tilesWide; x++) {

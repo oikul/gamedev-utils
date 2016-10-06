@@ -5,10 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import mapMaker2D.TileID;
-import mapMaker2D.TileUpdate;
-
-public class MathHelper {
+public class MathHandler {
 
 	public static final double root2 = Math.sqrt(2.0);
 	public static Random random = new Random();
