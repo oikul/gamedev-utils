@@ -1,5 +1,6 @@
 package entities;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -16,8 +17,8 @@ public class Player extends Entity {
 	public float getSpeed() {
 		return speed;
 	}
-	
-	public boolean attacking(){
+
+	public boolean attacking() {
 		return shouldAttack;
 	}
 
@@ -29,6 +30,13 @@ public class Player extends Entity {
 		return new Point2D.Double(xLocation, yLocation);
 	}
 
+	public void move(Point vector, float time) {
+
+		xLocation -= ((speed * time) / (Math.sqrt(2) * Math.abs(vector.y))) * vector.x;
+		yLocation -= ((speed * time) / (Math.sqrt(2) * Math.abs(vector.x))) * vector.y;
+
+	}
+
 	public void moveUp(float time) {
 		yLocation -= speed * time;
 		currentX = 1;
@@ -38,19 +46,19 @@ public class Player extends Entity {
 	public void moveLeft(float time) {
 		xLocation -= speed * time;
 		currentX = 3;
-		attackVector.setLocation(-1,0);
+		attackVector.setLocation(-1, 0);
 	}
 
 	public void moveDown(float time) {
 		yLocation += speed * time;
 		currentX = 0;
-		attackVector.setLocation(0,1);
+		attackVector.setLocation(0, 1);
 	}
 
 	public void moveRight(float time) {
 		xLocation += speed * time;
 		currentX = 2;
-		attackVector.setLocation(1,0);
+		attackVector.setLocation(1, 0);
 	}
 
 	public void moveUL(float time) {
@@ -71,14 +79,14 @@ public class Player extends Entity {
 		xLocation -= (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
 		currentX = 0;
-		attackVector.setLocation(-1,1);
+		attackVector.setLocation(-1, 1);
 	}
 
 	public void moveDR(float time) {
 		xLocation += (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
 		currentX = 0;
-		attackVector.setLocation(1,1);
+		attackVector.setLocation(1, 1);
 	}
 
 	public void attack() {
@@ -86,7 +94,7 @@ public class Player extends Entity {
 			moving = true;
 			currentY = 3;
 			animationTimer = System.currentTimeMillis() + changeTimer;
-			attackCooldown = System.currentTimeMillis() + changeTimer*2;
+			attackCooldown = System.currentTimeMillis() + changeTimer * 2;
 			shouldAttack = true;
 		}
 

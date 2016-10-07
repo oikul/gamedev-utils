@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
@@ -11,6 +12,7 @@ public abstract class Entity {
 	protected long animationTimer, changeTimer, attackCooldown;
 	protected String name;
 	protected Point size, attackVector;
+	protected Rectangle hitBox;
 	protected BufferedImage[][] sprite;
 
 	public Entity(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed,
@@ -29,6 +31,7 @@ public abstract class Entity {
 		changeTimer = 500;
 		attackCooldown = System.currentTimeMillis() + changeTimer;
 		animationTimer = System.currentTimeMillis() + changeTimer;
+		hitBox = new Rectangle(xLocation-size.x/2, yLocation-size.y/2, size.x, size.y);
 	}
 
 	public float getX() {
@@ -41,6 +44,10 @@ public abstract class Entity {
 
 	public Point getSize() {
 		return size;
+	}
+	
+	public Rectangle getHitBox(){
+		return hitBox;
 	}
 	
 	public void kill(){
