@@ -226,11 +226,11 @@ public class BuildMap {
 			if (swapCoords) {
 				updates.add(
 						new TileUpdate(id.getTile(), new Point(start.x + y * xMultiplier, start.y + x * yMultiplier)));
-				map.get(start.y + x * yMultiplier).set(start.x + y * xMultiplier, id);
+				map.get(start.x + y * xMultiplier).set(start.y + x * yMultiplier, id);
 			} else {
 				updates.add(
 						new TileUpdate(id.getTile(), new Point(start.x + x * xMultiplier, start.y + y * yMultiplier)));
-				map.get(start.y + y * yMultiplier).set(start.x + x * xMultiplier, id);
+				map.get(start.x + y * xMultiplier).set(start.y + x * yMultiplier, id);
 			}
 
 		}
