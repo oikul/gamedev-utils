@@ -67,7 +67,7 @@ public class Block {
 	public static final Block water_river = new Block("water/water_river.png", 500, true, 16, 16);
 
 	// misc
-	public static final Block iron = new Block("ship_interior/iron.png", 0, false, 16, 16);
+	/*public static final Block iron = new Block("ship_interior/iron.png", 0, false, 16, 16);
 	public static final Block engine_fire = new Block("ship_interior/engine_fire_sprites.png", 200, false, 64, 192);
 	public static final Block engine = new Block("ship_interior/engine.png", 0, true, 16, 16);
 	public static final Block ship_walls = new Block("ship_interior/ship_walls.png", 0, true, 16, 16);
@@ -82,7 +82,7 @@ public class Block {
 	public static final Block bigshipf = new Block("spaceship/EnemyCommandShip2Flip.png", 0, true, 16, 16);
 	public static final Block smallfighter = new Block("spaceship/smallFighterParked.png", 0, true, 16, 16);
 	public static final Block smallfighterf = new Block("spaceship/smallFighterParkedFlip.png", 0, true, 16, 16);
-	public static final Block entrance = new Block("entrance.png", 0, true, 16, 16);
+	public static final Block entrance = new Block("entrance.png", 0, true, 16, 16);*/
 
 	private Image[] textures;
 	private long time, animationWaitTime;

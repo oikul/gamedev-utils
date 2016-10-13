@@ -10,6 +10,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import gameMapController.MapController;
 import handlers.InputHandler;
 
 public class Main extends JFrame {
@@ -18,6 +19,7 @@ public class Main extends JFrame {
 	protected boolean running = false;
 	private BufferedImage offimage;
 	private Graphics g;
+	private MapController controller;
 	
 	public static int width, height;
 	public static Random random;
@@ -52,7 +54,7 @@ public class Main extends JFrame {
 		width = dim.width;
 		height = dim.height;
 
-		this.setTitle("Dungeon Game");
+		this.setTitle("");
 		this.setSize(dim);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
@@ -63,16 +65,18 @@ public class Main extends JFrame {
 		offimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g = this.getGraphics();
 		
+		controller = new MapController();
+		
 	}
 
 	public void update(float time){
-		
+		controller.update(time);
 	}
 
 	private void draw() {
 
 		Graphics offgraphics = offimage.getGraphics();
-
+		controller.draw(offgraphics);
 		g.drawImage(offimage, 0, 0, width, height, null);
 	}
 
