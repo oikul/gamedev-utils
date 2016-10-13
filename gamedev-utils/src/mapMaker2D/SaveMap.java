@@ -20,6 +20,10 @@ public class SaveMap {
 
 	public boolean saveAs(String fileLocation, BuildMap map) {
 
+		if(fileLocation == null){
+			fileLocation = "defaultSaveLocation";
+		}
+		
 		StringBuilder saveFileContent = new StringBuilder("");
 
 		ArrayList<String> tileSheetsPre = new ArrayList<String>();
@@ -65,45 +69,26 @@ public class SaveMap {
 		for (StringBuilder str : mapTilesPre) {
 			saveFileContent.append(str + "\n");
 		}
-
-		int loc = 0;
-		try {
-			while(loc < 100){
-			ResourceHandler.openInputStream("savedMaps/"+fileLocation+".mpsv");
-			loc++;
-			}
-		} catch (IOException e1) {
-		}
 		
 
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-			          new FileOutputStream("savedMaps/"+fileLocation+""+loc+".mpsv"), "utf-8"));
+			          new FileOutputStream("savedMaps/"+fileLocation+".mpsv"), "utf-8"));
 			writer.write(saveFileContent.toString());
 			writer.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			return false;
 		}
-		
-		
-
-		return false;
+		pastFileLocation = fileLocation;
+		return true;
 	}
-
-	private void encode(ArrayList<ArrayList<TileID>> tiles, StringBuilder sb, ArrayList<String> keys) {
-
-	}
-
+	
 	public boolean save(BuildMap map) {
 
 		if (pastFileLocation == null) {
-			if (saveAs("defaultSaveLocation", map)) {
-				return true;
-			}
-		} else {
-			saveAs(pastFileLocation, map);
+				return saveAs("defaultSaveLocation", map);
 		}
-		return false;
+		return saveAs(pastFileLocation, map);
 
 	}
 

@@ -268,7 +268,15 @@ public class Main extends JFrame {
 			}
 			if(input.isKeyDown(KeyEvent.VK_CONTROL)){
 				if(input.isKeyDown(KeyEvent.VK_S)){
+					if(input.isKeyDown(KeyEvent.VK_SHIFT)){
+						forceFront = true;
+						String fileLocation = JOptionPane.showInputDialog(this, "pease enter the name for your map", "Save", JOptionPane.INFORMATION_MESSAGE);
+						forceFront = false;
+						save.saveAs(fileLocation, builder);
+						input.artificialKeyReleased(KeyEvent.VK_SHIFT);
+					}else{
 					save.save(builder);
+					}
 				}
 				input.artificialKeyReleased(KeyEvent.VK_S);
 			}
