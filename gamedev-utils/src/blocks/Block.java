@@ -2,6 +2,7 @@ package blocks;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import handlers.ResourceHandler;
 
@@ -88,6 +89,7 @@ public class Block {
 	private long time, animationWaitTime;
 	private int index, width, height;
 	private boolean solid;
+	private static ArrayList<Block> blocks = new ArrayList<Block>();
 
 	public Block(String path, long animationWaitTime, boolean solid, int width, int height) {
 		textures = ResourceHandler.getBlockSprites(path, width, height);
@@ -96,6 +98,13 @@ public class Block {
 		this.setSolid(solid);
 		this.setWidth(width);
 		this.setHeight(height);
+		blocks.add(this);
+	}
+	
+	public static void updateAll(){
+		for(Block b : blocks){
+			b.update();
+		}
 	}
 
 	public void update() {

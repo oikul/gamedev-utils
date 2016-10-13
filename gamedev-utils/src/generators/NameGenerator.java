@@ -26,13 +26,13 @@ public class NameGenerator {
 			"qa", "quad", "quart", "quin", "que", "qui", "quil",
 			"ra", "raa", "rab", "ran", "rix", "rol", "ry",
 			"san", "shil", "so", "spec", "sul",
-			"tat", "th", "ti", "tin", 
+			"tat", "th", "ti", "tin", "tec", 
 			"u", "um", "umb", "up", "ur", "ut", 
 			"va", "vac", "ve", "ven", "ver", "vok", 
 			"wa", "war", "wes", "whel", "wick", "win", "wor", "worth", 
 			"xan", "xeb", "xen", "xer", "xi", "xor", "xy",
 			"ya", "yag", "yav", "yel", "yen", "yor",
-			"za", "zahn", "ze", "zen" 
+			"za", "zahn", "ze", "zen", "zi" 
 	};
 	
 	public static String generateName(int permutations) {
