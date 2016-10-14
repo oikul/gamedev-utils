@@ -92,14 +92,13 @@ public class SaveMap {
 
 	}
 
-	public static boolean saveImage(Image image, String filePath, TileID[][] map) {
-		StringBuilder sb = new StringBuilder("");
-		sb.append("hello");
+	public boolean saveImage(BuildMap map) {
+		BufferedImage image = map.getMapImage();
 		try {
 			BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null),
 					BufferedImage.TYPE_INT_ARGB);
 			bi.createGraphics().drawImage(image, 0, 0, null);
-			File outputfile = new File("saved.png");
+			File outputfile = new File("mapPictures/saved.png");
 			ImageIO.write(bi, "png", outputfile);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -267,6 +267,10 @@ public class Main extends JFrame {
 				}
 			}
 			if(input.isKeyDown(KeyEvent.VK_CONTROL)){
+				if(input.isKeyDown(KeyEvent.VK_E)){
+					save.saveImage(builder);
+				}
+				input.artificialKeyReleased(KeyEvent.VK_E);
 				if(input.isKeyDown(KeyEvent.VK_S)){
 					if(input.isKeyDown(KeyEvent.VK_SHIFT)){
 						forceFront = true;

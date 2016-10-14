@@ -59,6 +59,10 @@ public class BuildMap {
 
 	}
 
+	public BufferedImage getMapImage(){
+		return tileImage;
+	}
+	
 	public UI getUI() {
 		return ui;
 	}
