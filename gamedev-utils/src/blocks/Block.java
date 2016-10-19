@@ -97,11 +97,11 @@ public class Block {
 		textures = ResourceHandler.getBlockSprites(path, width, height);
 		this.animationWaitTime = animationWaitTime;
 		time = System.currentTimeMillis();
-		this.setSolid(solid);
-		this.setWidth(width);
-		this.setHeight(height);
+		setSolid(solid);
+		setWidth(width);
+		setHeight(height);
 		blocks.add(this);
-		this.setId(id);
+		setId(id);
 	}
 
 	public static void updateAll() {
