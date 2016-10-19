@@ -2,7 +2,6 @@ package mapMaker2D;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -14,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -52,7 +52,8 @@ public class Main extends JFrame {
 	// The ui class
 	private UI ui;
 	// The saving class
-	private SaveMap save;
+	private SaveMap saver;
+	private LoadMap loader;
 
 	/**
 	 * Sets the listeners for the frame
@@ -84,7 +85,7 @@ public class Main extends JFrame {
 			public void windowIconified(WindowEvent e) {
 				// Keep the current frame in the screens foreground
 				if (forceFront) {
-					Main.frame.setState(Frame.NORMAL);
+					Main.frame.setState(JFrame.NORMAL);
 				}
 			}
 
@@ -98,10 +99,10 @@ public class Main extends JFrame {
 	 * Main game loop
 	 */
 	public void run() {
-		
+
 		// Initialise
 		init();
-		
+
 		// While running
 		while (running) {
 			update();
@@ -111,7 +112,7 @@ public class Main extends JFrame {
 				draw();
 			}
 		}
-//		// Clean up
+		// // Clean up
 		close();
 
 	}
@@ -151,7 +152,9 @@ public class Main extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		// save class
-		save = new SaveMap();
+		saver = new SaveMap();
+		// loader class
+		loader = new LoadMap();
 		// Make the frame visible
 		this.setVisible(true);
 		// Sets the frame var and the root frame
@@ -245,6 +248,16 @@ public class Main extends JFrame {
 		}
 	}
 
+	private void load() {
+		JFileChooser fc = new JFileChooser(System.getProperty("user.dir") + "/savedMaps");
+		forceFront = true;
+		fc.showOpenDialog(this);
+		if (fc.getSelectedFile() != null) {
+			System.out.println(fc.getSelectedFile().getAbsolutePath());
+		}
+		forceFront = false;
+	}
+
 	/**
 	 * Update
 	 */
@@ -254,10 +267,11 @@ public class Main extends JFrame {
 			running = false;
 		} else {
 			// Reset image location
-			if (input.isKeyDown(KeyEvent.VK_E)) {
+			if (input.isKeyDown(KeyEvent.VK_R)) {
 				XOffset = 0;
 				YOffset = 0;
 			}
+
 			// Only allow image zoom and movement when the UI isn't in focus
 			if (!builder.getUI().isInFocus()) {
 				if (input.isMouseDown(MouseEvent.BUTTON2)) {
@@ -266,23 +280,31 @@ public class Main extends JFrame {
 					zoom();
 				}
 			}
-			if(input.isKeyDown(KeyEvent.VK_CONTROL)){
-				if(input.isKeyDown(KeyEvent.VK_E)){
-					save.saveImage(builder);
+
+			if (input.isKeyDown(KeyEvent.VK_CONTROL)) {
+				if (input.isKeyDown(KeyEvent.VK_O)) {
+					load();
+					input.artificialKeyReleased(KeyEvent.VK_O);
 				}
-				input.artificialKeyReleased(KeyEvent.VK_E);
-				if(input.isKeyDown(KeyEvent.VK_S)){
-					if(input.isKeyDown(KeyEvent.VK_SHIFT)){
+
+				if (input.isKeyDown(KeyEvent.VK_E)) {
+					saver.saveImage(builder);
+					input.artificialKeyReleased(KeyEvent.VK_E);
+				}
+
+				if (input.isKeyDown(KeyEvent.VK_S)) {
+					if (input.isKeyDown(KeyEvent.VK_SHIFT)) {
 						forceFront = true;
-						String fileLocation = JOptionPane.showInputDialog(this, "pease enter the name for your map", "Save", JOptionPane.INFORMATION_MESSAGE);
+						String fileLocation = JOptionPane.showInputDialog(this, "pease enter the name for your map",
+								"Save", JOptionPane.INFORMATION_MESSAGE);
 						forceFront = false;
-						save.saveAs(fileLocation, builder);
+						saver.saveAs(fileLocation, builder);
 						input.artificialKeyReleased(KeyEvent.VK_SHIFT);
-					}else{
-					save.save(builder);
+					} else {
+						saver.save(builder);
 					}
+					input.artificialKeyReleased(KeyEvent.VK_S);
 				}
-				input.artificialKeyReleased(KeyEvent.VK_S);
 			}
 
 			// Gets the new mouse location
@@ -308,8 +330,8 @@ public class Main extends JFrame {
 		// Draw the builder
 		builder.draw(bufferGraphics);
 		bufferGraphics.setColor(Color.white);
-		bufferGraphics.drawRect(mouseLocation.x-2, mouseLocation.y-2, 4, 4);
-		
+		bufferGraphics.drawRect(mouseLocation.x - 2, mouseLocation.y - 2, 4, 4);
+
 		// To here
 		g.drawImage(BufferImage, 0, 0, null);
 	}

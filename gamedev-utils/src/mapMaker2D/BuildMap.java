@@ -58,7 +58,15 @@ public class BuildMap {
 		ui.addTileSet(tsl.getTileSet("testTileSheet"), "testTileSheet", 16);
 
 	}
+	
+	public int getWidth(){
+		return mapWidth;
+	}
 
+	public int getHeight(){
+		return mapHeight;
+	}
+	
 	public BufferedImage getMapImage(){
 		return tileImage;
 	}
@@ -160,6 +168,7 @@ public class BuildMap {
 		}
 		updateTiles = false;
 		TileID id = ui.getSelectedTile().getId();
+
 		int x = Math.max(0, Math.min(mouseLocation.x / Main.tileSize - (int) Main.XOffset, mapWidth - 1));
 		int y = Math.max(0, Math.min(mouseLocation.y / Main.tileSize - (int) Main.YOffset, mapHeight - 1));
 
@@ -194,7 +203,7 @@ public class BuildMap {
 			mouseDrag = false;
 
 		}
-		dragStart.setLocation(x, y);
+		dragStart.setLocation(x,y);
 
 	}
 
@@ -234,7 +243,7 @@ public class BuildMap {
 			} else {
 				updates.add(
 						new TileUpdate(id.getTile(), new Point(start.x + x * xMultiplier, start.y + y * yMultiplier)));
-				map.get(start.x + y * xMultiplier).set(start.y + x * yMultiplier, id);
+				map.get(start.x + x * xMultiplier).set(start.y + y * yMultiplier, id);
 			}
 
 		}
@@ -321,6 +330,8 @@ public class BuildMap {
 		// remove all nested for loops
 		int size = Main.tileSize;
 		Graphics tg = tileImage.getGraphics();
+//		tg.setColor(Color.white);
+//		tg.fillRect(0, 0, mapWidth * Settings.resolution, mapHeight * Settings.resolution);
 
 		if (updateTiles) {
 			updateTiles = false;
