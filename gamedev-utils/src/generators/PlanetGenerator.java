@@ -37,9 +37,7 @@ public class PlanetGenerator {
 		Graphics2D g2d = (Graphics2D) g;
 		for (int i = 0; i < planet.length; i++) {
 			for (int j = 0; j < planet[0].length; j++) {
-				if (planet[i][j] != null) {
-					planet[i][j].draw(g2d, i * planet[i][j].getWidth(), j * planet[i][j].getHeight());
-				}
+				planet[i][j].draw(g2d, i * planet[i][j].getWidth(), j * planet[i][j].getHeight());
 			}
 		}
 	}
@@ -48,9 +46,7 @@ public class PlanetGenerator {
 		Graphics2D g2d = (Graphics2D) g;
 		for (int i = 0; i < planet.length; i++) {
 			for (int j = 0; j < planet[0].length; j++) {
-				if (planet[i][j] != null) {
-					planet[i][j].draw(g2d, i * planet[i][j].getWidth(), j * planet[i][j].getHeight(), scale);
-				}
+				planet[i][j].draw(g2d, i * planet[i][j].getWidth(), j * planet[i][j].getHeight(), scale);
 			}
 		}
 	}

@@ -9,19 +9,20 @@ public class Biome {
 
 	private static HashMap<Integer, Biome> idMap = new HashMap<Integer, Biome>();
 	
-	public static final Biome plains = new Biome("plains", 0, 0.5f, 0.5f);
-	public static final Biome forest = new Biome("forest", 1, 0.4f, 0.6f);
+	public static final Biome plains = new Biome("plains", 0, 0.5f, 0.5f, Block.grass_plains);
+	public static final Biome forest = new Biome("forest", 1, 0.4f, 0.6f, Block.grass_forest);
 
 	private ArrayList<BiomePart> biomeParts = new ArrayList<BiomePart>();
 	private String name;
 	private int id;
 	private float temperature, precipitation;
 
-	public Biome(String name, int id, float temperature, float precipitation) {
+	public Biome(String name, int id, float temperature, float precipitation, Block base) {
 		setName(name);
 		setId(id);
 		setTemperature(temperature);
 		setPrecipitation(precipitation);
+		biomeParts.add(new BiomePart(base, 0, 1, 1));
 	}
 	
 	public void addBiomePart(BiomePart part){
@@ -70,7 +71,7 @@ public class Biome {
 	}
 	
 	public static void createDefaultBiomes(){
-		plains.addBiomePart(new BiomePart(Block.grass_plains, 0.0f, 1f, 1));
+		
 	}
 
 }
