@@ -12,7 +12,7 @@ public class Biome {
 	public static final Biome plains = new Biome("plains", 0, 0.5f, 0.5f, Block.grass_plains);
 	public static final Biome forest = new Biome("forest", 1, 0.4f, 0.6f, Block.grass_forest);
 
-	private ArrayList<BiomePart> biomeParts = new ArrayList<BiomePart>();
+	private ArrayList<BiomePart> biomeParts = new ArrayList<BiomePart>(), decoParts = new ArrayList<BiomePart>();
 	private String name;
 	private int id;
 	private float temperature, precipitation;
@@ -22,7 +22,7 @@ public class Biome {
 		setId(id);
 		setTemperature(temperature);
 		setPrecipitation(precipitation);
-		biomeParts.add(new BiomePart(base, 0, 1, 1));
+		biomeParts.add(new BiomePart(base, 0, 1, 0));
 	}
 	
 	public void addBiomePart(BiomePart part){
@@ -31,6 +31,14 @@ public class Biome {
 
 	public ArrayList<BiomePart> getBiomeParts() {
 		return biomeParts;
+	}
+	
+	public void addDecoPart(BiomePart part){
+		decoParts.add(part);
+	}
+	
+	public ArrayList<BiomePart> getDecoParts(){
+		return decoParts;
 	}
 
 	public String getName() {
@@ -71,7 +79,8 @@ public class Biome {
 	}
 	
 	public static void createDefaultBiomes(){
-		
+		plains.addBiomePart(new BiomePart(Block.water_river, 0.4f, 0.6f, 0));
+		plains.addDecoPart(new BiomePart(Block.flowers, 0, 0.36f, 0.3f));
 	}
 
 }
