@@ -11,6 +11,7 @@ public class Biome {
 	
 	public static final Biome plains = new Biome("plains", 0, 0.5f, 0.5f, Block.grass_plains);
 	public static final Biome forest = new Biome("forest", 1, 0.4f, 0.6f, Block.grass_forest);
+	public static final Biome rivers = new Biome("rivers", 2, 0.5f,0.4f, Block.grass_plains);
 
 	private ArrayList<BiomePart> biomeParts = new ArrayList<BiomePart>(), decoParts = new ArrayList<BiomePart>();
 	private String name;
@@ -79,8 +80,17 @@ public class Biome {
 	}
 	
 	public static void createDefaultBiomes(){
-		plains.addBiomePart(new BiomePart(Block.water_river, 0.4f, 0.6f, 0));
-		plains.addDecoPart(new BiomePart(Block.flowers, 0, 0.36f, 0.3f));
+		plains.addDecoPart(new BiomePart(Block.flowers, 0.3f, 0.5f, 0.8f));
+		plains.addDecoPart(new BiomePart(Block.flower, 0.8f, 1f, 0.8f));
+		
+		forest.addBiomePart(new BiomePart(Block.water_river, 0.9f, 1f, 0));
+		forest.addDecoPart(new BiomePart(Block.tree_birch_1, 0f, 0.4f, 0.85f));
+		forest.addDecoPart(new BiomePart(Block.tree_oak_1, 0.45f, 0.85f, 0.85f));
+		
+		rivers.addBiomePart(new BiomePart(Block.water_river, 0.4f, 0.6f, 0));
+		rivers.addBiomePart(new BiomePart(Block.sand_beach, 0.38f, 0.4f, 0));
+		rivers.addBiomePart(new BiomePart(Block.sand_beach, 0.6f, 0.62f, 0));
+		rivers.addDecoPart(new BiomePart(Block.tree_oak_1, 0, 0.36f, 0.95f));
 	}
 
 }

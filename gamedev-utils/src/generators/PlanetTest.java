@@ -28,7 +28,7 @@ public class PlanetTest extends AbstractMain {
 		this.setVisible(running);
 		this.setSize(InputHandler.screenSize);
 		Biome.createDefaultBiomes();
-		planet = new PlanetGenerator(Biome.plains, 500, 500, 0);
+		planet = new PlanetGenerator(Biome.forest, 500, 500, 0);
 		noise = new PerlinNoiseGenerator(0);
 		planet.generatePlanet(noise.getPerlinNoise(500, 500, 4, 5));
 	}
@@ -41,7 +41,7 @@ public class PlanetTest extends AbstractMain {
 	@Override
 	public void draw() {
 		Graphics g = this.getGraphics();
-		planet.draw(g);
+		planet.draw(g, 3);
 	}
 
 }
