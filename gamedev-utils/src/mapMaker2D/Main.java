@@ -54,6 +54,7 @@ public class Main extends JFrame {
 	// The saving class
 	private SaveMap saver;
 	private LoadMap loader;
+	private Menu menu;
 
 	/**
 	 * Sets the listeners for the frame
@@ -67,6 +68,7 @@ public class Main extends JFrame {
 
 			@Override
 			public void windowClosed(WindowEvent e) {
+				e.getWindow().dispose();
 			}
 
 			@Override
@@ -147,7 +149,7 @@ public class Main extends JFrame {
 
 		// Set name, close, size and fullscreen
 		this.setTitle("2D Map Maker");
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(width, height);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -169,6 +171,9 @@ public class Main extends JFrame {
 		// Build map sizes in tiles 16px atm
 		builder = new BuildMap(100, 100, ui);
 		mouseLocation = new Point(0, 0);
+		
+		// Pause Menu
+		menu = new Menu();
 	}
 
 	/**
@@ -249,13 +254,18 @@ public class Main extends JFrame {
 	}
 
 	private void load() {
-		JFileChooser fc = new JFileChooser(System.getProperty("user.dir") + "/savedMaps");
+		JFileChooser fc = new JFileChooser(System.getProperty("user.dir") + "\\savedMaps");
 		forceFront = true;
 		fc.showOpenDialog(this);
-		if (fc.getSelectedFile() != null) {
-			System.out.println(fc.getSelectedFile().getAbsolutePath());
+		if (fc.getSelectedFile() == null) {
+			return;
 		}
 		forceFront = false;
+		
+		BuildMap newMap = loader.load(fc.getSelectedFile().getAbsolutePath(), builder);
+
+		this.builder = newMap;
+		
 	}
 
 	/**
@@ -264,7 +274,8 @@ public class Main extends JFrame {
 	private void update() {
 		// Quit
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
-			running = false;
+			input.artificialKeyReleased(KeyEvent.VK_ESCAPE);
+			menu.open();
 		} else {
 			// Reset image location
 			if (input.isKeyDown(KeyEvent.VK_R)) {
@@ -280,6 +291,25 @@ public class Main extends JFrame {
 					zoom();
 				}
 			}
+			if(input.isKeyDown(KeyEvent.VK_UP)){
+				YOffset--;
+			}
+			if(input.isKeyDown(KeyEvent.VK_DOWN)){
+				YOffset++;
+			}
+			if(input.isKeyDown(KeyEvent.VK_LEFT)){
+				XOffset--;
+			}
+			if(input.isKeyDown(KeyEvent.VK_RIGHT)){
+				XOffset++;
+			}
+
+			// Gets the new mouse location
+			mouseLocation = input.getMousePositionRelativeToComponent();
+			// Updates the builder
+			builder.update(mouseLocation);
+			// Stops the mouse wheel
+			input.stopMouseWheel();
 
 			if (input.isKeyDown(KeyEvent.VK_CONTROL)) {
 				if (input.isKeyDown(KeyEvent.VK_O)) {
@@ -306,13 +336,6 @@ public class Main extends JFrame {
 					input.artificialKeyReleased(KeyEvent.VK_S);
 				}
 			}
-
-			// Gets the new mouse location
-			mouseLocation = input.getMousePositionRelativeToComponent();
-			// Updates the builder
-			builder.update(mouseLocation);
-			// Stops the mouse wheel
-			input.stopMouseWheel();
 		}
 	}
 

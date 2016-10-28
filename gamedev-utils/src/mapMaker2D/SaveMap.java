@@ -49,21 +49,21 @@ public class SaveMap implements Runnable{
 					} else {
 						usedTilesPre.add(id.toString());
 						tref = usedTilesPre.size() - 1;
-						mapTilesPre.add(new StringBuilder("-" + tref + "," + x + "," + y));
+						mapTilesPre.add(new StringBuilder("-," + tref + "," + x + "," + y));
 					}
 
 				}
 			}
 		}
 
-		saveFileContent.append("!"+map.getWidth()+","+map.getHeight()+"\n");
+		saveFileContent.append("!,"+map.getWidth()+","+map.getHeight()+"\n");
 		
 		for (String str : tileSheetsPre) {
-			saveFileContent.append(":" + str + "\n");
+			saveFileContent.append(":," + str + "," + map.getTSL().getSets().get(str).getTileSize() + "\n");
 		}
 
 		for (String str : usedTilesPre) {
-			saveFileContent.append("." + str + "," + usedTilesPre.indexOf(str) + "\n");
+			saveFileContent.append(".," + str + "," + usedTilesPre.indexOf(str) + "\n");
 		}
 
 		for (StringBuilder str : mapTilesPre) {

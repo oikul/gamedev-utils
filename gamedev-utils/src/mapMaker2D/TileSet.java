@@ -40,7 +40,12 @@ public class TileSet {
 	}
 
 	public Tile getTile(TileID id) {
-		return tiles.get(id);
+		for (TileID id1 : tiles.keySet()) {
+			if (id.equals(id1)) {
+				return tiles.get(id1);
+			}
+		}
+		return null;
 	}
 
 	public BufferedImage getTileSheet() {
@@ -62,7 +67,8 @@ public class TileSet {
 	public TileID getKey(int index) {
 		return tilesKeys.get(index);
 	}
-	public void close(){
+
+	public void close() {
 		for (Tile t : tiles.values()) {
 			t.close();
 			t = null;
@@ -71,4 +77,7 @@ public class TileSet {
 		tilesKeys = null;
 		tileSheet = null;
 	}
+	
+	
+	
 }

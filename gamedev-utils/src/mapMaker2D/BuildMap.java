@@ -100,6 +100,13 @@ public class BuildMap {
 	 * } mapHeight++; Main.input.artificialKeyReleased(KeyEvent.VK_DOWN); } }
 	 */
 
+	public void addMapChanges(ArrayList<TileUpdate> updates){
+		mapUpdates.addAll(updates);
+		for(TileUpdate up:updates){
+			map.get(up.getLocation().x).set(up.getLocation().y, up.getTile().getId());
+		}
+	}
+	
  	private void checkPlayerTilePlacement() {
 
 		switch (brushType) {
@@ -281,8 +288,6 @@ public class BuildMap {
 			Main.forceFront = false;
 			Main.input.artificialKeyReleased(KeyEvent.VK_T);
 		}
-		Main.forceFront = false;
-		Main.input.artificialKeyReleased(KeyEvent.VK_T);
 
 		if (loadTileSheet) {
 			// change the tile size to a user inputed var-----------------------
@@ -306,6 +311,10 @@ public class BuildMap {
 
 	}
 
+	public void updateTiles(){
+		updateTiles = true;
+	}
+	
 	public void update(Point mouseLocation) {
 
 		this.mouseLocation = mouseLocation;

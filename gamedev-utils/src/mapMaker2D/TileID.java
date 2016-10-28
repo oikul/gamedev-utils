@@ -18,6 +18,7 @@ public class TileID {
 		try {
 			externalID = ((TileID) obj);
 		} catch (ClassCastException e) {
+			e.printStackTrace();
 			return false;
 		}
 		test = externalID.tileSet.equals(tileSet);
@@ -49,6 +50,10 @@ public class TileID {
 
 	public Tile getTile() {
 		return tile;
+	}
+	
+	public int hashCode(){
+		return x + (y*1000);
 	}
 
 }
