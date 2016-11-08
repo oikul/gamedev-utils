@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JToolBar;
 
 import handlers.InputHandler;
 
@@ -54,12 +55,12 @@ public class Main extends JFrame {
 	// The saving class
 	private SaveMap saver;
 	private LoadMap loader;
-	private Menu menu;
-
+	
 	/**
 	 * Sets the listeners for the frame
 	 */
 	private void addListeners() {
+		JToolBar tb = new JToolBar();
 		addWindowListener(new WindowListener() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -172,8 +173,6 @@ public class Main extends JFrame {
 		builder = new BuildMap(100, 100, ui);
 		mouseLocation = new Point(0, 0);
 		
-		// Pause Menu
-		menu = new Menu();
 	}
 
 	/**
@@ -275,7 +274,6 @@ public class Main extends JFrame {
 		// Quit
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			input.artificialKeyReleased(KeyEvent.VK_ESCAPE);
-			menu.open();
 		} else {
 			// Reset image location
 			if (input.isKeyDown(KeyEvent.VK_R)) {
