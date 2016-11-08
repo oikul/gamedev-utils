@@ -20,8 +20,11 @@ public class MathHandler {
 
 	/**
 	 * A function to calculate all the points on a line between two points
-	 * @param start The first point
-	 * @param end The second point
+	 * 
+	 * @param start
+	 *            The first point
+	 * @param end
+	 *            The second point
 	 * @return An ArrayList of points between the two points
 	 */
 	public static ArrayList<Point> drawLine(Point start, Point end) {
@@ -38,7 +41,7 @@ public class MathHandler {
 		// Get the gradient of the line
 		float grad = (float) line.y / (float) line.x;
 
-		// If the line is below the x-axis flip the y coordinate 
+		// If the line is below the x-axis flip the y coordinate
 		if (line.y < 0) {
 			yMultiplier = -1;
 			line.setLocation(line.x, -line.y);
@@ -48,26 +51,27 @@ public class MathHandler {
 			xMultiplier = -1;
 			line.setLocation(-line.x, line.y);
 		}
-		// If the gradient of the line is greater than one flip the coordinates 
+		// If the gradient of the line is greater than one flip the coordinates
 		if (Math.abs(grad) > 1) {
 			swapCoords = true;
 			line.setLocation(line.y, line.x);
 		}
 
-		// Get the new gradient 
+		// Get the new gradient
 		grad = (float) line.y / (float) line.x;
 
-		/** The line should now conform to the assumptions
-		  * 1. Both the x and y coordinates are positive
-		  * 2. the gradient is less than one
-	     */
-		
+		/**
+		 * The line should now conform to the assumptions 1. Both the x and y
+		 * coordinates are positive 2. the gradient is less than one
+		 */
+
 		// For each x Coord on the line
 		for (int x = 0; x <= line.x; x++) {
 
 			// Calculate the y Coord
 			int y = Math.round(x * grad);
-			// Add the point to the ArrayList and undo the transformation of the line for the point
+			// Add the point to the ArrayList and undo the transformation of the
+			// line for the point
 			if (swapCoords) {
 				updates.add(new Point(start.x + y * xMultiplier, start.y + x * yMultiplier));
 			} else {
@@ -198,7 +202,7 @@ public class MathHandler {
 
 		return new Point2D.Double(xgain, ygain);
 	}
-	
+
 	public static Point getPoint(Point p1, Point p2, double speed, double accuracy) {
 		double angle = 0;
 		if (p1.x != p2.x && p1.y != p2.y) {
@@ -222,7 +226,7 @@ public class MathHandler {
 			xgain = Math.cos(angle) * speed;
 			ygain = -Math.sin(angle) * speed;
 
-			return new Point((int)xgain, (int)ygain);
+			return new Point((int) xgain, (int) ygain);
 		} else if (p1.x > p2.x) {
 			angle = Math.PI;
 		} else if (p1.x < p2.x) {
@@ -240,7 +244,13 @@ public class MathHandler {
 		xgain = Math.cos(angle) * speed;
 		ygain = -Math.sin(angle) * speed;
 
-		return new Point((int)xgain, (int)ygain);
+		return new Point((int) xgain, (int) ygain);
+	}
+
+	public static Point2D.Double averageVector(Point2D.Double p1, Point2D.Double p2) {
+
+		return new Point2D.Double((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+
 	}
 
 	/**
@@ -357,12 +367,12 @@ public class MathHandler {
 		return (int) (result) + 1;
 
 	}
-	
+
 	public static void setRandomSeed(long seed) {
 		random = new Random(seed);
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 	}
 
 }
