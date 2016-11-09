@@ -5,10 +5,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+
+import org.lwjgl.util.vector.Vector2f;
 
 import handlers.InputHandler;
 
@@ -49,6 +52,9 @@ public class Main extends JFrame {
 		init();
 
 		long beforeTime, afterTime, deltaTime = 0;
+		long counter = System.nanoTime()+1000000000;
+		int fps = 0;
+		deltaTime = 1;
 		// While running
 		while (running) {
 			beforeTime = System.nanoTime();
@@ -60,6 +66,12 @@ public class Main extends JFrame {
 			}
 			afterTime = System.nanoTime();
 			deltaTime = afterTime - beforeTime;
+			fps++;
+			if(System.nanoTime() > counter){
+				counter += 1000000000;
+				System.out.println(fps);
+				fps = 0;
+			}
 		}
 		// // Clean up
 		close();
@@ -116,7 +128,8 @@ public class Main extends JFrame {
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			running = false;
 		}
-		game.update(time,input.getMousePositionRelativeToComponent());
+		Point mouse = input.getMousePositionRelativeToComponent();
+		game.update(time,new Vector2f(mouse.x,mouse.y));
 	}
 
 	/**

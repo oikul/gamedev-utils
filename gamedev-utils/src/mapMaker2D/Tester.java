@@ -1,17 +1,17 @@
 package mapMaker2D;
 
-import java.util.LinkedHashMap;
+import org.lwjgl.util.vector.Vector2f;
 
 public class Tester {
 
 	public static void main(String[] args) {
 
 		
-		TileID id1 = new TileID("test1",1,1);
-		TileID id2 = new TileID("test1",1,1);
-		LinkedHashMap<TileID, String> list = new LinkedHashMap<>();
-		list.put(id1, "working");
-		System.out.println(list.containsKey(id2));
+		Vector2f vec1 = new Vector2f(7, 7);
+		Vector2f vec2 = new Vector2f(2,5);
+		System.out.println(vec1+", "+vec2);
+		Vector2f.sub(vec2, vec1, vec1);
+		System.out.println(vec1+", "+vec2);
 		
 	}
 
