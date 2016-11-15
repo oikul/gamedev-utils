@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
@@ -23,9 +24,8 @@ public class Panel extends JPanel {
 	private int hairIndex, torsoIndex, legIndex;
 
 	private JButton hairChange, torsoChange, legChange;
-	private JSlider hairR, hairG, hairB,
-					torsoR, torsoG, torsoB,
-					legR, legG, legB;
+	private JSlider hairR, hairG, hairB, torsoR, torsoG, torsoB, legR, legG, legB, skinR, skinG, skinB;
+	private JLabel hair, torso, leg, skin, r0, r1, r2, r3, g0, g1, g2, g3, b0, b1, b2, b3;
 
 	public Panel(String partsLocation) {
 		hairList = new ArrayList<BufferedImage>();
@@ -76,9 +76,9 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(hairIndex < hairList.size()){
-					hairIndex ++;
-				}else{
+				if (hairIndex < hairList.size()) {
+					hairIndex++;
+				} else {
 					hairIndex = 0;
 				}
 			}
@@ -96,7 +96,24 @@ public class Panel extends JPanel {
 			}
 
 		});
+		hair = new JLabel("Hair:");
+		x = (int) (4 * InputHandler.midPoint.x) / 5 - (width / 2);
+		hair.setBounds(x, y, width, height);
+		x = (int) (6 * InputHandler.midPoint.x) / 5 - (width / 2);
+		r0 = new JLabel("Red");
+		y = (int) InputHandler.midPoint.y / 3 - (2 * height);
+		r0.setBounds(x, y, width, height);
+		g0 = new JLabel("Green");
+		y = (int) InputHandler.midPoint.y / 3 - (height / 2);
+		g0.setBounds(x, y, width, height);
+		b0 = new JLabel("Blue");
+		y = (int) InputHandler.midPoint.y / 3 + height;
+		b0.setBounds(x, y, width, height);
 		this.add(hairChange);
+		this.add(hair);
+		this.add(r0);
+		this.add(g0);
+		this.add(b0);
 		torsoChange = new JButton(">");
 		x = (int) InputHandler.midPoint.x - (width / 2);
 		y = (int) (2 * InputHandler.midPoint.y) / 3 - (height / 2);
@@ -109,9 +126,9 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(torsoIndex < torsoList.size()){
+				if (torsoIndex < torsoList.size()) {
 					torsoIndex++;
-				}else{
+				} else {
 					torsoIndex = 0;
 				}
 			}
@@ -129,7 +146,24 @@ public class Panel extends JPanel {
 			}
 
 		});
+		torso = new JLabel("Torso:");
+		x = (int) (4 * InputHandler.midPoint.x) / 5 - (width / 2);
+		torso.setBounds(x, y, width, height);
+		x = (int) (6 * InputHandler.midPoint.x) / 5 - (width / 2);
+		r1 = new JLabel("Red");
+		y = (int) (2 * InputHandler.midPoint.y) / 3 - (2 * height);
+		r1.setBounds(x, y, width, height);
+		g1 = new JLabel("Green");
+		y = (int) (2 * InputHandler.midPoint.y) / 3 - (height / 2);
+		g1.setBounds(x, y, width, height);
+		b1 = new JLabel("Blue");
+		y = (int) (2 * InputHandler.midPoint.y) / 3 + height;
+		b1.setBounds(x, y, width, height);
 		this.add(torsoChange);
+		this.add(torso);
+		this.add(r1);
+		this.add(g1);
+		this.add(b1);
 		legChange = new JButton(">");
 		x = (int) InputHandler.midPoint.x - (width / 2);
 		y = (int) InputHandler.midPoint.y - (height / 2);
@@ -142,9 +176,9 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(legIndex < legList.size()){
+				if (legIndex < legList.size()) {
 					legIndex++;
-				}else{
+				} else {
 					legIndex = 0;
 				}
 			}
@@ -162,8 +196,43 @@ public class Panel extends JPanel {
 			}
 
 		});
+		leg = new JLabel("Legs:");
+		x = (int) (4 * InputHandler.midPoint.x) / 5 - (width / 2);
+		leg.setBounds(x, y, width, height);
+		x = (int) (6 * InputHandler.midPoint.x) / 5 - (width / 2);
+		r2 = new JLabel("Red");
+		y = (int) InputHandler.midPoint.y - (2 * height);
+		r2.setBounds(x, y, width, height);
+		g2 = new JLabel("Green");
+		y = (int) InputHandler.midPoint.y - (height / 2);
+		g2.setBounds(x, y, width, height);
+		b2 = new JLabel("Blue");
+		y = (int) InputHandler.midPoint.y + height;
+		b2.setBounds(x, y, width, height);
 		this.add(legChange);
-		//rbg sliders
+		this.add(leg);
+		this.add(r2);
+		this.add(g2);
+		this.add(b2);
+		skin = new JLabel("Skin:");
+		x = (int) (4 * InputHandler.midPoint.x) / 5 - (width / 2);
+		y = (int) (4 * InputHandler.midPoint.y) / 3 - (height / 2);
+		skin.setBounds(x, y, width, height);
+		x = (int) (6 * InputHandler.midPoint.x) / 5 - (width / 2);
+		r3 = new JLabel("Red");
+		y = 4 * ((int) InputHandler.midPoint.y / 3) - (2 * height);
+		r3.setBounds(x, y, width, height);
+		g3 = new JLabel("Green");
+		y = 4 * ((int) InputHandler.midPoint.y / 3) - (height / 2);
+		g3.setBounds(x, y, width, height);
+		b3 = new JLabel("Blue");
+		y = 4 * ((int) InputHandler.midPoint.y / 3) + height;
+		b3.setBounds(x, y, width, height);
+		this.add(skin);
+		this.add(r3);
+		this.add(g3);
+		this.add(b3);
+		// rbg sliders
 		width = InputHandler.screenSize.width / 3;
 		height = InputHandler.screenSize.height / 30;
 		x = ((4 * InputHandler.screenSize.width) / 5) - (width / 2);
@@ -174,7 +243,7 @@ public class Panel extends JPanel {
 		hairR.setValue(MathHandler.random.nextInt(255));
 		hairR.setBounds(x, y, width, height);
 		this.add(hairR);
-		y = (int) InputHandler.midPoint.y / 3 - (height/2);
+		y = (int) InputHandler.midPoint.y / 3 - (height / 2);
 		hairG = new JSlider();
 		hairG.setMaximum(255);
 		hairG.setMinimum(0);
@@ -195,7 +264,7 @@ public class Panel extends JPanel {
 		torsoR.setValue(MathHandler.random.nextInt(255));
 		torsoR.setBounds(x, y, width, height);
 		this.add(torsoR);
-		y = (int) (2 * InputHandler.midPoint.y) / 3 - (height/2);
+		y = (int) (2 * InputHandler.midPoint.y) / 3 - (height / 2);
 		torsoG = new JSlider();
 		torsoG.setMaximum(255);
 		torsoG.setMinimum(0);
@@ -216,7 +285,7 @@ public class Panel extends JPanel {
 		legR.setValue(MathHandler.random.nextInt(255));
 		legR.setBounds(x, y, width, height);
 		this.add(legR);
-		y = (int) InputHandler.midPoint.y - (height/2);
+		y = (int) InputHandler.midPoint.y - (height / 2);
 		legG = new JSlider();
 		legG.setMaximum(255);
 		legG.setMinimum(0);
@@ -230,13 +299,35 @@ public class Panel extends JPanel {
 		legB.setValue(MathHandler.random.nextInt(255));
 		legB.setBounds(x, y, width, height);
 		this.add(legB);
+		y = 4 * ((int) InputHandler.midPoint.y / 3) - (2 * height);
+		skinR = new JSlider();
+		skinR.setMaximum(255);
+		skinR.setMinimum(0);
+		skinR.setValue(MathHandler.random.nextInt(255));
+		skinR.setBounds(x, y, width, height);
+		this.add(skinR);
+		y = 4 * ((int) InputHandler.midPoint.y / 3) - (height / 2);
+		skinG = new JSlider();
+		skinG.setMaximum(255);
+		skinG.setMinimum(0);
+		skinG.setValue(MathHandler.random.nextInt(255));
+		skinG.setBounds(x, y, width, height);
+		this.add(skinG);
+		y = 4 * ((int) InputHandler.midPoint.y / 3) + height;
+		skinB = new JSlider();
+		skinB.setMaximum(255);
+		skinB.setMinimum(0);
+		skinB.setValue(MathHandler.random.nextInt(255));
+		skinB.setBounds(x, y, width, height);
+		this.add(skinB);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.black);
-		g.fillRect(InputHandler.screenSize.width / 16, InputHandler.screenSize.height / 16, InputHandler.screenSize.width / 4, 2 * InputHandler.screenSize.height / 3);
+		g.fillRect(InputHandler.screenSize.width / 16, InputHandler.screenSize.height / 16,
+				InputHandler.screenSize.width / 4, 2 * InputHandler.screenSize.height / 3);
 	}
 
 }
