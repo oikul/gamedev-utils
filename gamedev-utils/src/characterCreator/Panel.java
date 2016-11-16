@@ -22,7 +22,7 @@ public class Panel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private String partsLocation, hairs = "hair/", torsos = "torso/", legs = "legs/";
-	private ArrayList<BufferedImage> hairList, torsoList, legList;
+	private ArrayList<String> hairList, torsoList, legList;
 	private int hairIndex, torsoIndex, legIndex;
 	private BufferedImage sprites;
 	private int prevColorH = Color.WHITE.getRGB(), prevColorT = Color.WHITE.getRGB(), prevColorL = Color.WHITE.getRGB(),
@@ -34,15 +34,15 @@ public class Panel extends JPanel {
 
 	public Panel(String partsLocation) {
 		this.partsLocation = partsLocation;
-		hairList = new ArrayList<BufferedImage>();
-		torsoList = new ArrayList<BufferedImage>();
-		legList = new ArrayList<BufferedImage>();
+		hairList = new ArrayList<String>();
+		torsoList = new ArrayList<String>();
+		legList = new ArrayList<String>();
 		boolean more = true;
 		// load up hair sprites
 		for (int i = 0; more; i++) {
 			try {
-				BufferedImage hair = ResourceHandler.getBufferedImage(partsLocation + hairs + "hair_" + i);
-				hairList.add(hair);
+				ResourceHandler.getBufferedImage(partsLocation + hairs + "hair_" + i);
+				hairList.add(partsLocation + hairs + "hair_" + i);
 			} catch (Exception e) {
 				more = false;
 			}
@@ -51,8 +51,8 @@ public class Panel extends JPanel {
 		// load up torso sprites
 		for (int i = 0; more; i++) {
 			try {
-				BufferedImage torso = ResourceHandler.getBufferedImage(partsLocation + torsos + "torso_" + i);
-				torsoList.add(torso);
+				ResourceHandler.getBufferedImage(partsLocation + torsos + "torso_" + i);
+				torsoList.add(partsLocation + torsos + "torso_" + i);
 			} catch (Exception e) {
 				more = false;
 			}
@@ -61,8 +61,8 @@ public class Panel extends JPanel {
 		// load up leg sprites
 		for (int i = 0; more; i++) {
 			try {
-				BufferedImage leg = ResourceHandler.getBufferedImage(partsLocation + legs + "leg_" + i);
-				legList.add(leg);
+				ResourceHandler.getBufferedImage(partsLocation + legs + "leg_" + i);
+				legList.add(partsLocation + legs + "leg_" + i);
 			} catch (Exception e) {
 				more = false;
 			}
@@ -423,14 +423,17 @@ public class Panel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.black);
-		g.fillRect(InputHandler.screenSize.width / 16, InputHandler.screenSize.height / 16,
-				InputHandler.screenSize.width / 4, 2 * InputHandler.screenSize.height / 3);
-		g.drawImage(sprites, InputHandler.screenSize.width / 16, InputHandler.screenSize.height / 16,
-				InputHandler.screenSize.width / 4, 2 * InputHandler.screenSize.height / 3, null);
+		g.fillRect(InputHandler.screenSize.width / 28, InputHandler.screenSize.height / 14,
+				2 * InputHandler.screenSize.width / 6, 4 * InputHandler.screenSize.height / 5);
+		g.drawImage(sprites, InputHandler.screenSize.width / 28, InputHandler.screenSize.height / 14,
+				2 * InputHandler.screenSize.width / 6, 4 * InputHandler.screenSize.height / 5, null);
 	}
 
-	public BufferedImage makeSpriteSheet(BufferedImage hair, BufferedImage torso, BufferedImage legs) {
+	public BufferedImage makeSpriteSheet(String hairPath, String torsoPath, String legsPath) {
 		BufferedImage base = ResourceHandler.getBufferedImage(partsLocation + "base");
+		BufferedImage hair = ResourceHandler.getBufferedImage(hairPath);
+		BufferedImage torso = ResourceHandler.getBufferedImage(torsoPath);
+		BufferedImage legs = ResourceHandler.getBufferedImage(legsPath);
 		int rgb = -1;
 		rgb = new Color(skinR.getValue(), skinG.getValue(), skinB.getValue()).getRGB();
 		for (int i = 0; i < base.getWidth(); i++) {
