@@ -11,8 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import entities.Player;
 import handlers.InputHandler;
 import handlers.MathHandler;
 import handlers.ResourceHandler;
@@ -24,6 +25,8 @@ public class Panel extends JPanel {
 	private ArrayList<BufferedImage> hairList, torsoList, legList;
 	private int hairIndex, torsoIndex, legIndex;
 	private BufferedImage sprites;
+	private int prevColorH = Color.WHITE.getRGB(), prevColorT = Color.WHITE.getRGB(), prevColorL = Color.WHITE.getRGB(),
+			prevColorS = Color.WHITE.getRGB();
 
 	private JButton hairChange, torsoChange, legChange;
 	private JSlider hairR, hairG, hairB, torsoR, torsoG, torsoB, legR, legG, legB, skinR, skinG, skinB;
@@ -251,6 +254,13 @@ public class Panel extends JPanel {
 		hairR.setMinimum(0);
 		hairR.setValue(MathHandler.random.nextInt(255));
 		hairR.setBounds(x, y, width, height);
+		hairR.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(hairR);
 		y = (int) InputHandler.midPoint.y / 3 - (height / 2);
 		hairG = new JSlider();
@@ -259,12 +269,26 @@ public class Panel extends JPanel {
 		hairG.setValue(MathHandler.random.nextInt(255));
 		hairG.setBounds(x, y, width, height);
 		this.add(hairG);
+		hairG.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		y = (int) InputHandler.midPoint.y / 3 + height;
 		hairB = new JSlider();
 		hairB.setMaximum(255);
 		hairB.setMinimum(0);
 		hairB.setValue(MathHandler.random.nextInt(255));
 		hairB.setBounds(x, y, width, height);
+		hairB.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(hairB);
 		y = (int) (2 * InputHandler.midPoint.y) / 3 - (2 * height);
 		torsoR = new JSlider();
@@ -272,6 +296,13 @@ public class Panel extends JPanel {
 		torsoR.setMinimum(0);
 		torsoR.setValue(MathHandler.random.nextInt(255));
 		torsoR.setBounds(x, y, width, height);
+		torsoR.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(torsoR);
 		y = (int) (2 * InputHandler.midPoint.y) / 3 - (height / 2);
 		torsoG = new JSlider();
@@ -279,6 +310,13 @@ public class Panel extends JPanel {
 		torsoG.setMinimum(0);
 		torsoG.setValue(MathHandler.random.nextInt(255));
 		torsoG.setBounds(x, y, width, height);
+		torsoG.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(torsoG);
 		y = (int) (2 * InputHandler.midPoint.y) / 3 + height;
 		torsoB = new JSlider();
@@ -286,6 +324,13 @@ public class Panel extends JPanel {
 		torsoB.setMinimum(0);
 		torsoB.setValue(MathHandler.random.nextInt(255));
 		torsoB.setBounds(x, y, width, height);
+		torsoB.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(torsoB);
 		y = (int) InputHandler.midPoint.y - (2 * height);
 		legR = new JSlider();
@@ -293,6 +338,13 @@ public class Panel extends JPanel {
 		legR.setMinimum(0);
 		legR.setValue(MathHandler.random.nextInt(255));
 		legR.setBounds(x, y, width, height);
+		legR.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(legR);
 		y = (int) InputHandler.midPoint.y - (height / 2);
 		legG = new JSlider();
@@ -300,6 +352,13 @@ public class Panel extends JPanel {
 		legG.setMinimum(0);
 		legG.setValue(MathHandler.random.nextInt(255));
 		legG.setBounds(x, y, width, height);
+		legG.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(legG);
 		y = (int) InputHandler.midPoint.y + height;
 		legB = new JSlider();
@@ -307,6 +366,13 @@ public class Panel extends JPanel {
 		legB.setMinimum(0);
 		legB.setValue(MathHandler.random.nextInt(255));
 		legB.setBounds(x, y, width, height);
+		legB.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(legB);
 		y = 4 * ((int) InputHandler.midPoint.y / 3) - (2 * height);
 		skinR = new JSlider();
@@ -314,6 +380,13 @@ public class Panel extends JPanel {
 		skinR.setMinimum(0);
 		skinR.setValue(MathHandler.random.nextInt(255));
 		skinR.setBounds(x, y, width, height);
+		skinR.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(skinR);
 		y = 4 * ((int) InputHandler.midPoint.y / 3) - (height / 2);
 		skinG = new JSlider();
@@ -321,6 +394,13 @@ public class Panel extends JPanel {
 		skinG.setMinimum(0);
 		skinG.setValue(MathHandler.random.nextInt(255));
 		skinG.setBounds(x, y, width, height);
+		skinG.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(skinG);
 		y = 4 * ((int) InputHandler.midPoint.y / 3) + height;
 		skinB = new JSlider();
@@ -328,6 +408,13 @@ public class Panel extends JPanel {
 		skinB.setMinimum(0);
 		skinB.setValue(MathHandler.random.nextInt(255));
 		skinB.setBounds(x, y, width, height);
+		skinB.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
+			}
+		});
 		this.add(skinB);
 		sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
 	}
@@ -341,15 +428,52 @@ public class Panel extends JPanel {
 		g.drawImage(sprites, InputHandler.screenSize.width / 16, InputHandler.screenSize.height / 16,
 				InputHandler.screenSize.width / 4, 2 * InputHandler.screenSize.height / 3, null);
 	}
-	
-	public BufferedImage makeSpriteSheet(BufferedImage hair, BufferedImage torso, BufferedImage legs){
+
+	public BufferedImage makeSpriteSheet(BufferedImage hair, BufferedImage torso, BufferedImage legs) {
 		BufferedImage base = ResourceHandler.getBufferedImage(partsLocation + "base");
+		int rgb = -1;
+		rgb = new Color(skinR.getValue(), skinG.getValue(), skinB.getValue()).getRGB();
+		for (int i = 0; i < base.getWidth(); i++) {
+			for (int j = 0; j < base.getHeight(); j++) {
+				if (base.getRGB(i, j) == prevColorS || base.getRGB(i, j) == Color.WHITE.getRGB()) {
+					base.setRGB(i, j, rgb);
+				}
+			}
+		}
+		prevColorS = rgb;
 		Graphics g = base.getGraphics();
+		rgb = new Color(hairR.getValue(), hairG.getValue(), hairB.getValue()).getRGB();
+		for (int i = 0; i < hair.getWidth(); i++) {
+			for (int j = 0; j < hair.getHeight(); j++) {
+				if (hair.getRGB(i, j) == prevColorH || hair.getRGB(i, j) == Color.white.getRGB()) {
+					hair.setRGB(i, j, rgb);
+				}
+			}
+		}
+		prevColorH = rgb;
+		rgb = new Color(torsoR.getValue(), torsoG.getValue(), torsoB.getValue()).getRGB();
+		for (int i = 0; i < torso.getWidth(); i++) {
+			for (int j = 0; j < torso.getHeight(); j++) {
+				if (torso.getRGB(i, j) == prevColorT || torso.getRGB(i, j) == Color.WHITE.getRGB()) {
+					torso.setRGB(i, j, rgb);
+				}
+			}
+		}
+		prevColorT = rgb;
+		rgb = new Color(legR.getValue(), legG.getValue(), legB.getValue()).getRGB();
+		for (int i = 0; i < legs.getWidth(); i++) {
+			for (int j = 0; j < legs.getHeight(); j++) {
+				if (legs.getRGB(i, j) == prevColorL || legs.getRGB(i, j) == Color.WHITE.getRGB()) {
+					legs.setRGB(i, j, rgb);
+				}
+			}
+		}
+		prevColorL = rgb;
+		g.drawImage(torso, 0, 0, null);
+		g.drawImage(legs, 0, 0, null);
 		g.drawImage(hair, 0, 0, null);
 		g.drawImage(hair, 0, 16, null);
 		g.drawImage(hair, 0, 32, null);
-		g.drawImage(torso, 0, 0, null);
-		g.drawImage(legs, 0, 0, null);
 		return base;
 	}
 

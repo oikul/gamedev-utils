@@ -4,7 +4,8 @@ import handlers.InputHandler;
 import utils.AbstractMain;
 
 public class CharTest extends AbstractMain {
-	
+
+	private static final long serialVersionUID = 1L;
 	private Panel panel;
 
 	public static void main(String[] args) {
