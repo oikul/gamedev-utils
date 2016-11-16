@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+import entities.Player;
 import handlers.InputHandler;
 import handlers.MathHandler;
 import handlers.ResourceHandler;
@@ -19,15 +20,17 @@ import handlers.ResourceHandler;
 public class Panel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private String hairs = "hair/", torsos = "torsos/", legs = "legs/";
+	private String partsLocation, hairs = "hair/", torsos = "torso/", legs = "legs/";
 	private ArrayList<BufferedImage> hairList, torsoList, legList;
 	private int hairIndex, torsoIndex, legIndex;
+	private BufferedImage sprites;
 
 	private JButton hairChange, torsoChange, legChange;
 	private JSlider hairR, hairG, hairB, torsoR, torsoG, torsoB, legR, legG, legB, skinR, skinG, skinB;
 	private JLabel hair, torso, leg, skin, r0, r1, r2, r3, g0, g1, g2, g3, b0, b1, b2, b3;
 
 	public Panel(String partsLocation) {
+		this.partsLocation = partsLocation;
 		hairList = new ArrayList<BufferedImage>();
 		torsoList = new ArrayList<BufferedImage>();
 		legList = new ArrayList<BufferedImage>();
@@ -76,11 +79,13 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (hairIndex < hairList.size()) {
+				if (hairIndex < hairList.size() - 1) {
 					hairIndex++;
 				} else {
 					hairIndex = 0;
 				}
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
 			}
 
 			@Override
@@ -126,11 +131,13 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (torsoIndex < torsoList.size()) {
+				if (torsoIndex < torsoList.size() - 1) {
 					torsoIndex++;
 				} else {
 					torsoIndex = 0;
 				}
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
 			}
 
 			@Override
@@ -176,11 +183,13 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (legIndex < legList.size()) {
+				if (legIndex < legList.size() - 1) {
 					legIndex++;
 				} else {
 					legIndex = 0;
 				}
+				sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+				repaint();
 			}
 
 			@Override
@@ -320,6 +329,7 @@ public class Panel extends JPanel {
 		skinB.setValue(MathHandler.random.nextInt(255));
 		skinB.setBounds(x, y, width, height);
 		this.add(skinB);
+		sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
 	}
 
 	@Override
@@ -328,6 +338,19 @@ public class Panel extends JPanel {
 		g.setColor(Color.black);
 		g.fillRect(InputHandler.screenSize.width / 16, InputHandler.screenSize.height / 16,
 				InputHandler.screenSize.width / 4, 2 * InputHandler.screenSize.height / 3);
+		g.drawImage(sprites, InputHandler.screenSize.width / 16, InputHandler.screenSize.height / 16,
+				InputHandler.screenSize.width / 4, 2 * InputHandler.screenSize.height / 3, null);
+	}
+	
+	public BufferedImage makeSpriteSheet(BufferedImage hair, BufferedImage torso, BufferedImage legs){
+		BufferedImage base = ResourceHandler.getBufferedImage(partsLocation + "base");
+		Graphics g = base.getGraphics();
+		g.drawImage(hair, 0, 0, null);
+		g.drawImage(hair, 0, 16, null);
+		g.drawImage(hair, 0, 32, null);
+		g.drawImage(torso, 0, 0, null);
+		g.drawImage(legs, 0, 0, null);
+		return base;
 	}
 
 }

@@ -18,7 +18,7 @@ public class CharTest extends AbstractMain {
 		this.setTitle("Character Creator");
 		this.setBounds(0, 0, InputHandler.screenSize.width, InputHandler.screenSize.height);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		panel = new Panel("");
+		panel = new Panel("character/");
 		this.add(panel);
 		this.setVisible(running);
 	}
