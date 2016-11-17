@@ -28,7 +28,7 @@ public class Panel extends JPanel {
 	private int prevColorH = Color.WHITE.getRGB(), prevColorT = Color.WHITE.getRGB(), prevColorL = Color.WHITE.getRGB(),
 			prevColorS = Color.WHITE.getRGB();
 
-	private JButton hairChange, torsoChange, legChange;
+	private JButton hairChange, torsoChange, legChange, done, cancel;
 	private JSlider hairR, hairG, hairB, torsoR, torsoG, torsoB, legR, legG, legB, skinR, skinG, skinB;
 	private JLabel hair, torso, leg, skin, r0, r1, r2, r3, g0, g1, g2, g3, b0, b1, b2, b3;
 
@@ -416,6 +416,33 @@ public class Panel extends JPanel {
 			}
 		});
 		this.add(skinB);
+		done = new JButton("Done");
+		done.setBounds(13 * (int) InputHandler.screenSize.width / 16, 13 * (int) InputHandler.screenSize.height / 16, (int) InputHandler.midPoint.x/8, (int) InputHandler.midPoint.y/8);
+		done.addMouseListener(new MouseListener(){
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+		});
+		cancel = new JButton("cancel");
+		cancel.setBounds(10 * (int) InputHandler.screenSize.width / 16, 13 * (int) InputHandler.screenSize.height / 16, (int) InputHandler.midPoint.x/8, (int) InputHandler.midPoint.y/8);
+		this.add(done);
+		this.add(cancel);
 		sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
 	}
 
