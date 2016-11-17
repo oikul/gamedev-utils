@@ -422,9 +422,6 @@ public class Panel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.black);
-		g.fillRect(InputHandler.screenSize.width / 28, InputHandler.screenSize.height / 14,
-				2 * InputHandler.screenSize.width / 6, 4 * InputHandler.screenSize.height / 5);
 		g.drawImage(sprites, InputHandler.screenSize.width / 28, InputHandler.screenSize.height / 14,
 				2 * InputHandler.screenSize.width / 6, 4 * InputHandler.screenSize.height / 5, null);
 	}
@@ -475,8 +472,8 @@ public class Panel extends JPanel {
 		g.drawImage(torso, 0, 0, null);
 		g.drawImage(legs, 0, 0, null);
 		g.drawImage(hair, 0, 0, null);
-		g.drawImage(hair, 0, 16, null);
-		g.drawImage(hair, 0, 32, null);
+		g.drawImage(hair, 0, hair.getHeight(), null);
+		g.drawImage(hair, 0, hair.getHeight() * 2, null);
 		return base;
 	}
 
