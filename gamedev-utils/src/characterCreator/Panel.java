@@ -21,7 +21,7 @@ import handlers.ResourceHandler;
 public class Panel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private String partsLocation, hairs = "hair/", torsos = "torso/", legs = "legs/";
+	private String partsLocation, hairs = "head/hair/", torsos = "torso/", legs = "legs/";
 	private ArrayList<String> hairList, torsoList, legList;
 	private int hairIndex, torsoIndex, legIndex;
 	private BufferedImage sprites;
@@ -439,7 +439,7 @@ public class Panel extends JPanel {
 			public void mouseReleased(MouseEvent arg0) {
 			}
 		});
-		cancel = new JButton("cancel");
+		cancel = new JButton("Cancel");
 		cancel.setBounds(10 * (int) InputHandler.screenSize.width / 16, 13 * (int) InputHandler.screenSize.height / 16, (int) InputHandler.midPoint.x/8, (int) InputHandler.midPoint.y/8);
 		this.add(done);
 		this.add(cancel);
