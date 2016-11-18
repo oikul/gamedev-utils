@@ -15,8 +15,7 @@ import handlers.MathHandler;
 public class Game {
 
 	private Vector2f playerLoc;
-	private int playerSpeed;
-	private int enemySpeed;
+	private int playerSpeed,enemySpeed,size;
 	private Vector2f[] enemies;
 	private Vector2f[] enemiesMomentum;
 	private Vector2f[] movingTo;
@@ -33,7 +32,7 @@ public class Game {
 
 		playerSpeed = 100;
 		enemySpeed = 90;
-		int size = 500;
+		size = 100;
 		for (int x = 0; x < enemies.length; x++) {
 			enemies[x] = new Vector2f(rad.nextInt(size)+Main.width/2-size/2,
 					rad.nextInt(size)+Main.height/2-size/2);
@@ -119,22 +118,23 @@ public class Game {
 			if (movingTo[x].length() != 0) {
 
 				movingTo[x].normalise();
-				movingTo[x].scale(magnitude/10);
+				movingTo[x].scale(magnitude/10f);
 
 			}
+			
 			enemiesMomentum[x].translate(movingTo[x].x, movingTo[x].y);
 
 			enemies[x].translate(enemiesMomentum[x].x, enemiesMomentum[x].y);
 			
-			if (enemies[x].x < 0) {
-				enemies[x].x = 0;
-			} else if (enemies[x].x > Main.width) {
-				enemies[x].x = Main.width;
-			}
-//			if (enemies[x].y < 0) {
-//				enemies[x].y = 0;
-//			} else if (enemies[x].y > Main.height) {
-//				enemies[x].y = Main.height;
+//			if (enemies[x].x < playerLoc.x - 2 * size) {
+//				enemies[x].x = playerLoc.x - 2 * size;
+//			} else if (enemies[x].x > playerLoc.x + 2 * size) {
+//				enemies[x].x = playerLoc.x + 2 * size;
+//			}
+//			if (enemies[x].y < playerLoc.y - 2 * size) {
+//				enemies[x].y = playerLoc.y - 2 * size;
+//			} else if (enemies[x].y > playerLoc.y + 2 * size) {
+//				enemies[x].y = playerLoc.y + 2 * size;
 //			}
 		}
 
@@ -150,6 +150,7 @@ public class Game {
 		}
 		g.setColor(Color.green);
 //		g.fillRect((int) playerLoc.x - 16, (int) playerLoc.y - 16, 32, 32);
+		g.drawRect((Main.width)/2-2*size , (Main.height)/2-2*size, size*4, size*4);
 
 	}
 

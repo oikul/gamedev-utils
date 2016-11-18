@@ -273,6 +273,7 @@ public class Main extends JFrame {
 	private void update() {
 		// Quit
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
+			running = false;
 			input.artificialKeyReleased(KeyEvent.VK_ESCAPE);
 		} else {
 			// Reset image location
