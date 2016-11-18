@@ -84,8 +84,9 @@ public class Biome {
 		plains.addDecoPart(new BiomePart(Block.flower, 0.8f, 1f, 0.8f));
 		
 		forest.addBiomePart(new BiomePart(Block.water_river, 0.9f, 1f, 0));
+		forest.addBiomePart(new BiomePart(Block.sand, 0.83f, 0.9f, 0));
 		forest.addDecoPart(new BiomePart(Block.tree_birch_1, 0f, 0.4f, 0.85f));
-		forest.addDecoPart(new BiomePart(Block.tree_oak_1, 0.45f, 0.85f, 0.85f));
+		forest.addDecoPart(new BiomePart(Block.tree_oak_1, 0.45f, 0.8f, 0.85f));
 		
 		rivers.addBiomePart(new BiomePart(Block.water_river, 0.4f, 0.6f, 0));
 		rivers.addBiomePart(new BiomePart(Block.sand_beach, 0.38f, 0.4f, 0));
