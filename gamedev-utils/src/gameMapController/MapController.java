@@ -23,6 +23,8 @@ public class MapController {
 		for(Entity enemy: enemies){
 			if(playerBox.intersects(enemy.getHitBox())){
 				player.collided();
+				break;
+				
 			}
 		}
 	}
