@@ -21,7 +21,7 @@ import handlers.ResourceHandler;
 public class Panel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private String partsLocation, hairs = "head/hair/", torsos = "torso/", legs = "legs/";
+	private String partsLocation, hairs = "head/hair/", torsos = "torso/torso/", legs = "legs/legs/";
 	private ArrayList<String> hairList, torsoList, legList;
 	private int hairIndex, torsoIndex, legIndex;
 	private BufferedImage sprites;

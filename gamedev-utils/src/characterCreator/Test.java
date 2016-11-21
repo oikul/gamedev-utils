@@ -8,7 +8,7 @@ import utils.AbstractMain;
 public class Test extends AbstractMain {
 
 	private static final long serialVersionUID = 1L;
-	private PartPanel headPanel, torsoPanel, legPanel;
+	private PartPanel headPanel, torsoPanel, legPanel, miscPanel, skinPanel;
 
 	@Override
 	public void initialise() {
@@ -21,13 +21,14 @@ public class Test extends AbstractMain {
 		headPanel = new PartPanel("character16/head/", "hair", "deco", 0, 0, width, height);
 		torsoPanel = new PartPanel("character16/torso/", "torso", "deco", 0, 0, width, height);
 		legPanel = new PartPanel("character16/legs/", "legs", "deco", 0, 0, width, height);
-		this.setLayout(new GridLayout());
-		// headPanel.setBounds(0, 0, width, height);
-		this.add(headPanel);
-		// torsoPanel.setBounds(0, 0, width, height);
-		this.add(torsoPanel);
-		// legPanel.setBounds(0, 0, width, height);
-		this.add(legPanel);
+		miscPanel = new PartPanel("character16/misc/", "shoes", "arms", 0, 0, width, height);
+		skinPanel = new PartPanel("character16/skin/", "base", "deco", 0, 0, width, height);
+		this.setLayout(new GridLayout(4, 4));
+		this.add(headPanel, 0);
+		this.add(torsoPanel, 1);
+		this.add(legPanel, 2);
+		this.add(skinPanel, 3);
+		this.add(miscPanel, 4);
 		this.setVisible(running);
 	}
 
