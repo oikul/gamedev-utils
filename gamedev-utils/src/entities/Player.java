@@ -36,57 +36,64 @@ public class Player extends Entity {
 		yLocation -= ((speed * time) / (Math.sqrt(2) * Math.abs(vector.x))) * vector.y;
 
 	}
+	
+	public void collided(){
+
+		xLocation += attackVector.x;
+		yLocation += attackVector.y;
+		
+	}
 
 	public void moveUp(float time) {
 		yLocation -= speed * time;
 		currentX = 1;
-		attackVector.setLocation(0, -1);
+		attackVector.set(0, -1);
 	}
 
 	public void moveLeft(float time) {
 		xLocation -= speed * time;
 		currentX = 3;
-		attackVector.setLocation(-1, 0);
+		attackVector.set(-1, 0);
 	}
 
 	public void moveDown(float time) {
 		yLocation += speed * time;
 		currentX = 0;
-		attackVector.setLocation(0, 1);
+		attackVector.set(0, 1);
 	}
 
 	public void moveRight(float time) {
 		xLocation += speed * time;
 		currentX = 2;
-		attackVector.setLocation(1, 0);
+		attackVector.set(1, 0);
 	}
 
 	public void moveUL(float time) {
 		xLocation -= (speed * time) / Math.sqrt(2);
 		yLocation -= (speed * time) / Math.sqrt(2);
 		currentX = 1;
-		attackVector.setLocation(-1, -1);
+		attackVector.set(-1, -1);
 	}
 
 	public void moveUR(float time) {
 		xLocation += (speed * time) / Math.sqrt(2);
 		yLocation -= (speed * time) / Math.sqrt(2);
 		currentX = 1;
-		attackVector.setLocation(1, -1);
+		attackVector.set(1, -1);
 	}
 
 	public void moveDL(float time) {
 		xLocation -= (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
 		currentX = 0;
-		attackVector.setLocation(-1, 1);
+		attackVector.set(-1, 1);
 	}
 
 	public void moveDR(float time) {
 		xLocation += (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
 		currentX = 0;
-		attackVector.setLocation(1, 1);
+		attackVector.set(1, 1);
 	}
 
 	public void attack() {

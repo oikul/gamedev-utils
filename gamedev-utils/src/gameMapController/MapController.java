@@ -22,7 +22,7 @@ public class MapController {
 		Rectangle playerBox = player.getHitBox();
 		for(Entity enemy: enemies){
 			if(playerBox.intersects(enemy.getHitBox())){
-				
+				player.collided();
 			}
 		}
 	}
