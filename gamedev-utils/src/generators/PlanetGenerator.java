@@ -37,63 +37,63 @@ public class PlanetGenerator {
 		Biome b = Biome.forest;
 		if (temperature >= 0 && temperature < 0.2) {
 			if (precipitation >= 0 && precipitation < 0.2) {
-				b = Biome.plains;
+				b = Biome.polar_desert;
 			} else if (precipitation >= 0.2 && precipitation < 0.4) {
-
+				b = Biome.ice_spikes;
 			} else if (precipitation >= 0.4 && precipitation < 0.6) {
-
+				b = Biome.frozen_lakes;
 			} else if (precipitation >= 0.6 && precipitation < 0.8) {
-
+				b = Biome.ice_sheet;
 			} else if (precipitation >= 0.8 && precipitation <= 1.0) {
-
+				b = Biome.ice_bergs;
 			}
 		} else if (temperature >= 0.2 && temperature < 0.4) {
 			if (precipitation >= 0 && precipitation < 0.2) {
-
+				b = Biome.tundra;
 			} else if (precipitation >= 0.2 && precipitation < 0.4) {
-
+				b = Biome.mountain;
 			} else if (precipitation >= 0.4 && precipitation < 0.6) {
-
+				b = Biome.taiga;
 			} else if (precipitation >= 0.6 && precipitation < 0.8) {
-
+				b = Biome.mountain_forest;
 			} else if (precipitation >= 0.8 && precipitation <= 1.0) {
-
+				b = Biome.ocean;
 			}
 		} else if (temperature >= 0.4 && temperature < 0.6) {
 			if (precipitation >= 0 && precipitation < 0.2) {
-
+				b = Biome.steppe;
 			} else if (precipitation >= 0.2 && precipitation < 0.4) {
-
+				b = Biome.plains;
 			} else if (precipitation >= 0.4 && precipitation < 0.6) {
-
+				b = Biome.forest;
 			} else if (precipitation >= 0.6 && precipitation < 0.8) {
-
+				b = Biome.lakes;
 			} else if (precipitation >= 0.8 && precipitation <= 1.0) {
-
+				b = Biome.islands;
 			}
 		} else if (temperature >= 0.6 && temperature < 0.8) {
 			if (precipitation >= 0 && precipitation < 0.2) {
-
+				b = Biome.desert_plains;
 			} else if (precipitation >= 0.2 && precipitation < 0.4) {
-
+				b = Biome.canyon;
 			} else if (precipitation >= 0.4 && precipitation < 0.6) {
-
+				b = Biome.savannah;
 			} else if (precipitation >= 0.6 && precipitation < 0.8) {
-
+				b = Biome.jungle;
 			} else if (precipitation >= 0.8 && precipitation <= 1.0) {
-
+				b = Biome.rainforest;
 			}
 		} else if (temperature >= 0.8 && temperature <= 1.0) {
 			if (precipitation >= 0 && precipitation < 0.2) {
-
+				b = Biome.lava_ocean;
 			} else if (precipitation >= 0.2 && precipitation < 0.4) {
-
+				b = Biome.lava_islands;
 			} else if (precipitation >= 0.4 && precipitation < 0.6) {
-
+				b = Biome.lava_lakes;
 			} else if (precipitation >= 0.6 && precipitation < 0.8) {
-
+				b = Biome.igneous_desert;
 			} else if (precipitation >= 0.8 && precipitation <= 1.0) {
-
+				b = Biome.volcanic_mountains;
 			}
 		}
 		return b;
@@ -105,13 +105,13 @@ public class PlanetGenerator {
 			for (int j = 0; j < noise[0].length; j++) {
 				for (BiomePart part : biome.getBiomeParts()) {
 					if (part.getStart() <= noise[i][j] && part.getEnd() >= noise[i][j]
-							&& part.getChance() <= random.nextFloat()) {
+							&& part.getChance() >= random.nextFloat()) {
 						planet[i][j] = part.getBlock();
 					}
 				}
 				for(BiomePart part : biome.getDecoParts()) {
 					if (part.getStart() <= noise[i][j] && part.getEnd() >= noise[i][j]
-							&& part.getChance() <= random.nextFloat()) {
+							&& part.getChance() >= random.nextFloat()) {
 						decoration[i][j] = part.getBlock();
 					}
 				}
