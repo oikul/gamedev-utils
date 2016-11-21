@@ -3,6 +3,7 @@ package generators;
 import java.awt.Graphics;
 
 import biome.Biome;
+import blocks.Block;
 import handlers.InputHandler;
 import handlers.MathHandler;
 import utils.AbstractMain;
@@ -30,14 +31,17 @@ public class PlanetTest extends AbstractMain {
 		this.setSize(InputHandler.screenSize);
 		Biome.createDefaultBiomes();
 		long seed = MathHandler.random.nextLong();
-		planet = new PlanetGenerator(Biome.islands, 500, 500, seed);
+		planet = new PlanetGenerator(500, 500, seed);
 		noise = new PerlinNoiseGenerator(seed);
 		planet.generatePlanet(noise.getPerlinNoise(500, 500, 4, 5));
 	}
 
 	@Override
 	public void update(float time) {
-		
+		Block.lava.update();
+		Block.water_murky.update();
+		Block.water_ocean.update();
+		Block.water_river.update();
 	}
 
 	@Override
