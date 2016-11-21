@@ -102,9 +102,9 @@ public class Block {
 	public static final Block grass_tundra = new Block("grass/grass_tundra.png", 8, 0, false, 16, 16);
 
 	// ice, ids 10-15
-	public static final Block ice_spikes = new Block("ice/ice_spikes.png", 10, 0, true, 16, 16);
-	public static final Block ice = new Block("ice/ice.png", 11, 0, false, 16, 16);
-	public static final Block snow = new Block("ice/snow.png", 12, 0, false, 16, 16);
+	public static final Block ice_spikes = new Block("ice/ice_spikes_1.png", 10, 0, true, 16, 16);
+	public static final Block ice = new Block("ice/ice_1.png", 11, 0, false, 16, 16);
+	public static final Block snow = new Block("ice/snow_1.png", 12, 0, false, 16, 16);
 
 	// sand blocks ids 15-25
 	public static final Block sand_arid = new Block("sand/sand_arid.png", 15, 0, false, 16, 16);

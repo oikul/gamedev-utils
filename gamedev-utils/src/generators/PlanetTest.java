@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import biome.Biome;
 import handlers.InputHandler;
+import handlers.MathHandler;
 import utils.AbstractMain;
 
 public class PlanetTest extends AbstractMain {
@@ -28,8 +29,9 @@ public class PlanetTest extends AbstractMain {
 		this.setVisible(running);
 		this.setSize(InputHandler.screenSize);
 		Biome.createDefaultBiomes();
-		planet = new PlanetGenerator(Biome.forest, 500, 500, 0);
-		noise = new PerlinNoiseGenerator(0);
+		long seed = MathHandler.random.nextLong();
+		planet = new PlanetGenerator(Biome.islands, 500, 500, seed);
+		noise = new PerlinNoiseGenerator(seed);
 		planet.generatePlanet(noise.getPerlinNoise(500, 500, 4, 5));
 	}
 
@@ -41,7 +43,7 @@ public class PlanetTest extends AbstractMain {
 	@Override
 	public void draw() {
 		Graphics g = this.getGraphics();
-		planet.draw(g, 3);
+		planet.draw(g, 4);
 	}
 
 }

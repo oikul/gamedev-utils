@@ -13,7 +13,7 @@ public class ButtonPanel extends JPanel {
 		animate = new JButton("Animate");
 		direction = new JButton("Change Direction");
 		cancel = new JButton("Cancel");
-		done = new JButton("done");
+		done = new JButton("Done");
 	}
 
 }
