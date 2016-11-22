@@ -26,9 +26,8 @@ public class PlanetTest extends AbstractMain {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("Planet Gen Test");
-		this.setSize(WIDTH, HEIGHT);
-		this.setVisible(running);
 		this.setSize(InputHandler.screenSize);
+		this.setVisible(running);
 		Biome.createDefaultBiomes();
 		long seed = MathHandler.random.nextLong();
 		planet = new PlanetGenerator(500, 500, seed);

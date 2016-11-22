@@ -5,7 +5,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-public abstract class Label extends JLabel {
+public class Label extends JLabel {
 
 	private static final long serialVersionUID = 1L;
 	
