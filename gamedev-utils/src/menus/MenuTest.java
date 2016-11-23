@@ -15,7 +15,6 @@ public class MenuTest extends AbstractMain {
 		this.setResizable(false);
 		this.setTitle("Menu Test");
 		this.setSize(InputHandler.screenSize);
-		this.setVisible(running);
 		menu = new Menu("backgrounds/space"){
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -24,6 +23,7 @@ public class MenuTest extends AbstractMain {
 			}
 		};
 		this.add(menu);
+		this.setVisible(running);
 	}
 
 	@Override

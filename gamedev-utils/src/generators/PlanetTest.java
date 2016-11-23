@@ -3,7 +3,6 @@ package generators;
 import java.awt.Graphics;
 
 import biome.Biome;
-import blocks.Block;
 import handlers.InputHandler;
 import handlers.MathHandler;
 import utils.AbstractMain;
@@ -37,10 +36,6 @@ public class PlanetTest extends AbstractMain {
 
 	@Override
 	public void update(float time) {
-		Block.lava.update();
-		Block.water_murky.update();
-		Block.water_ocean.update();
-		Block.water_river.update();
 	}
 
 	@Override

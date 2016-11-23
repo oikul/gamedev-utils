@@ -25,9 +25,10 @@ public class ResourceHandler {
 	 */
 	public static Image getImage(String path){
 		try{
-			URL url = rl.getClass().getClassLoader().getResource("resources/" + path);
+			URL url = rl.getClass().getClassLoader().getResource("resources/" + path + ".png");
 			return new ImageIcon(url).getImage();
 		}catch (Exception e){
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -37,7 +38,7 @@ public class ResourceHandler {
 			URL url = rl.getClass().getClassLoader().getResource("resources/" + path + ".png");
 			return ImageIO.read(url);
 		} catch (IOException e) {
-			System.out.println("failed to load");
+			System.err.println("failed to load");
 			e.printStackTrace();
 		}
 		return null;

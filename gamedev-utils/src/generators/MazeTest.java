@@ -36,7 +36,7 @@ public class MazeTest extends AbstractMain {
 	public void draw() {
 		Graphics g = this.getGraphics();
 		Graphics2D g2d = (Graphics2D) image.getGraphics();
-		maze.draw(g2d, Block.rock, Block.stone_solid, 4);
+		maze.draw(g2d, Block.rock, Block.stone_solid, 1);
 		g.drawImage(image, 0, 0, null);
 	}
 
