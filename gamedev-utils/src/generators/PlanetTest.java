@@ -25,19 +25,17 @@ public class PlanetTest extends AbstractMain {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("Planet Gen Test");
-		this.setSize(WIDTH, HEIGHT);
-		this.setVisible(running);
 		this.setSize(InputHandler.screenSize);
+		this.setVisible(running);
 		Biome.createDefaultBiomes();
 		long seed = MathHandler.random.nextLong();
-		planet = new PlanetGenerator(Biome.islands, 500, 500, seed);
+		planet = new PlanetGenerator(500, 500, seed);
 		noise = new PerlinNoiseGenerator(seed);
 		planet.generatePlanet(noise.getPerlinNoise(500, 500, 4, 5));
 	}
 
 	@Override
 	public void update(float time) {
-		
 	}
 
 	@Override

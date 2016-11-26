@@ -8,13 +8,14 @@ import blocks.Block;
 
 public class MazeGenerator {
 
-	private int width, height, size = 64;
+	private int width, height, size;
 	private boolean[][] north, east, south, west, visited, treasure;
 	private Random random;
 
-	public MazeGenerator(int width, int height, long seed) {
+	public MazeGenerator(int width, int height, int size, long seed) {
 		this.width = width;
 		this.height = height;
+		this.size = size;
 		random = new Random(seed);
 		initialise();
 	}
@@ -47,8 +48,8 @@ public class MazeGenerator {
 				}
 			}
 		}
-		//west[1][1] = false;
-		//east[width][height] = false;
+		west[1][1] = false;
+		east[width][height] = false;
 	}
 
 	public void generate(int x, int y) {
@@ -82,9 +83,9 @@ public class MazeGenerator {
 	}
 
 	public void draw(Graphics2D g2d, Block wall, Block floor, int mult) {
-		for(int i = 4; i < (size + 2)*2; i++){
-			for(int j = 4; j < (size + 2)*2; j++){
-				floor.draw(g2d, i*16 * mult, j*16 * mult, mult);
+		for(int i = 4; i <= (size + 4); i++){
+			for(int j = 4; j <= (size + 4); j++){
+				floor.draw(g2d, i * 16 * mult, j * 16 * mult, mult);
 			}
 		}
 		for (int i = 1; i <= width; i++) {

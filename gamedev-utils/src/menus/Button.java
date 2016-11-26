@@ -6,7 +6,7 @@ import javax.swing.JButton;
 
 import handlers.InputHandler;
 
-public abstract class Button extends JButton {
+public class Button extends JButton {
 
 	private static final long serialVersionUID = 1L;
 	private InputHandler input;

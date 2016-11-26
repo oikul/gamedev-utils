@@ -10,51 +10,49 @@ public class Biome {
 	private static HashMap<Integer, Biome> idMap = new HashMap<Integer, Biome>();
 
 	// very cold biomes
-	public static Biome polar_desert = new Biome("polar desert", 0, Block.snow);
-	public static Biome ice_spikes = new Biome("ice spikes", 1, Block.snow);
-	public static Biome frozen_lakes = new Biome("frozen lakes", 2, Block.snow);
-	public static Biome ice_sheet = new Biome("ice sheet", 3, Block.ice);
-	public static Biome ice_bergs = new Biome("ice bergs", 4, Block.water_ocean);
+	public static Biome polar_desert = new Biome("polar desert", 0, 0.05f, Block.snow);
+	public static Biome ice_spikes = new Biome("ice spikes", 1, 0.05f, Block.snow);
+	public static Biome frozen_lakes = new Biome("frozen lakes", 2, 0.1f, Block.snow);
+	public static Biome ice_sheet = new Biome("ice sheet", 3, 0.1f, Block.ice);
+	public static Biome ice_bergs = new Biome("ice bergs", 4, 0.1f, Block.water_ocean);
 
 	// cold biomes
-	public static Biome tundra = new Biome("tundra", 5, Block.grass_tundra);
-	public static Biome mountain = new Biome("mountain", 6, Block.grass_mountains);
-	public static Biome taiga = new Biome("taiga", 7, Block.grass_snowy);
-	public static Biome mountain_forest = new Biome("mountain forest", 8, Block.grass_mountains);
-	public static Biome ocean = new Biome("ocean", 9, Block.water_ocean);
+	public static Biome tundra = new Biome("tundra", 5, 0.15f, Block.grass_tundra);
+	public static Biome mountain = new Biome("mountain", 6, 0.2f, Block.grass_mountains);
+	public static Biome taiga = new Biome("taiga", 7, 0.2f, Block.grass_snowy);
+	public static Biome mountain_forest = new Biome("mountain forest", 8, 0.2f, Block.grass_mountains);
+	public static Biome ocean = new Biome("ocean", 9, 0.2f, Block.water_ocean);
 
 	// medium biomes
-	public static Biome steppe = new Biome("steppe", 10, Block.grass_steppe);
-	public static Biome plains = new Biome("plains", 11, Block.grass_plains);
-	public static Biome forest = new Biome("forest", 12, Block.grass_forest);
-	public static Biome lakes = new Biome("lakes", 13, Block.grass_plains);
-	public static Biome islands = new Biome("islands", 14, Block.water_ocean);
+	public static Biome steppe = new Biome("steppe", 10, 0.25f, Block.grass_steppe);
+	public static Biome plains = new Biome("plains", 11, 0.3f, Block.grass_plains);
+	public static Biome forest = new Biome("forest", 12, 0.3f, Block.grass_forest);
+	public static Biome lakes = new Biome("lakes", 13, 0.3f, Block.grass_plains);
+	public static Biome islands = new Biome("islands", 14, 0.25f, Block.water_ocean);
 
 	// hot biomes
-	public static Biome desert_plains = new Biome("desert plains", 15, Block.sand);
-	public static Biome canyon = new Biome("canyon", 16, Block.clay);
-	public static Biome savannah = new Biome("savannah", 17, Block.grass_savannah);
-	public static Biome jungle = new Biome("jungle", 18, Block.grass_jungle);
-	public static Biome rainforest = new Biome("rainforest", 19, Block.grass_rainforest);
+	public static Biome desert_plains = new Biome("desert plains", 15, 0.2f, Block.sand_cracked);
+	public static Biome canyon = new Biome("canyon", 16, 0.2f, Block.clay);
+	public static Biome savannah = new Biome("savannah", 17, 0.2f, Block.grass_savannah);
+	public static Biome jungle = new Biome("jungle", 18, 0.2f, Block.grass_jungle);
+	public static Biome rainforest = new Biome("rainforest", 19, 0.15f, Block.grass_rainforest);
 
 	// very hot biomes
-	public static Biome lava_ocean = new Biome("lava ocean", 20, Block.lava);
-	public static Biome lava_islands = new Biome("lava islands", 21, Block.lava);
-	public static Biome lava_lakes = new Biome("lava lakes", 22, Block.stone_volcanic);
-	public static Biome igneous_desert = new Biome("igneous desert", 23, Block.stone_volcanic);
-	public static Biome volcanic_mountains = new Biome("volcanic_mountains", 24, Block.stone_volcanic);
+	public static Biome lava_ocean = new Biome("lava ocean", 20, 0.1f, Block.lava);
+	public static Biome lava_islands = new Biome("lava islands", 21, 0.1f, Block.lava);
+	public static Biome lava_lakes = new Biome("lava lakes", 22, 0.1f, Block.rock);
+	public static Biome igneous_desert = new Biome("igneous desert", 23, 0.05f, Block.rock);
+	public static Biome volcanic_mountains = new Biome("volcanic_mountains", 24, 0.05f, Block.rock);
 
 	private ArrayList<BiomePart> biomeParts = new ArrayList<BiomePart>(), decoParts = new ArrayList<BiomePart>();
 	private String name;
 	private int id;
-	private float temperature, precipitation;
+	private float temperature, precipitation, lifeChance;
 
-	public Biome(String name, int id, Block base) {
+	public Biome(String name, int id, float lifeChance, Block base) {
 		setName(name);
 		setId(id);
-		idMap.put(id, this);
-		setTemperature(temperature);
-		setPrecipitation(precipitation);
+		setLifeChance(lifeChance);
 		biomeParts.add(new BiomePart(base, 0, 1, 1));
 	}
 
@@ -109,6 +107,14 @@ public class Biome {
 
 	public static Biome getBiome(int id) {
 		return idMap.get(id);
+	}
+
+	public float getLifeChance() {
+		return lifeChance;
+	}
+
+	public void setLifeChance(float lifeChance) {
+		this.lifeChance = lifeChance;
 	}
 
 	public static void createDefaultBiomes() {
@@ -176,8 +182,42 @@ public class Biome {
 		islands.addDecoPart(new BiomePart(Block.rocks, 0f, 0.3f, 0.05f));
 
 		//hot
+		desert_plains.addBiomePart(new BiomePart(Block.sand_arid, 0.8f, 1f, 1f));
+		desert_plains.addDecoPart(new BiomePart(Block.tree_shrub_1, 0f, 1f, 0.05f));
+		desert_plains.addDecoPart(new BiomePart(Block.tree_cactus, 0.4f, 1f, 0.05f));
+		desert_plains.addDecoPart(new BiomePart(Block.rocks, 0f, 0.6f, 0.05f));
+		
+		canyon.addBiomePart(new BiomePart(Block.sand_cracked, 0f, 0.2f, 1f));
+		canyon.addDecoPart(new BiomePart(Block.tree_shrub_1, 0f, 1f, 0.01f));
+		
+		savannah.addDecoPart(new BiomePart(Block.tree_baobab, 0f, 1f, 0.01f));
+		savannah.addDecoPart(new BiomePart(Block.tree_shrub_1, 0f, 1f, 0.02f));
+		
+		jungle.addDecoPart(new BiomePart(Block.tree_palm, 0f, 0.7f, 0.3f));
+		jungle.addDecoPart(new BiomePart(Block.tree_rubber, 0.3f, 1f, 0.3f));
+		jungle.addDecoPart(new BiomePart(Block.tree_shrub, 0f, 1f, 0.1f));
+		
+		rainforest.addBiomePart(new BiomePart(Block.water_river, 0.42f, 0.48f, 1f));
+		rainforest.addDecoPart(new BiomePart(Block.tree_palm, 0f, 0.42f, 0.3f));
+		rainforest.addDecoPart(new BiomePart(Block.tree_rubber, 0f, 0.42f, 0.3f));
+		rainforest.addDecoPart(new BiomePart(Block.tree_shrub, 0f, 0.42f, 0.1f));
+		rainforest.addDecoPart(new BiomePart(Block.tree_palm, 0.48f, 1f, 0.3f));
+		rainforest.addDecoPart(new BiomePart(Block.tree_rubber, 0.48f, 1f, 0.3f));
+		rainforest.addDecoPart(new BiomePart(Block.tree_shrub, 0.48f, 1f, 0.1f));
 		
 		//very hot
+		lava_ocean.addDecoPart(new BiomePart(Block.rocks, 0f, 1f, 0.01f));
+		
+		lava_islands.addBiomePart(new BiomePart(Block.rock, 0.7f, 1f, 1f));
+		lava_islands.addDecoPart(new BiomePart(Block.rocks, 0f, 1f, 0.05f));
+		
+		lava_lakes.addBiomePart(new BiomePart(Block.lava, 0.6f, 1f, 1f));
+		
+		igneous_desert.addBiomePart(new BiomePart(Block.stone_solid, 0.8f, 1f, 1f));
+		
+		volcanic_mountains.addBiomePart(new BiomePart(Block.lava, 0f, 0.3f, 1f));
+		volcanic_mountains.addBiomePart(new BiomePart(Block.stone_solid, 0.8f, 1f, 1f));
+		volcanic_mountains.addDecoPart(new BiomePart(Block.rocks, 0.2f, 0.9f, 0.1f));
 	}
 
 }

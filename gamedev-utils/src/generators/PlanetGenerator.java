@@ -15,6 +15,7 @@ public class PlanetGenerator {
 	private Block[][] planet, decoration;
 	private BufferedImage planetImage;
 	private Random random;
+	private boolean life;
 
 	public PlanetGenerator(int width, int height, long seed) {
 		planet = new Block[width][height];
@@ -23,6 +24,7 @@ public class PlanetGenerator {
 		float temp = random.nextFloat(), precip = random.nextFloat();
 		planetImage = new BufferedImage(width*16, height*16, BufferedImage.TYPE_INT_ARGB);
 		setBiome(chooseBiome(temp, precip));
+		life = biome.getLifeChance() <= random.nextFloat();
 	}
 
 	public PlanetGenerator(Biome biome, int width, int height, long seed) {
@@ -31,6 +33,16 @@ public class PlanetGenerator {
 		decoration = new Block[width][height];
 		random = new Random(seed);
 		planetImage = new BufferedImage(width*16, height*16, BufferedImage.TYPE_INT_ARGB);
+		life = biome.getLifeChance() <= random.nextFloat();
+	}
+	
+	public PlanetGenerator(float temp, float precip, int width, int height, long seed) {
+		planet = new Block[width][height];
+		decoration = new Block[width][height];
+		random = new Random(seed);
+		planetImage = new BufferedImage(width*16, height*16, BufferedImage.TYPE_INT_ARGB);
+		setBiome(chooseBiome(temp, precip));
+		life = biome.getLifeChance() <= random.nextFloat();
 	}
 
 	public Biome chooseBiome(float temperature, float precipitation) {
@@ -115,12 +127,19 @@ public class PlanetGenerator {
 						decoration[i][j] = part.getBlock();
 					}
 				}
+				if(life){
+					generateLife();
+				}
 				planet[i][j].draw(g2d, i * planet[i][j].getWidth(), j * planet[i][j].getHeight());
 				if(decoration[i][j] != null){
 					decoration[i][j].draw(g2d, i * decoration[i][j].getWidth(), j * decoration[i][j].getHeight());
 				}
 			}
 		}
+	}
+	
+	public void generateLife(){
+		
 	}
 
 	public void draw(Graphics g) {
