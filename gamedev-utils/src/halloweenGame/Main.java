@@ -56,14 +56,13 @@ public class Main extends JFrame {
 		int fps = 0;
 		deltaTime = 1;
 		// While running
+		update(0);
 		while (running) {
 			beforeTime = System.nanoTime();
-			update(deltaTime/1000000000f);
 
 			// If engine has been closed don't bother drawing the image
-			if (running) {
 				draw();
-			}
+				update(deltaTime/1000000000f);
 			afterTime = System.nanoTime();
 			deltaTime = afterTime - beforeTime;
 			fps++;
