@@ -1,6 +1,8 @@
 package generators;
 
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 import biome.Biome;
 import handlers.InputHandler;
@@ -13,6 +15,8 @@ public class PlanetTest extends AbstractMain {
 	PlanetGenerator planet;
 	PerlinNoiseGenerator noise;
 	InputHandler input;
+	public static int ratio;
+	private static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
 	public static void main(String[] args) {
 		PlanetTest main = new PlanetTest();
@@ -23,10 +27,11 @@ public class PlanetTest extends AbstractMain {
 	public void initialise() {
 		running = true;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setTitle("Planet Gen Test");
-		this.setSize(InputHandler.screenSize);
+		device.setFullScreenWindow(this);
 		this.setVisible(running);
+		ratio = Math.min(InputHandler.screenSize.width, InputHandler.screenSize.height) / 15 / 16;
 		Biome.createDefaultBiomes();
 		long seed = MathHandler.random.nextLong();
 		planet = new PlanetGenerator(500, 500, seed);
@@ -41,7 +46,7 @@ public class PlanetTest extends AbstractMain {
 	@Override
 	public void draw() {
 		Graphics g = this.getGraphics();
-		planet.draw(g, 4);
+		planet.draw(g, ratio);
 	}
 
 }

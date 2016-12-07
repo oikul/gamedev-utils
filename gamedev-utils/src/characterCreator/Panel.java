@@ -2,6 +2,8 @@ package characterCreator;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -443,7 +445,47 @@ public class Panel extends JPanel {
 		cancel.setBounds(10 * (int) InputHandler.screenSize.width / 16, 13 * (int) InputHandler.screenSize.height / 16, (int) InputHandler.midPoint.x/8, (int) InputHandler.midPoint.y/8);
 		this.add(done);
 		this.add(cancel);
+		this.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_R){
+					randomize();
+				}
+			}
+			
+		});
 		sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+	}
+	
+	public void randomize(){
+		hairIndex = MathHandler.random.nextInt(hairList.size());
+		torsoIndex = MathHandler.random.nextInt(torsoList.size());
+		legIndex = MathHandler.random.nextInt(legList.size());
+		hairR.setValue(MathHandler.random.nextInt(255));
+		hairG.setValue(MathHandler.random.nextInt(255));
+		hairB.setValue(MathHandler.random.nextInt(255));
+		torsoR.setValue(MathHandler.random.nextInt(255));
+		torsoB.setValue(MathHandler.random.nextInt(255));
+		torsoG.setValue(MathHandler.random.nextInt(255));
+		legR.setValue(MathHandler.random.nextInt(255));
+		legG.setValue(MathHandler.random.nextInt(255));
+		legB.setValue(MathHandler.random.nextInt(255));
+		skinR.setValue(MathHandler.random.nextInt(255));
+		skinG.setValue(MathHandler.random.nextInt(255));
+		skinB.setValue(MathHandler.random.nextInt(255));
+		sprites = makeSpriteSheet(hairList.get(hairIndex), torsoList.get(torsoIndex), legList.get(legIndex));
+		repaint();
 	}
 
 	@Override

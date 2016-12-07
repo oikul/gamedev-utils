@@ -130,7 +130,9 @@ public class PlanetGenerator {
 				if(life){
 					generateLife();
 				}
-				planet[i][j].draw(g2d, i * planet[i][j].getWidth(), j * planet[i][j].getHeight());
+				if(planet[i][j] != null){
+					planet[i][j].draw(g2d, i * planet[i][j].getWidth(), j * planet[i][j].getHeight());
+				}
 				if(decoration[i][j] != null){
 					decoration[i][j].draw(g2d, i * decoration[i][j].getWidth(), j * decoration[i][j].getHeight());
 				}

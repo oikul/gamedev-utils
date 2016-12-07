@@ -15,6 +15,16 @@ public class ValueNoiseGenerator {
 		this.roughness = roughness;
 		this.octaves = octaves;
 	}
+	
+	public float[][] getValueNoise(int width, int height){
+		float[][] valueNoise = new float[width][height];
+		for(int i = 0; i < width; i++){
+			for(int j = 0; j < height; j++){
+				valueNoise[i][j] = generateHeight(i, j);
+			}
+		}
+		return valueNoise;
+	}
 
 	public float generateHeight(int x, int z) {
 		float total = 0;

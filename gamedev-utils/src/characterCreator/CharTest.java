@@ -1,5 +1,8 @@
 package characterCreator;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import handlers.InputHandler;
 import utils.AbstractMain;
 
