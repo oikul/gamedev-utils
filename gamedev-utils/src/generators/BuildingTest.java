@@ -1,4 +1,4 @@
-package buildingGenerator;
+package generators;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 
 import handlers.InputHandler;
 
-public class Main extends JFrame {
+public class BuildingTest extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	protected boolean running = false;
@@ -24,7 +24,7 @@ public class Main extends JFrame {
 	private Graphics graphics;
 	private Point mouseLocation;
 
-	private BuildingBuilder builder;
+	private BuildingGenerator builder;
 
 	public static int width, height, tileSize;
 	public static float XOffset, YOffset;
@@ -70,7 +70,7 @@ public class Main extends JFrame {
 		graphics = this.getGraphics();
 		random = new Random();
 
-		builder = new BuildingBuilder(random.nextLong());
+		builder = new BuildingGenerator(random.nextLong());
 		tileSize = 16;
 		mouseLocation = new Point(0, 0);
 
@@ -84,8 +84,8 @@ public class Main extends JFrame {
 		// Get the new mouse point
 		Point mouseDiff = input.getMousePositionRelativeToComponent();
 		// Distance between the mouse points in tiles
-		XOffset += (mouseDiff.x - mouseLocation.x) / (float)tileSize;
-		YOffset += (mouseDiff.y - mouseLocation.y) / (float)tileSize;
+		XOffset += (mouseDiff.x - mouseLocation.x);
+		YOffset += (mouseDiff.y - mouseLocation.y);
 
 	}
 
@@ -98,21 +98,25 @@ public class Main extends JFrame {
 		// Keeps the mouse in the same place when resizing
 		// Zoom out
 		if (input.getMouseWheelDown() && tileSize != 4) {
-			XOffset -= (mouseLocation.x / tileSize);
-			YOffset -= (mouseLocation.y / tileSize);
+			XOffset -= mouseLocation.x;
+			YOffset -= mouseLocation.y;
 			tileSize /= 2;
-			XOffset += (mouseLocation.x / tileSize);
-			YOffset += (mouseLocation.y / tileSize);
-			Main.input.stopMouseWheel();
+			XOffset /= 2;
+			YOffset /= 2;
+			XOffset += mouseLocation.x;
+			YOffset += mouseLocation.y;
+			BuildingTest.input.stopMouseWheel();
 		}
 		// Zoom in
 		if (input.getMouseWheelUp() && tileSize != 256) {
-			XOffset -= (mouseLocation.x / tileSize);
-			YOffset -= (mouseLocation.y / tileSize);
+			XOffset -= mouseLocation.x;
+			YOffset -= mouseLocation.y;
 			tileSize *= 2;
-			XOffset += (mouseLocation.x / tileSize);
-			YOffset += (mouseLocation.y / tileSize);
-			Main.input.stopMouseWheel();
+			XOffset *= 2;
+			YOffset *= 2;
+			XOffset += mouseLocation.x;
+			YOffset += mouseLocation.y;
+			BuildingTest.input.stopMouseWheel();
 		}
 	}
 
@@ -145,13 +149,12 @@ public class Main extends JFrame {
 				XOffset++;
 			}
 			if(input.isKeyDown(KeyEvent.VK_R)){
-				builder = new BuildingBuilder(random.nextLong());
+				builder = new BuildingGenerator(random.nextLong());
 				input.artificialKeyReleased(KeyEvent.VK_R);
 			}
 
 			// Gets the new mouse location
 			mouseLocation = input.getMousePositionRelativeToComponent();
-			System.out.println(mouseLocation);
 			// Updates the builder
 			builder.update();
 			// Stops the mouse wheel
@@ -171,7 +174,7 @@ public class Main extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		Main main = new Main();
+		BuildingTest main = new BuildingTest();
 		main.run();
 	}
 
