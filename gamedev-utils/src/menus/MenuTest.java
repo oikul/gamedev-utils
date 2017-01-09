@@ -41,4 +41,9 @@ public class MenuTest extends AbstractMain {
 		main.run();
 	}
 
+	@Override
+	public void close() {
+		
+	}
+
 }

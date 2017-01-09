@@ -8,18 +8,20 @@ import java.util.Random;
 import biome.Biome;
 import biome.BiomePart;
 import blocks.Block;
+import handlers.InputHandler;
 
 public class PlanetGenerator {
 
 	private Biome biome;
-	private Block[][] planet, decoration;
-	private BufferedImage planetImage;
+	private Block[][] planet, liquid, decoration;
+	private BufferedImage planetImage, liquidImage, decorationImage;
 	private Random random;
 	private boolean life;
 
 	public PlanetGenerator(int width, int height, long seed) {
 		planet = new Block[width][height];
 		decoration = new Block[width][height];
+		liquid = new Block[width][height];
 		random = new Random(seed);
 		float temp = random.nextFloat(), precip = random.nextFloat();
 		planetImage = new BufferedImage(width*16, height*16, BufferedImage.TYPE_INT_ARGB);
@@ -148,8 +150,10 @@ public class PlanetGenerator {
 		g.drawImage(planetImage, 0, 0, null);
 	}
 
-	public void draw(Graphics g, int scale) {
-		g.drawImage(planetImage, 0, 0, planetImage.getWidth() * scale, planetImage.getHeight() * scale, null);
+	public void draw(Graphics g, float ratio) {
+		int width = InputHandler.screenSize.width;
+		int height = InputHandler.screenSize.height;
+		g.drawImage(planetImage, 0, 0, width, height, 0, 0, (int) (width / ratio), (int) (height / ratio), null);
 	}
 
 	public Biome getBiome() {

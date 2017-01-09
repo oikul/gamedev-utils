@@ -45,4 +45,9 @@ public class Test extends AbstractMain {
 		test.run();
 	}
 
+	@Override
+	public void close() {
+		
+	}
+
 }

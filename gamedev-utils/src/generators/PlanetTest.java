@@ -15,7 +15,7 @@ public class PlanetTest extends AbstractMain {
 	PlanetGenerator planet;
 	PerlinNoiseGenerator noise;
 	InputHandler input;
-	public static int ratio;
+	public static float ratio;
 	private static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
 	public static void main(String[] args) {
@@ -29,9 +29,10 @@ public class PlanetTest extends AbstractMain {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(true);
 		this.setTitle("Planet Gen Test");
+		this.setUndecorated(true);
 		device.setFullScreenWindow(this);
 		this.setVisible(running);
-		ratio = Math.min(InputHandler.screenSize.width, InputHandler.screenSize.height) / 15 / 16;
+		ratio = Math.min(InputHandler.screenSize.width, InputHandler.screenSize.height) / 14f / 16f;
 		Biome.createDefaultBiomes();
 		long seed = MathHandler.random.nextLong();
 		planet = new PlanetGenerator(500, 500, seed);
@@ -47,6 +48,11 @@ public class PlanetTest extends AbstractMain {
 	public void draw() {
 		Graphics g = this.getGraphics();
 		planet.draw(g, ratio);
+	}
+
+	@Override
+	public void close() {
+		
 	}
 
 }
