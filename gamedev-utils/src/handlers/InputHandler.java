@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 
 /**
  * Handles input for a given Component
- * @author mxw596
+ * @author mxw596, rtm592
  */
 public class InputHandler implements KeyListener, MouseListener, MouseWheelListener{
 	

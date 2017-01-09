@@ -8,6 +8,7 @@ import java.util.Random;
 import biome.Biome;
 import biome.BiomePart;
 import blocks.Block;
+import handlers.InputHandler;
 
 public class PlanetGenerator {
 
@@ -148,8 +149,10 @@ public class PlanetGenerator {
 		g.drawImage(planetImage, 0, 0, null);
 	}
 
-	public void draw(Graphics g, int scale) {
-		g.drawImage(planetImage, 0, 0, planetImage.getWidth() * scale, planetImage.getHeight() * scale, null);
+	public void draw(Graphics g, float ratio) {
+		int width = InputHandler.screenSize.width;
+		int height = InputHandler.screenSize.height;
+		g.drawImage(planetImage, 0, 0, width, height, 0, 0, (int) (width / ratio), (int) (height / ratio), null);
 	}
 
 	public Biome getBiome() {
