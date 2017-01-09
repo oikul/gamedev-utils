@@ -68,7 +68,7 @@ public class Main extends JFrame {
 			fps++;
 			if(System.nanoTime() > counter){
 				counter += 1000000000;
-				System.out.println(fps);
+//				System.out.println(fps);
 				fps = 0;
 			}
 		}

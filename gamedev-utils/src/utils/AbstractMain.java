@@ -9,21 +9,30 @@ public abstract class AbstractMain extends JFrame {
 	public static int width, height;
 
 	public void run() {
+		// Initialise
 		initialise();
-
 		long beforeTime, afterTime, deltaTime = 0;
-
+		long counter = System.nanoTime() + 1000000000;
+		int fps = 0;
+		deltaTime = 1;
+		// While running
+		update(0);
 		while (running) {
 			beforeTime = System.nanoTime();
-			update(deltaTime);
-			if (running) {
-				draw();
-			}
+			// If engine has been closed don't bother drawing the image
+			draw();
+			update(deltaTime / 1000000000f);
 			afterTime = System.nanoTime();
 			deltaTime = afterTime - beforeTime;
-
+			fps++;
+			if (System.nanoTime() > counter) {
+				counter += 1000000000;
+				System.out.println(fps);
+				fps = 0;
+			}
 		}
-		this.dispose();
+		// // Clean up
+		close();
 
 	}
 
@@ -32,5 +41,7 @@ public abstract class AbstractMain extends JFrame {
 	public abstract void update(float time);
 
 	public abstract void draw();
+	
+	public abstract void close();
 
 }

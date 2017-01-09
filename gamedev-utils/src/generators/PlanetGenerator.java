@@ -13,14 +13,15 @@ import handlers.InputHandler;
 public class PlanetGenerator {
 
 	private Biome biome;
-	private Block[][] planet, decoration;
-	private BufferedImage planetImage;
+	private Block[][] planet, liquid, decoration;
+	private BufferedImage planetImage, liquidImage, decorationImage;
 	private Random random;
 	private boolean life;
 
 	public PlanetGenerator(int width, int height, long seed) {
 		planet = new Block[width][height];
 		decoration = new Block[width][height];
+		liquid = new Block[width][height];
 		random = new Random(seed);
 		float temp = random.nextFloat(), precip = random.nextFloat();
 		planetImage = new BufferedImage(width*16, height*16, BufferedImage.TYPE_INT_ARGB);

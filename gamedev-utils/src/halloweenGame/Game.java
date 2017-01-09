@@ -22,7 +22,7 @@ public class Game {
 	private Vector2f[] movingAway;
 
 	public Game() {
-		int numofenemies = 1000;
+		int numofenemies = 4096;
 		enemies = new Vector2f[numofenemies];
 		enemiesMomentum = new Vector2f[numofenemies];
 		movingTo = new Vector2f[numofenemies];
@@ -33,6 +33,9 @@ public class Game {
 		playerSpeed = 100;
 		enemySpeed = 90;
 		size = 100;
+		int m1 = Math.round((float)rad.nextGaussian()*2);
+		int m2 = Math.round((float)rad.nextGaussian()*2);
+			System.out.println("Game.Game(), "+m1+", "+m2);
 		for (int x = 0; x < enemies.length; x++) {
 			enemies[x] = new Vector2f(rad.nextInt(size)+Main.width/2-size/2,
 					rad.nextInt(size)+Main.height/2-size/2);
@@ -41,11 +44,11 @@ public class Game {
 			enemiesMomentum[x] = new Vector2f(Main.width/2-enemies[x].x+0.0000001f, Main.height/2-enemies[x].y+0.0000001f);
 			float length = enemiesMomentum[x].length();
 			enemiesMomentum[x].normalise();
-			enemiesMomentum[x].scale(length/20);
+			enemiesMomentum[x].scale(length/10);
 			Matrix2f rotate = new Matrix2f();
 			rotate.setZero();
-			rotate.m01 = -1;
-			rotate.m10 = 1;
+			rotate.m01 = m1;
+			rotate.m10 = m2;
 			Matrix2f.transform(rotate, enemiesMomentum[x], enemiesMomentum[x]);
 			
 		}
@@ -143,14 +146,15 @@ public class Game {
 	public void draw(Graphics g) {
 
 		for (int x = 0; x < enemies.length; x++) {
-			g.setColor(Color.blue);
-			if(x % 2 == 0)g.setColor(Color.darkGray);
+			g.setColor(new Color(10, 10, 200, 200));
+			if(x % 3 == 0)g.setColor(new Color(100, 10, 150, 200));
+			if(x % 21 == 0)g.setColor(new Color(200, 10, 10, 200));
 			g.fillRect((int) enemies[x].x - 2, (int) enemies[x].y - 2, 4, 4);
 
 		}
 		g.setColor(Color.green);
 //		g.fillRect((int) playerLoc.x - 16, (int) playerLoc.y - 16, 32, 32);
-		g.drawRect((Main.width)/2-2*size , (Main.height)/2-2*size, size*4, size*4);
+		//g.drawRect((Main.width)/2-2*size , (Main.height)/2-2*size, size*4, size*4);
 
 	}
 

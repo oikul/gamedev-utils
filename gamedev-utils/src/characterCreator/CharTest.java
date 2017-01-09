@@ -35,4 +35,9 @@ public class CharTest extends AbstractMain {
 	public void draw() {
 	}
 
+	@Override
+	public void close() {
+		
+	}
+
 }

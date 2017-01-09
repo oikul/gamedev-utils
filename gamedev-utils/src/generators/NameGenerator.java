@@ -8,12 +8,12 @@ public class NameGenerator {
 	
 	private static String namePart[] = {
 			"a", "aa", "ab", "aber", "ac", "acc", "ack", "afon", "an", "and", "ant", "ar", "ard", "ash", "ast", "at", "avon", "auch", "auchter", "axe", "ay",
-			"ba", "bal", "ball", "balla", "bally", "be", "beann", "beck", "ben", "bein", "berg", "berry", "bex", "bi", "bin", "bio", "boo", "bost", "bourne", "burn",
+			"ba", "bal", "ball", "balla", "bally", "be", "beck", "ben", "bein", "berg", "berry", "bex", "bi", "bin", "bio", "boo", "bost", "bourne", "burn",
 			"can", "cap", "ce", "chrom", "chron", "cor",
 			"da", "di", "dict", "dis", "dom", "dor",
 			"e", "ed", "en", "ent", "er", "ess", "eth", "ex", 
 			"fa", "fid", "flect", "flor", "fleur", "for", "fract", "faa", "faas", "fab", "fahg", "fal", "fer", 
-			"gastro", "gen", "geo", "giga", "glu", "gre", "gyn",
+			"gas", "gen", "geo", "giga", "glu", "gre", "gyn",
 			"hect", "helic", "helio", "hemi", "hex", "ho", "hut", "hydr", "hyp", 
 			"i", "ian", "in", "ine", "io", "ist", "ize", 
 			"ja", "jak", "ject", "jel", "jil", "jud", "juven", 
@@ -26,7 +26,7 @@ public class NameGenerator {
 			"qa", "quad", "quart", "quin", "que", "qui", "quil",
 			"ra", "raa", "rab", "ran", "rix", "rol", "ry",
 			"san", "shil", "so", "spec", "sul",
-			"tat", "th", "ti", "tin", "tec", 
+			"tat", "th", "ti", "tin", "tec", "tro", 
 			"u", "um", "umb", "up", "ur", "ut", 
 			"va", "vac", "ve", "ven", "ver", "vok", 
 			"wa", "war", "wes", "whel", "wick", "win", "wor", "worth", 

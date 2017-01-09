@@ -50,4 +50,9 @@ public class PlanetTest extends AbstractMain {
 		planet.draw(g, ratio);
 	}
 
+	@Override
+	public void close() {
+		
+	}
+
 }

@@ -55,4 +55,9 @@ public class CellularAutomataTest extends AbstractMain {
 		main.run();
 	}
 
+	@Override
+	public void close() {
+		
+	}
+
 }

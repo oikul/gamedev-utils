@@ -1,5 +1,6 @@
 package generators;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -36,13 +37,20 @@ public class MazeTest extends AbstractMain {
 	public void draw() {
 		Graphics g = this.getGraphics();
 		Graphics2D g2d = (Graphics2D) image.getGraphics();
-		maze.draw(g2d, Block.rock, Block.stone_solid, 1);
+		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, InputHandler.screenSize.width, InputHandler.screenSize.height);
+		maze.draw(g2d, Block.rock, Block.stone_solid, 4);
 		g.drawImage(image, 0, 0, null);
 	}
 
 	public static void main(String[] args) {
 		MazeTest main = new MazeTest();
 		main.run();
+	}
+
+	@Override
+	public void close() {
+		
 	}
 
 }
