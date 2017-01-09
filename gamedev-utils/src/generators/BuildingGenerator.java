@@ -15,7 +15,7 @@ public class BuildingGenerator {
 	private final int WOODWALL = 1;
 	private final int STONEFLOOR = 2;
 	private final int STONEWALL = 3;
-	private final int DOOR = 2; 
+	private final int DOOR = 2;
 	private final int PATH = 4;
 
 	private BufferedImage[] pics;
@@ -40,7 +40,8 @@ public class BuildingGenerator {
 		pics = new BufferedImage[4];
 		loadPics();
 
-		floorPlan = genBuilding(floorPlan, new Rectangle(0, 0, floorPlan.length, floorPlan[0].length), BuildingTest.random.nextBoolean());
+		floorPlan = genBuilding(floorPlan, new Rectangle(0, 0, floorPlan.length, floorPlan[0].length),
+				BuildingTest.random.nextBoolean());
 	}
 
 	private void loadPics() {
@@ -64,12 +65,12 @@ public class BuildingGenerator {
 		} else {
 			splitWidth = true;
 		}
-		
-		if(area.getWidth() == plan.length){
+
+		if (area.getWidth() == plan.length) {
 			splitWidth = false;
 		}
-		if(area.getWidth() == plan.length){
-			
+		if (area.getWidth() == plan.length) {
+
 		}
 
 		Rectangle area1;
@@ -118,108 +119,115 @@ public class BuildingGenerator {
 			plan[x][y1] = WOODWALL;
 			plan[x][y2] = WOODWALL;
 		}
-		
+
 		int x1 = area.getX();
 		int x2 = area.getX() + area.getWidth() - 1;
 		for (int y = area.getY(); y < area.getY() + area.getHeight(); y++) {
 			plan[x1][y] = WOODWALL;
 			plan[x2][y] = WOODWALL;
 		}
-		
-		
-		
+
 		int width = area.getWidth();
 		int height = area.getHeight();
-		boolean hallup = false,halldown = false,hallleft = false,hallright = false;
+		boolean hallup, halldown, hallleft, hallright;
+		hallup = halldown = hallleft = hallright = false;
 
-		int halls = checkHall(plan,area);
+		int halls = checkHall(plan, area);
 		// 1 = up, 2 = down, 4 = right, 8 = left
 		int walls = 0;
-		if(halls > 8){
+		if (halls >= 8) {
 			halls -= 8;
 			hallleft = true;
-			walls += area.getWidth()-2;
+			walls += width - 2;
 		}
-		if(halls > 4){
+		if (halls >= 4) {
 			halls -= 4;
 			hallright = true;
-			walls += area.getWidth()-2;
+			walls += width - 2;
 		}
-		if(halls > 2){
-			halls -=  2;
+		if (halls >= 2) {
+			halls -= 2;
 			halldown = true;
-			walls += area.getHeight()-2;
+			walls += height - 2;
 		}
-		if(halls > 1){
+		if (halls >= 1) {
 			halls -= 1;
 			hallup = true;
-			walls += area.getHeight()-2;
+			walls += height - 2;
 		}
+		System.out.println(halls);
+
 		int doorLoc = BuildingTest.random.nextInt(walls);
-		checkHall(plan,area);
-		
-		if(doorLoc > width-3 && !hallup){
-			doorLoc -= width-2;
-		}else {
-			plan[area.getX() + doorLoc+1][area.getY()] = DOOR;
-			return plan;
+		if (hallup) {
+			if (doorLoc >= width - 2) {
+				doorLoc -= width - 2;
+			} else {
+				plan[area.getX() + doorLoc+1][area.getY()] = DOOR;
+				return plan;
+			}
 		}
-		if (doorLoc > width-3 && !halldown){
-			doorLoc -= width-2;
-		}else {
-			plan[area.getX() + doorLoc+1][area.getY() + height-1] = DOOR;
-			return plan;
+		if (halldown) {
+			if (doorLoc >= width - 2) {
+				doorLoc -= width - 2;
+			} else {
+				plan[area.getX() + doorLoc+1][area.getY() + height - 1] = DOOR;
+				return plan;
+			}
 		}
-		if (doorLoc > height-3 && !hallleft){
-			doorLoc -= height-2;
-		}else {
-			plan[area.getX()][area.getY() + doorLoc+1] = DOOR;
-			return plan;
+		if (hallleft) {
+			if (doorLoc >= height - 2) {
+				doorLoc -= height - 2;
+			} else {
+				plan[area.getX()][area.getY() + doorLoc+1] = DOOR;
+				return plan;
+			}
 		}
-		if (doorLoc > height-3 && !hallright){
-			System.err.println("error with maths");
-		}else{
-			plan[area.getX() + width-1][area.getY() + doorLoc+1] = DOOR;
-			return plan;
+		if (hallright) {
+			if (doorLoc >= height - 2) {
+				System.err.println("error with maths");
+			} else {
+				plan[area.getX() + width - 1][area.getY() + doorLoc+1] = DOOR;
+				return plan;
+			}
 		}
 		return plan;
 
 	}
-	
-	private int checkHall(int[][] plan,Rectangle area){
-		
+
+	private int checkHall(int[][] plan, Rectangle area) {
+System.out.print("start ");
 		int num = 0;
-		try{
-		if(plan[area.getX()][area.getY()-1] == STONEFLOOR){
-			num +=1;
+		try {
+			if (plan[area.getX()][area.getY() - 1] == STONEFLOOR) {
+				num += 1;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.print("worked1 ");
 		}
-		}catch(ArrayIndexOutOfBoundsException e){
-			
+		try {
+			if (plan[area.getX()][area.getY() + area.getHeight()] == STONEFLOOR) {
+				num += 2;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.print("worked2 ");
 		}
-		try{
-		if(plan[area.getX()][area.getY()+area.getHeight()] == STONEFLOOR){
-			num +=2;
+		try {
+			if (plan[area.getX() + area.getWidth()][area.getY()] == STONEFLOOR) {
+				num += 4;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.print("worked3 ");
 		}
-		}catch(ArrayIndexOutOfBoundsException e){
-			
+		try {
+			if (plan[area.getX() - 1][area.getY()] == STONEFLOOR) {
+				num += 8;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.print("worked4 ");
 		}
-		try{
-		if(plan[area.getX()+ area.getWidth()][area.getY()] == STONEFLOOR){
-			num +=4;
-		}
-		}catch(ArrayIndexOutOfBoundsException e){
-			
-		}
-		try{
-		if(plan[area.getX()-1][area.getY()] == STONEFLOOR){
-			num +=8;
-		}
-		}catch(ArrayIndexOutOfBoundsException e){
-			
-		}
-				
+
 		return num;
-		
+
 	}
 
 	public void update() {
