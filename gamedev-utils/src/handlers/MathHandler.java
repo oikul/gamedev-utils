@@ -248,9 +248,7 @@ public class MathHandler {
 	}
 
 	public static Point2D.Double averageVector(Point2D.Double p1, Point2D.Double p2) {
-
 		return new Point2D.Double((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-
 	}
 
 	/**
@@ -370,9 +368,6 @@ public class MathHandler {
 
 	public static void setRandomSeed(long seed) {
 		random = new Random(seed);
-	}
-
-	public static void main(String[] args) {
 	}
 
 }
