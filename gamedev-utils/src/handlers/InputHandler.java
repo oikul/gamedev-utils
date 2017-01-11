@@ -95,6 +95,10 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		}
 	}
 	
+	/**
+	 * sets the specified key as pressed
+	 * @param keyCode the code of the key being pressed
+	 */
 	public void artificialKeyPressed(int keyCode) {
 		keyArray[keyCode] = true;
 	}
@@ -108,14 +112,25 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		}
 	}
 	
+	/**
+	 * sets the specified key as released
+	 * @param keyCode the code of the key being released
+	 */
 	public void artificialKeyReleased(int keyCode) {
 		keyArray[keyCode] = false;
 	}
 	
+	/**
+	 * gets the accumulator of typed letters
+	 * @return a string of typed letters
+	 */
 	public String getTypedAcum(){
 		return typedAcum;
 	}
 	
+	/**
+	 * clears the accumulator of typed letters
+	 */
 	public void clearTypedAcum(){
 		typedAcum = "";
 	}
@@ -137,6 +152,10 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		
 	}
 	
+	/**
+	 * checks if the mouse over the component this handler is on
+	 * @return a boolean of whether the mouse is over the component
+	 */
 	public boolean isMouseOverComp(){
 		return overComp;
 	}
@@ -151,6 +170,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		overComp = false;
 	}
 	
+	/**
+	 * checks if the specified mouse button is down
+	 * @param mouseButton the mouse button being checked
+	 * @return a boolean representing whether the mouse button is down or not
+	 */
 	public boolean isMouseDown(int mouseButton){
 		return mouseArray[mouseButton];
 	}
@@ -160,6 +184,10 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		mouseArray[e.getButton()] = true;
 	}
 	
+	/**
+	 * artificially presses the specified mouse button
+	 * @param mouseButton the mouse button target
+	 */
 	public void artificialMousePressed(int mouseButton) {
 		mouseArray[mouseButton] = true;
 	}
@@ -169,18 +197,34 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 		mouseArray[e.getButton()] = false;
 	}
 	
+	/**
+	 * artificially releases the specified mouse button
+	 * @param mouseButton the mouse button target
+	 */
 	public void artificialMouseReleased(int mouseButton) {
 		mouseArray[mouseButton] = false;
 	}
 	
+	/**
+	 * checks whether the mouse wheel is being scrolled up
+	 * @return whether the mouse wheel is scrolling up
+	 */
 	public boolean getMouseWheelUp(){
 		return mouseWheelRotation < 0;
 	}
 	
+	/**
+	 * checks whether the mouse wheel is being scrolled down
+	 * @return whether the mouse wheel is scrolling down
+	 */
 	public boolean getMouseWheelDown(){
 		return mouseWheelRotation > 0;
 	}
 
+	/**
+	 * checks if the mouse wheel has moved
+	 * @return a boolean representing whether the mouse wheel has moved
+	 */
 	public boolean hasMouseWheelMoved(){
 		return mouseWheelMoved;
 	}
