@@ -33,6 +33,11 @@ public class ResourceHandler {
 		}
 	}
 	
+	/**
+	 * gets a bufferedImage object from the specified path
+	 * @param path the path to the image being loaded
+	 * @return a BufferedImage object containing the image
+	 */
 	public static BufferedImage getBufferedImage(String path) {
 		try {
 			URL url = rl.getClass().getClassLoader().getResource("resources/" + path + ".png");

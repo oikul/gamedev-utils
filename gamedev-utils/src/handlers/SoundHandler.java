@@ -31,6 +31,9 @@ public class SoundHandler {
 		}
 	}
 	
+	/**
+	 * plays the clip
+	 */
 	public void play(){
 		if(clip.isActive()){
 			if(clip1.isActive()){
@@ -51,10 +54,16 @@ public class SoundHandler {
 		}
 	}
 	
+	/**
+	 * stops the clip
+	 */
 	public void stop(){
 		clip.stop();
 	}
 	
+	/**
+	 * loops the clip
+	 */
 	public void loop(){
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
