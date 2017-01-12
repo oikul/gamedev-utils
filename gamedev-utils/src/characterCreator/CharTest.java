@@ -10,6 +10,7 @@ public class CharTest extends AbstractMain {
 
 	private static final long serialVersionUID = 1L;
 	private Panel panel;
+	private InputHandler input;
 
 	public static void main(String[] args) {
 		CharTest main = new CharTest();
@@ -25,10 +26,14 @@ public class CharTest extends AbstractMain {
 		panel = new Panel("character16/");
 		this.add(panel);
 		this.setVisible(running);
+		input = new InputHandler(this);
 	}
 
 	@Override
 	public void update(float time) {
+		if(input.isKeyDown(KeyEvent.VK_R)){
+			panel.update();
+		}
 	}
 
 	@Override

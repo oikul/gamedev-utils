@@ -127,7 +127,7 @@ public class BuildingTest extends JFrame {
 			input.artificialKeyReleased(KeyEvent.VK_ESCAPE);
 		} else {
 			// Reset image location
-			if (input.isKeyDown(KeyEvent.VK_R)) {
+			if (input.isKeyDown(KeyEvent.VK_Q)) {
 				XOffset = 0;
 				YOffset = 0;
 			}
@@ -137,16 +137,16 @@ public class BuildingTest extends JFrame {
 				zoom();
 			}
 			if (input.isKeyDown(KeyEvent.VK_UP)) {
-				YOffset--;
+				YOffset -= tileSize / 2;
 			}
 			if (input.isKeyDown(KeyEvent.VK_DOWN)) {
-				YOffset++;
+				YOffset += tileSize / 2;
 			}
 			if (input.isKeyDown(KeyEvent.VK_LEFT)) {
-				XOffset--;
+				XOffset -= tileSize / 2;
 			}
 			if (input.isKeyDown(KeyEvent.VK_RIGHT)) {
-				XOffset++;
+				XOffset += tileSize / 2;
 			}
 			if(input.isKeyDown(KeyEvent.VK_R)){
 				builder = new BuildingGenerator(random.nextLong());

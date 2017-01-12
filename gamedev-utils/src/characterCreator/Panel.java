@@ -545,5 +545,8 @@ public class Panel extends JPanel {
 		g.drawImage(hair, 0, hair.getHeight() * 2, null);
 		return base;
 	}
+	public void update(){
+		randomize();
+	}
 
 }
