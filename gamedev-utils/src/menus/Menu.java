@@ -17,7 +17,7 @@ public abstract class Menu extends JPanel {
 		bg = ResourceHandler.getImage(background);
 	}
 	
-	public abstract int update();
+	public abstract int update(float time);
 
 	@Override
 	public void paintComponent(Graphics g){

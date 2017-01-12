@@ -14,6 +14,7 @@ public class Label extends JLabel {
 		this.setFont(new Font(fontName, fontType, fontSize));
 		this.setForeground(fontColor);
 		this.setBounds(x, y, width, height);
+		this.setHorizontalAlignment(JLabel.CENTER);
 	}
 
 }
