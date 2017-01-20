@@ -31,10 +31,8 @@ public class Player extends Entity {
 	}
 
 	public void move(Point vector, float time) {
-
 		xLocation -= ((speed * time) / (Math.sqrt(2) * Math.abs(vector.y))) * vector.x;
 		yLocation -= ((speed * time) / (Math.sqrt(2) * Math.abs(vector.x))) * vector.y;
-
 	}
 	
 	public void collided(){
