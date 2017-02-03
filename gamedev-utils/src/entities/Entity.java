@@ -1,6 +1,6 @@
 package entities;
 
-import java.awt.Point;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -13,7 +13,7 @@ public abstract class Entity {
 	protected float xLocation, yLocation, speed;
 	protected long animationTimer, changeTimer, attackCooldown;
 	protected String name;
-	protected Point size;
+	protected Dimension size;
 	protected Vector2f attackVector;
 	protected Rectangle hitBox;
 	protected BufferedImage[][] sprite;
@@ -30,11 +30,11 @@ public abstract class Entity {
 		currentX = currentY = 0;
 		shouldAttack = false;
 		attackVector = new Vector2f(0, 0);
-		this.size = new Point(sprite[0][0].getWidth(), sprite[0][0].getHeight());
+		this.size = new Dimension(sprite[0][0].getWidth(), sprite[0][0].getHeight());
 		changeTimer = 500;
 		attackCooldown = System.currentTimeMillis() + changeTimer;
 		animationTimer = System.currentTimeMillis() + changeTimer;
-		hitBox = new Rectangle(xLocation - size.x / 2, yLocation - size.y / 2, size.x, size.y);
+		hitBox = new Rectangle(xLocation - size.width / 2, yLocation - size.height / 2, size.width, size.height);
 	}
 
 	public float getX() {
@@ -45,7 +45,7 @@ public abstract class Entity {
 		return yLocation;
 	}
 
-	public Point getSize() {
+	public Dimension getSize() {
 		return size;
 	}
 
@@ -58,7 +58,6 @@ public abstract class Entity {
 	}
 
 	public void update(float time) {
-
 		if (System.currentTimeMillis() > animationTimer) {
 			animationTimer += changeTimer;
 			currentY++;
