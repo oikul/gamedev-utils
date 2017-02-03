@@ -17,6 +17,14 @@ public class MathHandler {
 		}
 		return sum;
 	}
+	
+	public static Point convertPointToInt(Point2D.Double p){
+		return new Point((int)p.getX(),(int)p.getY());
+	}
+	
+	public static Point2D.Double convertPointToDouble(Point p){
+		return new Point2D.Double(p.getX(),p.getY());
+	}
 
 	/**
 	 * A function to calculate all the points on a line between two points
@@ -130,13 +138,15 @@ public class MathHandler {
 		}
 		return 0.0;
 	}
-
+	/**
+	 * p1 where you are p2 where youre looking
+	 */
 	public static double getAngle(Point p1, Point p2) {
 		if (p1.x != p2.x && p1.y != p2.y) {
 			double xdif = (p2.getX() - p1.getX());
 			double ydif = (p2.getY() - p1.getY());
 			double angle = 0; // in radians
-			angle = -Math.atan(ydif / xdif);
+			angle = Math.atan(ydif / xdif);
 			if (xdif < 0) {
 				if (ydif < 0) {
 					angle += Math.PI;
@@ -150,11 +160,25 @@ public class MathHandler {
 		} else if (p1.x < p2.x) {
 			return 0.0;
 		} else if (p1.y > p2.y) {
-			return -Math.PI / 2.0;
-		} else if (p1.y < p2.y) {
 			return Math.PI / 2.0;
+		} else if (p1.y < p2.y) {
+			return -Math.PI / 2.0;
 		}
 		return 0.0;
+	}
+
+	// gets the next point along the line
+	// set accuracy to zero for perfect next point
+	public static Point2D.Double getPoint2D(float angle, double speed, double accuracy) {
+		if (accuracy != 0) {
+			angle += (random.nextGaussian() * accuracy);
+		}
+		double xgain = 0;
+		double ygain = 0;
+		xgain = Math.cos(angle) * speed;
+		ygain = -Math.sin(angle) * speed;
+
+		return new Point2D.Double(xgain, ygain);
 	}
 
 	// gets the next point along the line
@@ -203,6 +227,8 @@ public class MathHandler {
 		return new Point2D.Double(xgain, ygain);
 	}
 
+	// gets the next point along the line
+	// set accuracy to zero for perfect next point
 	public static Point getPoint(Point p1, Point p2, double speed, double accuracy) {
 		double angle = 0;
 		if (p1.x != p2.x && p1.y != p2.y) {

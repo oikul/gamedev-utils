@@ -107,7 +107,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseWheelListe
 	public void keyReleased(KeyEvent e) {
 		try{
 		keyArray[e.getKeyCode()] = false;
-		}catch(NullPointerException ex){
+		}catch(Exception ex){
 			// key not included in array			
 		}
 	}

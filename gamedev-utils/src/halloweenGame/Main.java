@@ -65,6 +65,7 @@ public class Main extends JFrame {
 				update(deltaTime/1000000000f);
 			afterTime = System.nanoTime();
 			deltaTime = afterTime - beforeTime;
+			
 			fps++;
 			if(System.nanoTime() > counter){
 				counter += 1000000000;

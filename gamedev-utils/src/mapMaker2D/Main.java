@@ -60,7 +60,6 @@ public class Main extends JFrame {
 	 * Sets the listeners for the frame
 	 */
 	private void addListeners() {
-		JToolBar tb = new JToolBar();
 		addWindowListener(new WindowListener() {
 			@Override
 			public void windowClosing(WindowEvent e) {

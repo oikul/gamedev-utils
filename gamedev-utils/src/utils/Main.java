@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import gameMapController.MapController;
 import handlers.InputHandler;
 
-public class Main extends JFrame {
+public class Main extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	protected boolean running = false;
@@ -73,7 +73,7 @@ public class Main extends JFrame {
 		controller.update(time);
 	}
 
-	private void draw() {
+	public void draw() {
 
 		Graphics offgraphics = offimage.getGraphics();
 		controller.draw(offgraphics);
