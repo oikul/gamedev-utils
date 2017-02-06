@@ -1,5 +1,6 @@
 package entities;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -34,12 +35,10 @@ public class Player extends Entity {
 		xLocation -= ((speed * time) / (Math.sqrt(2) * Math.abs(vector.y))) * vector.x;
 		yLocation -= ((speed * time) / (Math.sqrt(2) * Math.abs(vector.x))) * vector.y;
 	}
-	
-	public void collided(){
 
+	public void collided() {
 		xLocation += attackVector.x;
 		yLocation += attackVector.y;
-		
 	}
 
 	public void moveUp(float time) {
@@ -102,7 +101,6 @@ public class Player extends Entity {
 			attackCooldown = System.currentTimeMillis() + changeTimer * 2;
 			shouldAttack = true;
 		}
-
 	}
 
 	public void update(float time) {
@@ -112,14 +110,16 @@ public class Player extends Entity {
 			currentY = 0;
 			shouldAttack = false;
 		}
-
 	}
 
-	public BufferedImage draw() {
-
+	public void draw(Graphics g) {
 		moving = false;
-		return sprite[currentX][currentY];
-
+		g.drawImage(sprite[currentX][currentY], (int) xLocation, (int) yLocation, size.width, size.height, null);
+	}
+	
+	public void draw(Graphics g, float scale) {
+		moving = false;
+		g.drawImage(sprite[currentX][currentY], (int) xLocation - (int) (size.width * scale)/2, (int) yLocation - (int) (size.height * scale)/2, (int) (size.width * scale), (int) (size.height * scale), null);
 	}
 
 }
