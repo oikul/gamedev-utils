@@ -2,6 +2,7 @@ package generators;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import blocks.Block;
@@ -11,16 +12,17 @@ public class MazeGenerator {
 	private int width, height, size;
 	private boolean[][] north, east, south, west, visited, treasure;
 	private Random random;
+	private BufferedImage maze;
+	private boolean drawn = false;
 
 	public MazeGenerator(int width, int height, int size, long seed) {
 		this.width = width;
 		this.height = height;
 		this.size = size;
 		random = new Random(seed);
-		initialise();
 	}
 
-	private void initialise() {
+	public void initialise() {
 		visited = new boolean[width + 2][height + 2];
 		for (int i = 0; i < width + 2; i++) {
 			visited[i][0] = true;
@@ -50,6 +52,7 @@ public class MazeGenerator {
 		}
 		west[1][1] = false;
 		east[width][height] = false;
+		maze = new BufferedImage(width * size * 4, height * size * 4, BufferedImage.TYPE_INT_ARGB);
 	}
 
 	public void generate(int x, int y) {
@@ -83,42 +86,48 @@ public class MazeGenerator {
 	}
 
 	public void draw(Graphics2D g2d, Block wall, Block floor, int mult) {
-		for(int i = 4; i <= (size + 4); i++){
-			for(int j = 4; j <= (size + 4); j++){
-				floor.draw(g2d, i * 16 * mult, j * 16 * mult, mult);
-			}
-		}
-		for (int i = 1; i <= width; i++) {
-			for (int j = 1; j <= height; j++) {
-				wall.draw(g2d, i * size * mult, j * size * mult, mult);
-				if (south[i][j]) {
-					drawLine(g2d, (i * size), (j * size), ((i + 1) * size), (j * size), mult, wall);
-				}
-				if (north[i][j]) {
-					drawLine(g2d, i * size, (j + 1) * size, (i + 1) * size, (j + 1) * size, mult, wall);
-				}
-				if (west[i][j]) {
-					drawLine(g2d, i * size, j * size, i * size, (j + 1) * size, mult, wall);
-				}
-				if (east[i][j]) {
-					drawLine(g2d, (i + 1) * size, j * size, (i + 1) * size, (j + 1) * size, mult, wall);
-				}
-				if (treasure[i][j]) {
-					g2d.setColor(Color.yellow);
-					//g2d.fillRect(i * size + 1, j * size + 1, 16 - 1, 16 - 1);
+		if (!drawn) {
+			Graphics2D offGraphics = (Graphics2D) maze.getGraphics();
+			for (int i = 4; i <= (size + 4); i++) {
+				for (int j = 4; j <= (size + 4); j++) {
+					floor.draw(offGraphics, i * 16 * mult, j * 16 * mult, mult);
 				}
 			}
+			for (int i = 1; i <= width; i++) {
+				for (int j = 1; j <= height; j++) {
+					wall.draw(offGraphics, i * size * mult, j * size * mult, mult);
+					if (south[i][j]) {
+						drawLine(offGraphics, (i * size), (j * size), ((i + 1) * size), (j * size), mult, wall);
+					}
+					if (north[i][j]) {
+						drawLine(offGraphics, i * size, (j + 1) * size, (i + 1) * size, (j + 1) * size, mult, wall);
+					}
+					if (west[i][j]) {
+						drawLine(offGraphics, i * size, j * size, i * size, (j + 1) * size, mult, wall);
+					}
+					if (east[i][j]) {
+						drawLine(offGraphics, (i + 1) * size, j * size, (i + 1) * size, (j + 1) * size, mult, wall);
+					}
+					if (treasure[i][j]) {
+						offGraphics.setColor(Color.yellow);
+						// g2d.fillRect(i * size + 1, j * size + 1, 16 - 1, 16 -
+						// 1);
+					}
+				}
+			}
+			drawn = true;
 		}
+		g2d.drawImage(maze, 0, 0, maze.getWidth(), maze.getHeight(), null);
 	}
-	
-	private void drawLine(Graphics2D g2d, int startx, int starty, int endx, int endy, int mult, Block wall){
-		for(int i = startx; i < endx; i+=16){
+
+	private void drawLine(Graphics2D g2d, int startx, int starty, int endx, int endy, int mult, Block wall) {
+		for (int i = startx; i < endx; i += 16) {
 			wall.draw(g2d, i * mult, starty * mult, mult);
 		}
-		for(int j = starty; j < endy; j+=16){
+		for (int j = starty; j < endy; j += 16) {
 			wall.draw(g2d, startx * mult, j * mult, mult);
 		}
-		
+
 	}
-	
+
 }

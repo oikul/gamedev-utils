@@ -26,6 +26,7 @@ public class MazeTest extends AbstractMain {
 		this.setSize(InputHandler.screenSize);
 		this.setVisible(running);
 		maze = new MazeGenerator(16, 16, 64, MathHandler.random.nextLong());
+		maze.initialise();
 		maze.generate(1, 1);
 	}
 

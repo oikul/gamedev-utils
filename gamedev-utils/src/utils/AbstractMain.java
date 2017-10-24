@@ -18,7 +18,7 @@ public abstract class AbstractMain extends JFrame{
 	protected Graphics g;
 	protected BufferedImage offImage;
 	
-	private GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+	protected GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
 	public void run() {
 		initialise();

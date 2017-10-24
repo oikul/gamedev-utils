@@ -26,7 +26,7 @@ public class CellularAutomataTest extends AbstractMain {
 		this.setSize(InputHandler.screenSize);
 		this.setVisible(running);
 		cellGenerator = new CellularAutomata();
-		cells = cellGenerator.getCellularAutomataNoise(100, 100, 4, 3, 1);
+		cells = cellGenerator.getCellularAutomataNoise(64, 64, 4, 5, 1);
 		
 	}
 
